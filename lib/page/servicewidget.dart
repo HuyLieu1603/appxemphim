@@ -40,7 +40,8 @@ class _ServiceWidgetState extends State<ServiceWidget> {
                 style: titleStyle,
                 textAlign: TextAlign.center,
               ),
-              Expanded(
+              Container(
+                height: 250,
                 child: GridView.builder(
                   itemCount: lstService.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -52,9 +53,6 @@ class _ServiceWidgetState extends State<ServiceWidget> {
                     return slide(lstService[index]);
                   },
                 ),
-              ),
-              const SizedBox(
-                height: 32,
               ),
               Column(
                 children: [
@@ -128,18 +126,68 @@ class _ServiceWidgetState extends State<ServiceWidget> {
                   ),
                 ],
               ),
-              Expanded(
-                child: GridView.builder(
-                  itemCount: lstService.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      childAspectRatio: 2,
-                      crossAxisSpacing: 5,
-                      mainAxisSpacing: 5),
-                  itemBuilder: (context, index) {
-                    return grid(lstService[index]);
-                  },
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text(
+                    "480p",
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 11,
+                      decoration: TextDecoration.none,
+                    ),
+                  ),
+                  Text(
+                    "1080p",
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 11,
+                      decoration: TextDecoration.none,
+                    ),
+                  ),
+                  Text(
+                    "4K +HDR",
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 11,
+                      decoration: TextDecoration.none,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 32,
+              ),
+              const Text(
+                "Khả năng xem ở chế độ HD và Ultra HD tùy thuộc vào dịch vụ Internet và khả năng thiết bị của bạn. Không phải nội dung nào cũng xem được ở chế độ HD hoặc Ultra HD. Xem điều khoản sử dụng để biết thêm chi tiết",
+                style: TextStyle(
+                  fontSize: 11,
+                  color: Colors.grey,
+                  decoration: TextDecoration.none,
                 ),
+              ),
+              const SizedBox(
+                height: 32,
+              ),
+              ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(198, 198, 10, 10),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 10,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    minimumSize: (const Size(317, 46))),
+                child: const Text(
+                  "Tiếp theo",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+              const SizedBox(
+                height: 32,
               ),
             ],
           ),
@@ -164,9 +212,9 @@ class _ServiceWidgetState extends State<ServiceWidget> {
       ),
     );
   }
+
   Widget slide(Service listService) {
     return Container(
-      height: 500,
       padding: const EdgeInsets.all(8),
       // decoration: BoxDecoration(color: Colors.white),
       child: Column(
