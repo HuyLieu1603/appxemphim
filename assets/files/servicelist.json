@@ -1,0 +1,29 @@
+{
+    "data":
+    [
+        {
+            "id":1,
+            "name": "Cơ bản",
+            "price": 180000,
+            "img": "HUFLIX.png",
+            "numberDevice": 1,
+            "resolution": "480p"
+        },
+        {
+            "id":2,
+            "name": "Tiêu chuẩn",
+            "price": 220000,
+            "img":"HUFLIX.png",
+            "numberDevice": 2,
+            "resolution": "1080p"
+        },
+        {
+            "id":3,
+            "name": "Cao cấp",
+            "price": 260000,
+            "img":"HUFLIX.png",
+            "numberDevice": 4,
+            "resolution": "4K +HDR"
+        }
+    ]
+}
