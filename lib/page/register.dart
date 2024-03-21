@@ -1,6 +1,4 @@
-import 'package:appxemphim/config/const.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class RegisterWidget extends StatefulWidget {
   const RegisterWidget({super.key});
@@ -53,17 +51,17 @@ class _RegisterWidgetState extends State<RegisterWidget> {
             TextFormField(
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.symmetric(
-                    vertical: 40.0, horizontal: 10.0),
+                    vertical: 25.0, horizontal: 10.0),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(11.0),
                   borderSide: const BorderSide(
                     color: Colors.green,
                   ),
                 ),
-                border: OutlineInputBorder(
+                enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(11.0),
                   borderSide: const BorderSide(
-                    width: 5.0,
+                    width: 1.0,
                     color: Colors.green,
                   ),
                 ),
