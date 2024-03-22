@@ -1,0 +1,58 @@
+{
+    "datamovie":[
+        {
+            "id": 1,
+            "name": "Dhokha" ,
+            "img" : "demo1.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": ""
+        },
+        {
+            "id": 2,
+            "name": "Code Name Triranga" ,
+            "img" : "demo1.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": ""
+        },
+        {
+            "id": 3,
+            "name": "RRR" ,
+            "img" : "demo1.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": ""
+        }
+    ]
+}

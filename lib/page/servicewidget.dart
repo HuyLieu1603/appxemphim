@@ -129,7 +129,6 @@ class _ServiceWidgetState extends State<ServiceWidget> {
               const SizedBox(
                 height: 32,
               ),
-              
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
