@@ -1,4 +1,5 @@
 import 'package:appxemphim/data/model/service.dart';
+import 'package:appxemphim/page/optionalaccount.dart';
 import 'package:flutter/material.dart';
 import 'page/logo.dart';
 import 'page/servicewidget.dart';
@@ -14,7 +15,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: ServiceWidget(),
+      home: OptionalAccount(),
     );
   }
 }
