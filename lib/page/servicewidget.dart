@@ -56,7 +56,7 @@ class _ServiceWidgetState extends State<ServiceWidget> {
                   height: 16,
                 ),
                 SizedBox(
-                  height: 200,
+                  height: 150,
                   child: GridView.builder(
                     itemCount: lstService.length,
                     gridDelegate:
@@ -69,6 +69,9 @@ class _ServiceWidgetState extends State<ServiceWidget> {
                       return slide(lstService[index]);
                     },
                   ),
+                ),
+                const SizedBox(
+                  height: 23,
                 ),
                 Column(
                   children: [
@@ -175,7 +178,7 @@ class _ServiceWidgetState extends State<ServiceWidget> {
                   ],
                 ),
                 const SizedBox(
-                  height: 32,
+                  height: 60,
                 ),
                 const Text(
                   "Khả năng xem ở chế độ HD và Ultra HD tùy thuộc vào dịch vụ Internet và khả năng thiết bị của bạn. Không phải nội dung nào cũng xem được ở chế độ HD hoặc Ultra HD. Xem điều khoản sử dụng để biết thêm chi tiết",
