@@ -1,3 +1,4 @@
+import 'package:appxemphim/data/model/service.dart';
 import 'package:flutter/material.dart';
 import 'page/logo.dart';
 import 'page/servicewidget.dart';

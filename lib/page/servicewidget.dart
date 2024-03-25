@@ -27,10 +27,10 @@ class _ServiceWidgetState extends State<ServiceWidget> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: loadServiceList(),
-      builder: (BuildContext, AsyncSnapshot<String> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         return Scaffold(
           appBar: AppBar(
-            iconTheme:const IconThemeData(
+            iconTheme: const IconThemeData(
               color: Colors.black,
             ),
             leading: IconButton(
@@ -142,7 +142,9 @@ class _ServiceWidgetState extends State<ServiceWidget> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16,),
+                const SizedBox(
+                  height: 16,
+                ),
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
