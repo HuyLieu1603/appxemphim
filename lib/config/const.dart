@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 var url_img = "assets/images/";
 
 // ảnh ngân hàng
-var url_bank_img = "images/bankimg/";
+var url_bank_img = "assets/images/bankimg/";
 
 
 const titleStyle= TextStyle(
