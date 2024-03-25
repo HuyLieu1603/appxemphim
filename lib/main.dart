@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'page/logo.dart';
 import 'page/servicewidget.dart';
 import 'page/register.dart';
+import 'mainpage.dart';
 
 void main() {
   runApp(const MainApp());
@@ -13,7 +14,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: ServiceWidget(),
+      home: Mainpage(),
     );
   }
 }
