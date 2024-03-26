@@ -219,23 +219,6 @@ class _ServiceWidgetState extends State<ServiceWidget> {
     );
   }
 
-  Widget grid(Service listService) {
-    return Container(
-      child: Column(
-        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Text(
-            "${listService.resolution}",
-            style: const TextStyle(
-                fontSize: 11,
-                color: Colors.grey,
-                decoration: TextDecoration.none),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget slide(Service listService) {
     return Container(
       padding: const EdgeInsets.all(8),
