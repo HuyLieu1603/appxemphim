@@ -61,7 +61,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                             image: DecorationImage(
                               image: AssetImage(
                                   urlimgmovies + detailMovies[0].img!),
-                              fit: BoxFit.fill,
+                              fit: BoxFit.contain,
                               colorFilter: ColorFilter.mode(
                                 Color.fromARGB(255, 31, 28, 28)
                                     .withOpacity(0.1),
@@ -88,7 +88,6 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                           alignment: Alignment.topCenter),
                                     ),
                                   ),
-                                  
                                   Positioned(
                                     top: 16,
                                     right: 16,
@@ -130,13 +129,13 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                       Container(
                                         child: Text(
                                           '${detailMovies[0].name}',
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 30,
                                               fontWeight: FontWeight.bold),
                                         ),
                                       ),
-                                      Row(
+                                      const Row(
                                         children: [
                                           Text(
                                             '2019',
@@ -167,13 +166,12 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                         width: screenSize.width,
                                         height: 50,
                                         padding: const EdgeInsets.all(1),
-                                        
                                         child: ElevatedButton(
                                           onPressed: () => {},
                                           style: ElevatedButton.styleFrom(
                                             foregroundColor: Colors.white,
-                                            backgroundColor:
-                                                Color.fromARGB(255, 255, 255, 255),
+                                            backgroundColor: Color.fromARGB(
+                                                255, 255, 255, 255),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(5),
@@ -183,68 +181,111 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                          child: Row(
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                          child: const Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: [
-                                              Icon(Icons.play_arrow,size: 40,color: Colors.black,),
-                                              SizedBox(width: 5,),
-                                              Text('Play',style: TextStyle(color: Colors.black),),
+                                              Icon(
+                                                Icons.play_arrow,
+                                                size: 40,
+                                                color: Colors.black,
+                                              ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(
+                                                'Play',
+                                                style: TextStyle(
+                                                    color: Colors.black),
+                                              ),
                                             ],
                                           ),
                                         ),
                                       ),
-                                      Container(//des
-                                        margin: EdgeInsets.only(top: 20),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text(
-                                              isExpanded ? description : description.substring(0, 100) + '...',
-                                              style: TextStyle(color: Colors.white),
-                                            ),
-                                            SizedBox(height: 8),
-                                            if (description.length > 100)
-                                              GestureDetector(
-                                                onTap: () {
-                                                  setState(() {
-                                                    isExpanded = !isExpanded;
-                                                  });
-                                                },
-                                                child: Text(
-                                                  isExpanded ? 'Thu gọn' : 'Đọc thêm',
-                                                  style: TextStyle(color: Colors.white54),
+                                      Container(
+                                          //des
+                                          margin: EdgeInsets.only(top: 20),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Text(
+                                                isExpanded
+                                                    ? description
+                                                    : description.substring(
+                                                            0, 100) +
+                                                        '...',
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                              SizedBox(height: 8),
+                                              if (description.length > 100)
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      isExpanded = !isExpanded;
+                                                    });
+                                                  },
+                                                  child: Text(
+                                                    isExpanded
+                                                        ? 'Thu gọn'
+                                                        : 'Đọc thêm',
+                                                    style: TextStyle(
+                                                        color: Colors.white54),
+                                                  ),
                                                 ),
-                                            ),
-                                            SizedBox(height: 10),
-                                            Row(
-                                              children: [
-                                                Text('Director : ' , style: TextStyle(color: Colors.white54),),
-                                                //ten dao dien
-                                                Text('Liêu Trương Gia Huy'  , style: TextStyle(color: Colors.white),),
-                                              ],
-                                            ),
-                                            SizedBox(height: 10),
-                                            Row(
-                                              children: [
-                                                Text('Actor : ' , style: TextStyle(color: Colors.white54),),
-                                                //ten dao dien
-                                                Text('diễn viên A ,diễn viên B ,diễn viên C ,diễn viên D ,diễn viên E'  , style: TextStyle(color: Colors.white),),
-                                              ],
-                                            ),
-                                            SizedBox(height: 10),
-                                            Row(
-                                              children: [
-                                                Text('Category : ' , style: TextStyle(color: Colors.white54),),
-                                                //ten dao dien
-                                                Text('Thể loại A ,Thể loại B ,Thể loại C ,Thể loại D  '  , style: TextStyle(color: Colors.white),),
-                                              ],
-                                            ),
-                                            
-                                          ],
-                                        )
-                                      ),
-                                     
+                                              SizedBox(height: 10),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'Director : ',
+                                                    style: TextStyle(
+                                                        color: Colors.white54),
+                                                  ),
+                                                  //ten dao dien
+                                                  Text(
+                                                    'Liêu Trương Gia Huy',
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(height: 10),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'Actor : ',
+                                                    style: TextStyle(
+                                                        color: Colors.white54),
+                                                  ),
+                                                  //ten dao dien
+                                                  Text(
+                                                    'diễn viên A ,diễn viên B ,diễn viên C ,diễn viên D ,diễn viên E',
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(height: 10),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'Category : ',
+                                                    style: TextStyle(
+                                                        color: Colors.white54),
+                                                  ),
+                                                  //ten dao dien
+                                                  Text(
+                                                    'Thể loại A ,Thể loại B ,Thể loại C ,Thể loại D  ',
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          )),
                                     ],
                                   ),
                                 ),
