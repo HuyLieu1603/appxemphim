@@ -6,13 +6,18 @@ import '../Detailwidget/searchmoviewidget.dart';
 import '../../config/const.dart';
 import '../Detailwidget/detailmoviewidget.dart';
 
+import 'package:intl/intl.dart';
 
 Widget Searchmoviebody(Movies itemmovie, BuildContext context) {
+
+  final screenSize = MediaQuery.of(context).size;
+
   return InkWell(
      onTap: (){
       Navigator.push(context, MaterialPageRoute(builder: ((context) => DetailMovies(objMov : itemmovie,))));
     },
     child: Container(
+      
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       width: double.infinity,
       height: 150,
@@ -38,11 +43,13 @@ Widget Searchmoviebody(Movies itemmovie, BuildContext context) {
                 width: 10,
               ),
               Container(
+                decoration: BoxDecoration(color: Colors.amber),
                 height: 50,
+               
                 child: Align(
-                    alignment: Alignment.center,
+                    alignment: Alignment.centerLeft,
                     child: Text(
-                      '${itemmovie.name}',
+                      '${itemmovie.name!.length > 17 ? Intl.message('${itemmovie.name!.substring(0, 15)}...') : itemmovie.name}',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -50,6 +57,7 @@ Widget Searchmoviebody(Movies itemmovie, BuildContext context) {
                       ),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
+                      softWrap: false,
                     )),
               ),
             ],

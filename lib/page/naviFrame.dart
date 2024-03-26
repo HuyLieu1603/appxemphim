@@ -49,7 +49,7 @@ class _NaviFrameState extends State<NaviFrame> {
         ),
         actions: [// mai mot no se la nut 
           Container(
-            height: 30,
+            height: 15,
             margin: EdgeInsets.only(right: 10),
             child: Image.asset(
               url_img + "User_logo.png",

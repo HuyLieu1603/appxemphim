@@ -128,7 +128,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
                         itemBuilder: (context, index) {
                           return Container(
                               width: 180,
-                              margin: EdgeInsets.only(right: 5),
+                              margin: EdgeInsets.fromLTRB(0,5,5,0),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(5),
                                 child: Image.asset(
