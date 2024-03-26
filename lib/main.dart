@@ -5,6 +5,7 @@ import 'page/MainPage.dart';
 import 'page/NaviFrame.dart';
 
 
+import 'page/register.dart';
 void main() {
   runApp(const MainApp());
 }
@@ -16,6 +17,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       home: NaviFrame(),
+
     );
   }
 }
