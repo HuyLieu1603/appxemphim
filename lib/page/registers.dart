@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp(const Registers());
 
-class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+class Registers extends StatefulWidget {
+  const Registers({Key? key}) : super(key: key);
 
   @override
-  _MyAppState createState() => _MyAppState();
+  _RegistersState createState() => _RegistersState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _RegistersState extends State<Registers> {
   final _formKey = GlobalKey<FormState>();
   final _passwordController = TextEditingController();
   final _confirmpasswordController = TextEditingController();

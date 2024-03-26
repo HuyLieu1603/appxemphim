@@ -20,7 +20,7 @@ class _OptionalAccountState extends State<OptionalAccount> {
   @override
   void initState() {
     super.initState();
-    lstAccount = createDataList(10);
+    lstAccount = createDataList(5);
   }
 
   @override
@@ -52,26 +52,46 @@ class _OptionalAccountState extends State<OptionalAccount> {
           ),
         ],
       ),
-      body: Container(
-        padding: EdgeInsets.only(
-          top: 25,
-          bottom: 0,
-          left: 65,
-          right: 65,
-        ),
-        
-        alignment: Alignment.center,
-        child: GridView.builder(
-            itemCount: lstAccount.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 1,
-              crossAxisSpacing: 30,
-              mainAxisSpacing: 30,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child : Center(
+            child: Text(
+              "Who's watching",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                
+              ),
             ),
-            itemBuilder: (context, index) {
-              return itemGridView(lstAccount[index]);
-            }),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.only(
+                top: 25,
+                bottom: 0,
+                left: 65,
+                right: 65,
+              ),
+              alignment: Alignment.center,
+              child: GridView.builder(
+                  itemCount: lstAccount.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 1,
+                    crossAxisSpacing: 30,
+                    mainAxisSpacing: 30,
+                  ),
+                  itemBuilder: (context, index) {
+                    return itemGridView(lstAccount[index]);
+                  }),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -93,7 +113,11 @@ class _OptionalAccountState extends State<OptionalAccount> {
           Text(
             accountModel.name ?? '',
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold , color: Colors.white),
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
         ],
       ),
