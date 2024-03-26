@@ -3,9 +3,8 @@ import 'page/logo.dart';
 import 'page/servicewidget.dart';
 import 'page/MainPage.dart';
 import 'page/NaviFrame.dart';
-
-
 import 'page/register.dart';
+
 void main() {
   runApp(const MainApp());
 }

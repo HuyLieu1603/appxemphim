@@ -3,7 +3,7 @@
         {
             "id": 1,
             "name": "Dhokha" ,
-            "img" : "demo1.png" ,
+            "img" : "Dhokha.png" ,
             "type":  [
                 {
                     "id" : 1,
@@ -16,12 +16,13 @@
             ],
             "des" :  "",
             "release": "",
-            "time": ""
+            "time": "",
+            "category":"New Releases"
         },
         {
             "id": 2,
             "name": "Code Name Triranga" ,
-            "img" : "demo1.png" ,
+            "img" : "Code_Name_Triranga.png" ,
             "type":  [
                 {
                     "id" : 1,
@@ -34,12 +35,13 @@
             ],
             "des" :  "",
             "release": "",
-            "time": ""
+            "time": "",
+            "category":"New Releases"
         },
         {
             "id": 3,
             "name": "RRR" ,
-            "img" : "demo1.png" ,
+            "img" : "RRR.png" ,
             "type":  [
                 {
                     "id" : 1,
@@ -52,7 +54,676 @@
             ],
             "des" :  "",
             "release": "",
-            "time": ""
+            "time": "",
+            "category":"New Releases"
+        },
+        {
+            "id": 4,
+            "name": "Bahubali  2" ,
+            "img" : "Bahubali_2.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"New Releases"
+        },
+        {
+            "id": 5,
+            "name": "Thar" ,
+            "img" : "Thar.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"New Releases"
+        },
+        {
+            "id": 6,
+            "name": "Drive" ,
+            "img" : "Drive.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"New Releases"
+        },
+        {
+            "id": 7,
+            "name": "Double XL" ,
+            "img" : "Double_XL.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"Releases in the Past Year"
+        },
+        {
+            "id": 8,
+            "name": "Drishyam" ,
+            "img" : "Drishyam.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"Releases in the Past Year"
+        },
+        {
+            "id": 9,
+            "name": "Money Heist" ,
+            "img" : "Money_Heist.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"Only available on Huflix"
+        },
+        {
+            "id": 10,
+            "name": "queen's gambit" ,
+            "img" : "queen's_gambit.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"Only available on Huflix"
+        },
+        {
+            "id": 11,
+            "name": "stranger things" ,
+            "img" : "stranger_things.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"Only available on Huflix"
+        },
+        {
+            "id": 12,
+            "name": "enola holmes" ,
+            "img" : "enola_holmes.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"Only available on Huflix"
+        },
+        {
+            "id": 13,
+            "name": "my name" ,
+            "img" : "my_name.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"Only available on Huflix"
+        },
+        {
+            "id": 14,
+            "name": "Mashle" ,
+            "img" : "Mashle.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"Anime"
+        },
+        {
+            "id": 15,
+            "name": "Black clover" ,
+            "img" : "Black_clover.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"Anime"
+        },
+        {
+            "id": 16,
+            "name": "Frieren" ,
+            "img" : "Frieren.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"Anime"
+        },
+        {
+            "id": 17,
+            "name": "Solo leveling" ,
+            "img" : "Solo_leveling.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"Anime"
+        },
+        {
+            "id": 18,
+            "name": "Spy x family" ,
+            "img" : "Spyxfamily.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"Anime"
+        },
+        {
+            "id": 19,
+            "name": "The Three-Body Problem" ,
+            "img" : "TheThreeBodyProblem.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"New on Huflix"
+        },
+        {
+            "id": 20,
+            "name": "Shirley" ,
+            "img" : "Shirley.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"New on Huflix"
+        },
+        {
+            "id": 21,
+            "name": "Dune" ,
+            "img" : "Dune.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"New on Huflix"
+        },
+        {
+            "id": 22,
+            "name": "Black adam" ,
+            "img" : "Black_adam.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"New on Huflix"
+        },
+        {
+            "id": 23,
+            "name": "The gentlement" ,
+            "img" : "The_gentlement.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"New on Huflix"
+        },
+        {
+            "id": 24,
+            "name": "Kung Fu Panda 3" ,
+            "img" : "KungFuPanda3.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"Cartoon"
+        },
+        {
+            "id": 25,
+            "name": "Sing" ,
+            "img" : "Sing.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"Cartoon"
+        },
+        {
+            "id": 26,
+            "name": "Nimona" ,
+            "img" : "Nimona.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"Cartoon"
+        },
+        {
+            "id": 27,
+            "name": "Hotel Transylvania" ,
+            "img" : "HotelTransylvania.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"Cartoon"
+        },
+        {
+            "id": 28,
+            "name": "The Croods: A New Age" ,
+            "img" : "TheCroodsANewAge.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"Cartoon"
+        },
+        {
+            "id": 29,
+            "name": "Now here" ,
+            "img" : "Now_here.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"Dramatic movie"
+        },
+        {
+            "id": 30,
+            "name": "Get out" ,
+            "img" : "Getout.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"Dramatic movie"
+        },
+        {
+            "id": 31,
+            "name": "Hunger" ,
+            "img" : "Hunger.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"Dramatic movie"
+        },
+        {
+            "id": 32,
+            "name": "Split" ,
+            "img" : "Split.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"Dramatic movie"
+        },
+        {
+            "id": 33,
+            "name": "Red eye" ,
+            "img" : "Red_eye.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"Dramatic movie"
+        },
+        {
+            "id": 34,
+            "name": "Warcraft" ,
+            "img" : "Warcraft.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"American adventure blockbuster"
+        },
+        {
+            "id": 35,
+            "name": "The Adam Project" ,
+            "img" : "TheAdamProject.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"American adventure blockbuster"
+        },
+        {
+            "id": 36,
+            "name": "Noah" ,
+            "img" : "Noah.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"American adventure blockbuster"
+        },
+        {
+            "id": 37,
+            "name": "Pinocchio" ,
+            "img" : "Pinocchio.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"American adventure blockbuster"
+        },
+        {
+            "id": 38,
+            "name": "The Revenant" ,
+            "img" : "TheRevenant.png" ,
+            "type":  [
+                {
+                    "id" : 1,
+                    "nametype" : ""
+                },
+                {
+                    "id" : 2,
+                    "nametype" : ""
+                }   
+            ],
+            "des" :  "",
+            "release": "",
+            "time": "",
+            "category":"American adventure blockbuster"
         }
+        
+        
+     
     ]
 }

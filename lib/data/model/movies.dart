@@ -6,6 +6,7 @@ class Movies {
   String? des;
   String? release;
   String? time;
+  String? category;
 
   Movies(
       {this.id,
@@ -14,7 +15,7 @@ class Movies {
       this.type,
       this.des,
       this.release,
-      this.time});
+      this.time,this.category});
 
   Movies.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -24,6 +25,7 @@ class Movies {
     des = json['des'];
     release = json['release'];
     time = json['time'];
+    category = json['category'];
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -34,6 +36,7 @@ class Movies {
     data['des'] = des;
     data['release'] = release;
     data['time'] = time;
+    data['category'] = category;
     return data;
   }
 }
