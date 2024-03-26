@@ -59,7 +59,8 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
   //American adventure blockbuster
   List<Movies> lsAmericanab = [];
   Future<String> loadmoviesAmericanab() async {
-    lsAmericanab = await ReadbyCategory().loadBycategory("American adventure blockbuster");
+    lsAmericanab =
+        await ReadbyCategory().loadBycategory("American adventure blockbuster");
     return '';
   }
 
@@ -105,10 +106,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 5,
-          ),
-          Text(
+          const Text(
             //chi muc
             'Only available on Huflix',
             style: TextStyle(
@@ -128,7 +126,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
                         itemBuilder: (context, index) {
                           return Container(
                               width: 180,
-                              margin: EdgeInsets.only(right: 5),
+                              margin: const EdgeInsets.fromLTRB(0, 5, 5, 0),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(5),
                                 child: Image.asset(
@@ -154,10 +152,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 5,
-          ),
-          Text(
+          const Text(
             //chi muc
             'Anime Series',
             style: TextStyle(
@@ -177,7 +172,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
                         itemBuilder: (context, index) {
                           return Container(
                               width: 140,
-                              margin: EdgeInsets.only(right: 5),
+                              margin: const EdgeInsets.fromLTRB(0, 5, 5, 0),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(5),
                                 child: Image.asset(
@@ -202,10 +197,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 5,
-          ),
-          Text(
+          const Text(
             //chi muc
             'New on Huflix',
             style: TextStyle(
@@ -225,7 +217,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
                         itemBuilder: (context, index) {
                           return Container(
                               width: 140,
-                              margin: EdgeInsets.only(right: 5),
+                              margin: const EdgeInsets.fromLTRB(0, 5, 5, 0),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(5),
                                 child: Image.asset(
@@ -250,14 +242,14 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 5,
-          ),
-          Text(
+          const Text(
             //chi muc
             'Cartoon',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(
+            height: 3,
           ),
           Container(
               //hinh anh
@@ -273,7 +265,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
                         itemBuilder: (context, index) {
                           return Container(
                               width: 140,
-                              margin: EdgeInsets.only(right: 5),
+                              margin: const EdgeInsets.fromLTRB(0, 5, 5, 0),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(5),
                                 child: Image.asset(
@@ -298,10 +290,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 5,
-          ),
-          Text(
+          const Text(
             //chi muc
             'Dramatic movie',
             style: TextStyle(
@@ -321,7 +310,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
                         itemBuilder: (context, index) {
                           return Container(
                               width: 140,
-                              margin: EdgeInsets.only(right: 5),
+                              margin: const EdgeInsets.fromLTRB(0, 5, 5, 0),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(5),
                                 child: Image.asset(
@@ -346,10 +335,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 5,
-          ),
-          Text(
+          const Text(
             //chi muc
             'American adventure blockbuster',
             style: TextStyle(
@@ -369,7 +355,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
                         itemBuilder: (context, index) {
                           return Container(
                               width: 140,
-                              margin: EdgeInsets.only(right: 5),
+                              margin: const EdgeInsets.fromLTRB(0, 5, 5, 0),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(5),
                                 child: Image.asset(
