@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 void main() => runApp(const MyApp());
@@ -55,21 +53,35 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.black,
-        appBar: AppBar(
-          backgroundColor: Colors.black,
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.white,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(kToolbarHeight),
+          child: AppBar(
+            backgroundColor: Colors.black,
+            title: Stack(
+              alignment: Alignment.center,
+              children: [
+                Positioned(
+                  left: 0,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      // Mốt làm lệnh cho nó truyển trang
+                    },
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Image.asset(
+                    'assets/images/HUFLIX.png',
+                    width: 130,
+                    height: 80,
+                  ),
+                ),
+              ],
             ),
-            onPressed: () {
-              // Mốt làm lệnh cho nó truyển trang
-            },
-          ),
-          title: Image.asset(
-            'assets/images/HUFLIX.png',
-            width: 80,
-            height: 80,
           ),
         ),
         body: Container(
@@ -140,15 +152,17 @@ class _MyAppState extends State<MyApp> {
                         child: ElevatedButton(
                           onPressed: _register,
                           style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.black),
+                             backgroundColor:
+                                  MaterialStateProperty.all(Colors.black),
+                                  minimumSize: MaterialStateProperty.all(Size(double.infinity, 50)),
                           ),
                           child: const Text(
-                            'Submit',
+                            'Đăng Nhập',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 30,
+                              fontSize: 20,
                               fontWeight: FontWeight.bold,
+                              
                             ),
                           ),
                         ),
@@ -162,7 +176,7 @@ class _MyAppState extends State<MyApp> {
                           'Quên Mật Khẩu',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 25,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -176,7 +190,7 @@ class _MyAppState extends State<MyApp> {
                           'Chưa có tài khoản ? đăng ký ngay  ',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 25,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -188,8 +202,8 @@ class _MyAppState extends State<MyApp> {
                         alignment: Alignment.center,
                         child: const Text(
                           'Sign in is protected by Google reCAPTCHA to ensure you’re not a bot.',
-                          style: TextStyle(color: Colors.white,
-                          fontFamily: 'Arial'),
+                          style: TextStyle(
+                              color: Colors.white, fontFamily: 'Arial', fontSize: 13),
                         ),
                       ),
                     ),

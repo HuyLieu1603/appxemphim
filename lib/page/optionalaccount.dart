@@ -8,7 +8,7 @@ import '../data/provider/accountprovider.dart';
 import 'package:flutter/widgets.dart';
 
 class OptionalAccount extends StatefulWidget {
-  const OptionalAccount({super.key});
+  const OptionalAccount({Key? key});
 
   @override
   State<OptionalAccount> createState() => _OptionalAccountState();
@@ -52,14 +52,14 @@ class _OptionalAccountState extends State<OptionalAccount> {
           ),
         ],
       ),
-      
       body: Container(
         padding: EdgeInsets.only(
-     top :25,
-     bottom:  0,
-     left: 65,
-     right: 65,
+          top: 25,
+          bottom: 0,
+          left: 65,
+          right: 65,
         ),
+        
         alignment: Alignment.center,
         child: GridView.builder(
             itemCount: lstAccount.length,
@@ -80,7 +80,6 @@ class _OptionalAccountState extends State<OptionalAccount> {
     return Container(
       // grid without margin
       padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(color: Colors.grey.shade200),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -94,7 +93,7 @@ class _OptionalAccountState extends State<OptionalAccount> {
           Text(
             accountModel.name ?? '',
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold , color: Colors.white),
           ),
         ],
       ),
