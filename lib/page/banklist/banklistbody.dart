@@ -11,12 +11,10 @@ import '../../config/const.dart';
             color: Colors.white,
             width: 2,
           ),
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(16),
         ),
         child: Image.asset(
           url_bank_img + bankModel.img!,
-          height: 87,
-          width: 100,
           errorBuilder: (context, error, stackTrace) =>
           const Icon(Icons.image),
       ),

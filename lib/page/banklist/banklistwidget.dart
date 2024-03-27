@@ -18,7 +18,7 @@ class _BankWidgetState extends State<BankWidget> {
     return '';
   }
 
-  @override 
+  @override
   void initState() {
     super.initState();
     loadBankList();
@@ -27,43 +27,86 @@ class _BankWidgetState extends State<BankWidget> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: loadBankList(),
-      builder: (BuildContext context, AsyncSnapshot<String> snapshot){
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text("DUMAMAY"),
-          ),
-          body: Container(
-            color: Color.fromARGB(255, 243, 241, 241),
-            child: Column(
-              children: [
-                const Align(
-                  alignment: Alignment.topCenter,
-                  child : Text("Chọn ngân hàng", style: titleStyle),
-                  ),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(16),
-                    alignment: Alignment.center,
-                    child: GridView.builder(
-                      shrinkWrap: true, // Ensure that the GridView takes only the space it needs
-                      // physics: NeverScrollableScrollPhysics(), // Disable scrolling of the GridView
-                      itemCount: lstBank.length,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        childAspectRatio: 1,
-                        crossAxisSpacing: 3,
-                        mainAxisSpacing: 8,
-                        ),
-                      itemBuilder: (context, index) {
-                      return itemBankView(lstBank[index]);
-                      },
-                    ),
-                  ),)
-              ],
+        future: loadBankList(),
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          return Scaffold(
+            appBar: AppBar(
+              iconTheme: const IconThemeData(
+                color: Colors.black,
+              ),
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
             ),
-          ),
-        );
-      });
+            body: Container(
+              color: const Color.fromARGB(255, 243, 241, 241),
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(35, 0, 0, 0),
+                    child: const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Chọn ngân hàng", style: titleStyle),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(35, 10, 35, 0),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor:Colors.transparent,
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 7.0,
+                          horizontal: 10.0,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(11.0),
+                          borderSide: const BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(11.0),
+                          borderSide: const BorderSide(
+                            width: 1.0,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        labelText: "Tìm kiếm...",
+                        labelStyle: const TextStyle(
+                          color: Colors.grey,
+                        ),
+                        suffixIcon: const Icon(Icons.search),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.fromLTRB(35, 10, 35, 20),
+                      alignment: Alignment.center,
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        itemCount: lstBank.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          childAspectRatio: 1,
+                          crossAxisSpacing: 30,
+                          mainAxisSpacing: 30,
+                        ),
+                        itemBuilder: (context, index) {
+                          return itemBankView(lstBank[index]);
+                        },
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        });
   }
 }
