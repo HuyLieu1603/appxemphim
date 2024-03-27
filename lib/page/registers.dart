@@ -89,12 +89,25 @@ class _RegistersState extends State<Registers> {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: TextFormField(
+                        obscureText: true,
                         controller: _passwordController,
-                        decoration: const InputDecoration(
-                          labelText: 'Mật Khẩu',
-                          border: InputBorder.none,
-                          contentPadding:
-                              EdgeInsets.symmetric(horizontal: 30.0),
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 30.0, horizontal: 10.0),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(11.0),
+                            borderSide: const BorderSide(
+                              color: Color.fromRGBO(255, 252, 252, 1),
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(11.0),
+                            borderSide: const BorderSide(
+                              width: 1.0,
+                              color: Color.fromRGBO(255, 252, 252, 1),
+                            ),
+                          ),
+                          labelText: "Mật khẩu",
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
