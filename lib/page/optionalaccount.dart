@@ -1,7 +1,8 @@
+// ignore_for_file: unnecessary_import, duplicate_import, unused_import, use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 import 'package:appxemphim/data/model/account.dart';
 import 'package:appxemphim/data/provider/accountprovider.dart';
-import 'package:intl/intl.dart';
 import 'package:intl/intl.dart';
 import '../config/const.dart';
 import '../data/provider/accountprovider.dart';
@@ -29,22 +30,21 @@ class _OptionalAccountState extends State<OptionalAccount> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        toolbarHeight: 100,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/images/HUFLIX.png',
-              width: 200,
-              height: 80,
-            ),
-          ],
+        // toolbarHeight: 100,
+        centerTitle: true,
+        title: Container(
+          child: Image.asset(
+            'assets/images/HUFLIX.png',
+            width: 200,
+            height: 80,
+          ),
         ),
         actions: [
           IconButton(
             icon: const Icon(
               Icons.edit,
               color: Colors.white,
+              size: 20,
             ),
             onPressed: () {
               // Mốt làm lệnh cho nó truyển trang
@@ -55,34 +55,29 @@ class _OptionalAccountState extends State<OptionalAccount> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child : Center(
-            child: Text(
-              "Who's watching",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Center(
+              child: Text(
+                "Chọn tài khoản",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
-            ),
             ),
           ),
           Expanded(
             child: Container(
-              padding: EdgeInsets.only(
-                top: 25,
-                bottom: 0,
-                left: 65,
-                right: 65,
-              ),
+              padding:
+                  const EdgeInsets.fromLTRB(65, 0, 65, 0), //LTRB 65,25,65,0
               alignment: Alignment.center,
               child: GridView.builder(
                   itemCount: lstAccount.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    childAspectRatio: 1,
+                    childAspectRatio: 0.8,
                     crossAxisSpacing: 30,
                     mainAxisSpacing: 30,
                   ),
