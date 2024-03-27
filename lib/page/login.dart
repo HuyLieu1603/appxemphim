@@ -54,7 +54,7 @@ class _LoginState extends State<Login> {
       home: Scaffold(
         backgroundColor: Colors.black,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight),
+          preferredSize: const Size.fromHeight(kToolbarHeight),
           child: AppBar(
             backgroundColor: Colors.black,
             title: Stack(
@@ -63,7 +63,7 @@ class _LoginState extends State<Login> {
                 Positioned(
                   left: 0,
                   child: IconButton(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_back,
                       color: Colors.white,
                     ),
@@ -170,9 +170,9 @@ class _LoginState extends State<Login> {
                     ),
                     const SizedBox(height: 30),
                     Container(
-                      child: Align(
+                      child: const Align(
                         alignment: Alignment.center,
-                        child: const Text(
+                        child:  Text(
                           'Quên Mật Khẩu',
                           style: TextStyle(
                             color: Colors.white,
@@ -184,9 +184,9 @@ class _LoginState extends State<Login> {
                     ),
                     const SizedBox(height: 5),
                     Container(
-                      child: Align(
+                      child: const Align(
                         alignment: Alignment.center,
-                        child: const Text(
+                        child: Text(
                           'Chưa có tài khoản ? đăng ký ngay  ',
                           style: TextStyle(
                             color: Colors.white,
@@ -198,9 +198,9 @@ class _LoginState extends State<Login> {
                     ),
                     const SizedBox(height: 25),
                     Container(
-                      child: Align(
+                      child: const Align(
                         alignment: Alignment.center,
-                        child: const Text(
+                        child:  Text(
                           'Sign in is protected by Google reCAPTCHA to ensure you’re not a bot.',
                           style: TextStyle(
                               color: Colors.white, fontFamily: 'Arial', fontSize: 13),
@@ -208,9 +208,9 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                     Container(
-                      child: Align(
+                      child: const Align(
                         alignment: Alignment.center,
-                        child: const Text(
+                        child: Text(
                           'learn more',
                           style: TextStyle(color: Colors.white),
                         ),

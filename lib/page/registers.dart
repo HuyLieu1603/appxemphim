@@ -37,14 +37,14 @@ class _RegistersState extends State<Registers> {
             onPressed: () {},
           ),
           centerTitle: true,
-          title: Container(
-            padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-            child: Image.asset(
-              'assets/images/HUFLIX.png',
-              width: 200,
-              height: 80,
-            ),
-          ),
+          // title: Container(
+          //   padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+          //   child: Image.asset(
+          //     'assets/images/HUFLIX.png',
+          //     width: 200,
+          //     height: 80,
+          //   ),
+          // ),
           backgroundColor: Colors.white,
         ),
         body: Container(
@@ -138,9 +138,7 @@ class _RegistersState extends State<Registers> {
                             return 'Không để trống';
                           } else if (value != _passwordController.text) {
                             return 'Mật khẩu không khớp';
-                          }
-                          else if (value == _passwordController.text)
-                          {
+                          } else if (value == _passwordController.text) {
                             return 'Trùng Mật Khẩu';
                           }
                         },
