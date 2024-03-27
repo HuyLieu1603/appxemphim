@@ -28,48 +28,24 @@ class _RegistersState extends State<Registers> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight),
-          child: AppBar(
-            backgroundColor: Colors.white,
-            title: Stack(
-              alignment: Alignment.center,
-              children: [
-                Positioned(
-                  left: 0,
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.arrow_back,
-                      color: Colors.black,
-                    ),
-                    onPressed: () {
-                      // Mốt làm lệnh cho nó truyển trang
-                    },
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Image.asset(
-                    'assets/images/HUFLIX.png',
-                    width: 130,
-                    height: 80,
-                  ),
-                ),
-              ],
-            ),
-            actions: [
-              IconButton(
-                icon: Icon(
-                  Icons.cancel,
-                  color: Colors.black,
-                ),
-                onPressed: () {
-                  // Lệnh khi nhấn vào biểu tượng cancel
-                },
-              ),
-            ],
+        appBar: AppBar(
+          iconTheme: const IconThemeData(
+            color: Colors.black,
           ),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {},
+          ),
+          centerTitle: true,
+          title: Container(
+            padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+            child: Image.asset(
+              'assets/images/HUFLIX.png',
+              width: 200,
+              height: 80,
+            ),
+          ),
+          backgroundColor: Colors.white,
         ),
         body: Container(
           color: Colors.white,
@@ -77,7 +53,7 @@ class _RegistersState extends State<Registers> {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Form(
-                  key: _formKey,
+                key: _formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -90,19 +66,19 @@ class _RegistersState extends State<Registers> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 16),
                     const Text(
-                      'Chỉ cần vài bước là bạn sẽ hoàn tất ',
+                      'Chỉ cần vài bước là bạn sẽ hoàn tất!',
                       style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
+                        color: Color.fromARGB(255, 100, 97, 97),
+                        fontSize: 13,
                       ),
                     ),
                     const Text(
                       'Chúng tôi cũng chẳng hứng thú  gì với các loại giấy tờ',
                       style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
+                        color: Color.fromARGB(255, 100, 97, 97),
+                        fontSize: 13,
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -115,7 +91,7 @@ class _RegistersState extends State<Registers> {
                       child: TextFormField(
                         controller: _passwordController,
                         decoration: const InputDecoration(
-                          labelText: 'Mât Khẩu',
+                          labelText: 'Mật Khẩu',
                           border: InputBorder.none,
                           contentPadding:
                               EdgeInsets.symmetric(horizontal: 30.0),
@@ -156,35 +132,33 @@ class _RegistersState extends State<Registers> {
                     ),
                     const SizedBox(height: 50),
                     Container(
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(8.0),
-                        border: Border.all(color: Colors.grey, width: 2.0),
-                      ),
                       child: Padding(
                         padding: const EdgeInsets.all(
                             2.0), // Điều chỉnh giá trị padding tùy ý
                         child: Align(
                           alignment: Alignment.center,
-                        child:  ElevatedButton(
+                          child: ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 // Hành động khi điều kiện thỏa mãn
                                 // Ví dụ: Chuyển đến trang tiếp theo
                               }
                             },
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.black),
-                                  minimumSize: MaterialStateProperty.all(Size(double.infinity, 50)),
-                            ),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromARGB(255, 198, 10, 10),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 10,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                minimumSize: (const Size(317, 46))),
                             child: const Text(
-                              'Tiếp Theo',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              "Tiếp theo",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 24),
                             ),
                           ),
                         ),
