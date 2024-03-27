@@ -136,10 +136,10 @@ class _RegistersState extends State<Registers> {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Không để trống';
-                          } else if (value != _passwordController) {
+                          } else if (value != _passwordController.text) {
                             return 'Mật khẩu không khớp';
                           }
-                          else if (value == _passwordController)
+                          else if (value == _passwordController.text)
                           {
                             return 'Trùng Mật Khẩu';
                           }
