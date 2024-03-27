@@ -9,5 +9,4 @@ class onlinepaymentwidget extends StatelessWidget {
     // TODO: implement build
     throw UnimplementedError();
   }
-  
 }

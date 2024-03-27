@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'page/homewidget.dart';
-import 'page/banklist/banklistwidget.dart';
 import 'page/payment/paymentwidget.dart';
 import 'page/paymentmethod/paymentmethodwidget.dart';
 
@@ -13,7 +12,6 @@ class Mainpage extends StatefulWidget {
 
 class _MainpageState extends State<Mainpage> {
   int _selectIndex = 0;
-  static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _WidgetOptions = <Widget>[
     HomeWidget(),
     PaymentMethodWidget(),
@@ -49,7 +47,7 @@ class _MainpageState extends State<Mainpage> {
             ),
           ],
           currentIndex: _selectIndex,
-          selectedItemColor: Color.fromARGB(255, 11, 7, 233),
+          selectedItemColor: const Color.fromARGB(255, 11, 7, 233),
           onTap: _onItemTapped,
         ),
       ));

@@ -10,6 +10,7 @@ const titleStyle= TextStyle(
   fontSize: 32,
   decoration: TextDecoration.none,
   color: Colors.black,
+  fontWeight: FontWeight.bold
 );
 
 const secondtitleStyle= TextStyle(

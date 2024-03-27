@@ -29,33 +29,39 @@ class _BankWidgetState extends State<BankWidget> {
     return FutureBuilder(
       future: loadBankList(),
       builder: (BuildContext context, AsyncSnapshot<String> snapshot){
-        return Center(
-          child: Column(
-            children: [
-              const Align(
-                alignment: Alignment.topCenter,
-                child : Text("Chọn ngân hàng", style: titleStyle),
-                ),
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.all(16),
-                  alignment: Alignment.center,
-                  child: GridView.builder(
-                    shrinkWrap: true, // Ensure that the GridView takes only the space it needs
-                    // physics: NeverScrollableScrollPhysics(), // Disable scrolling of the GridView
-                    itemCount: lstBank.length,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      childAspectRatio: 1,
-                      crossAxisSpacing: 3,
-                      mainAxisSpacing: 8,
-                      ),
-                    itemBuilder: (context, index) {
-                    return itemBankView(lstBank[index]);
-                    },
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text("DUMAMAY"),
+          ),
+          body: Container(
+            color: Color.fromARGB(255, 243, 241, 241),
+            child: Column(
+              children: [
+                const Align(
+                  alignment: Alignment.topCenter,
+                  child : Text("Chọn ngân hàng", style: titleStyle),
                   ),
-                ),)
-            ],
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    alignment: Alignment.center,
+                    child: GridView.builder(
+                      shrinkWrap: true, // Ensure that the GridView takes only the space it needs
+                      // physics: NeverScrollableScrollPhysics(), // Disable scrolling of the GridView
+                      itemCount: lstBank.length,
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        childAspectRatio: 1,
+                        crossAxisSpacing: 3,
+                        mainAxisSpacing: 8,
+                        ),
+                      itemBuilder: (context, index) {
+                      return itemBankView(lstBank[index]);
+                      },
+                    ),
+                  ),)
+              ],
+            ),
           ),
         );
       });

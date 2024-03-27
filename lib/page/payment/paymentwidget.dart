@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import '../../data/model/usermodel.dart';
@@ -35,7 +36,9 @@ class _PaymentWidgetState extends State<PaymentWidget> {
       prefs.setString('user', strUser);
       return true;
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       return false;
     }
   }
@@ -67,28 +70,70 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                 const Text("Gói cơ bản", style: secondtitleStyle),
                 const Text("VNĐ 180.000đ"),
                 const Text("Total: VNĐ 180.000đ"),
+                const SizedBox(height: 16),
                 TextFormField(
-                  controller: _sothe,
-                  obscureText: true,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 25.0, horizontal: 10.0),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(11.0),
+                      borderSide: const BorderSide(
+                        color: Colors.black,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(11.0),
+                      borderSide: const BorderSide(
+                        width: 1.0,
+                        color: Colors.grey,
+                      ),
+                    ),
                     labelText: "Số thẻ",
-                    icon: Icon(Icons.password),
+                    labelStyle: const TextStyle(color: Colors.grey,),
                   ),
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
-                  controller: _tenchuthe,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 25.0, horizontal: 10.0),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(11.0),
+                      borderSide: const BorderSide(
+                        color: Colors.black,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(11.0),
+                      borderSide: const BorderSide(
+                        width: 1.0,
+                        color: Colors.grey,
+                      ),
+                    ),
                     labelText: "Tên chủ thẻ",
-                    icon: Icon(Icons.person),
+                    labelStyle: const TextStyle(color: Colors.grey,),
                   ),
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
-                  controller: _ngayphathanh,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 25.0, horizontal: 10.0),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(11.0),
+                      borderSide: const BorderSide(
+                        color: Colors.black,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(11.0),
+                      borderSide: const BorderSide(
+                        width: 1.0,
+                        color: Colors.grey,
+                      ),
+                    ),
                     labelText: "Ngày phát hành",
-                    icon: Icon(Icons.date_range),
+                    labelStyle: const TextStyle(color: Colors.grey,),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -98,7 +143,9 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                     var objUser = getUser();
                     //save to Share preferences
                     if (await saveUser(objUser) == true){
-                      print(objUser.toJson());
+                      if (kDebugMode) {
+                        print(objUser.toJson());
+                      }
                       showDialog(
                         context: context,
                         builder: (BuildContext context){
@@ -119,7 +166,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red, // Màu nền của nút
                     foregroundColor: Colors.white, // Màu của text và icon
-                    minimumSize: Size(200, 50), // Kích thước tối thiểu của nút
+                    minimumSize: const Size(200, 50), // Kích thước tối thiểu của nút
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)), // Bo góc
                   ),
