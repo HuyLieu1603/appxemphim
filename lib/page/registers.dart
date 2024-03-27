@@ -146,11 +146,14 @@ class _RegistersState extends State<Registers> {
                         obscureText: true,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Không trùng khớp với mật khẩu';
-                          } else if (value != password) {
+                            return 'Không để trống';
+                          } else if (value != _passwordController) {
                             return 'Mật khẩu không khớp';
                           }
-                          return null;
+                          else if (value == _passwordController)
+                          {
+                            return 'Trùng Mật Khẩu';
+                          }
                         },
                       ),
                     ),
