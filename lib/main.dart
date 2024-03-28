@@ -2,6 +2,7 @@ import 'package:appxemphim/data/model/service.dart';
 import 'package:appxemphim/page/login.dart';
 import 'package:appxemphim/page/optionalaccount.dart';
 import 'package:appxemphim/page/registers.dart';
+import 'package:appxemphim/page/setting.dart';
 import 'package:flutter/material.dart';
 import 'page/logo.dart';
 import 'page/servicewidget.dart';
@@ -19,7 +20,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Login(),
+      home: settingWidget(),
     );
   }
 }
