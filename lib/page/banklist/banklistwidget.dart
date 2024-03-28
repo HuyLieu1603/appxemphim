@@ -98,7 +98,7 @@ class _BankWidgetState extends State<BankWidget> {
                           mainAxisSpacing: 30,
                         ),
                         itemBuilder: (context, index) {
-                          return itemBankView(lstBank[index]);
+                          return itemBankView(lstBank[index], context);
                         },
                       ),
                     ),
