@@ -39,7 +39,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget justo ac turpis volutpat fermentum. Integer ac justo nec eros consequat ultricies. Quisque auctor, nunc at varius ultrices, nisi libero tincidunt orci, sed vestibulum elit purus et mauris. ';
 
     String Actors =
-        'diễn viên A ,diễn viên B ,diễn viên C ,diễn viên D ,diễn viên E';
+        'Actors : diễn viên A ,diễn viên B ,diễn viên C ,diễn viên D ,diễn viên Ediễn viên D ,diễn viên E ';
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Center(
@@ -56,7 +56,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
               );
             } else {
               return Center(
-                child: Column(
+                child: ListView(
                   children: [
                     Stack(
                       children: [
@@ -68,11 +68,11 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                   urlimgmovies + detailMovies[0].img!),
                               fit: BoxFit.contain,
                               colorFilter: ColorFilter.mode(
-                                Color.fromARGB(255, 31, 28, 28)
-                                    .withOpacity(0.1),
+                                Colors.black87.withOpacity(0.1),
                                 BlendMode.dstATop,
                               ),
                             ),
+                            color: Colors.black
                           ),
                         ),
                         Container(
@@ -82,27 +82,29 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                             children: [
                               Stack(
                                 children: [
-                                  Container(
+                                  Center(
+                                    child: Container(
                                     height: 400,
-                                    width: screenSize.width,
+                                    width: screenSize.width -100 ,
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
                                           image: AssetImage(urlimgmovies +
                                               detailMovies[0].img!),
-                                          fit: BoxFit.cover,
+                                          fit: BoxFit.contain,
                                           alignment: Alignment.topCenter),
                                     ),
                                   ),
+                                  ),
+                                  
                                   Positioned(
-                                    top: 16,
-                                    right: 16,
+                                    top: 36,
+                                    right: 36,
                                     child: Container(
                                       width: 40,
                                       height: 40,
-                                      decoration:const BoxDecoration(
+                                      decoration: const BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color:  Color.fromARGB(
-                                            255, 11, 11, 11),
+                                        color: Color.fromARGB(255, 11, 11, 11),
                                       ),
                                       child: IconButton(
                                         icon: const Icon(
@@ -175,8 +177,9 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                           onPressed: () => {},
                                           style: ElevatedButton.styleFrom(
                                             foregroundColor: Colors.white,
-                                            backgroundColor: const Color.fromARGB(
-                                                255, 255, 255, 255),
+                                            backgroundColor:
+                                                const Color.fromARGB(
+                                                    255, 255, 255, 255),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(5),
@@ -211,7 +214,8 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                       ),
                                       Container(
                                           //des
-                                          margin: const EdgeInsets.only(top: 20),
+                                          margin:
+                                              const EdgeInsets.only(top: 20),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -242,7 +246,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                   ),
                                                 ),
                                               const SizedBox(height: 10),
-                                              const Row(
+                                              Row(
                                                 children: [
                                                   Text(
                                                     'Director : ',
@@ -253,26 +257,40 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                   Text(
                                                     'Liêu Trương Gia Huy',
                                                     style: TextStyle(
-                                                        color: Colors.white),
+                                                        color: Colors.white54),
                                                   ),
                                                 ],
                                               ),
                                               const SizedBox(height: 10),
-                                              Row(
-                                                children: [
-                                                  const Text(
-                                                    'Actor : ',
-                                                    style: TextStyle(
+                                              
+                                              Text(
+                                                isExpandedActors
+                                                    ? Actors
+                                                    : Actors.substring(
+                                                            0, 50) +
+                                                        '...',
+                                                style: const TextStyle(
+                                                    color: Colors.white54),
+                                              ),
+                                              const SizedBox(height: 8),
+                                              if (Actors.length > 50)
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      isExpandedActors = !isExpandedActors;
+                                                    });
+                                                  },
+                                                  child: Text(
+                                                    isExpandedActors
+                                                        ? 'Thu gọn'
+                                                        : 'Đọc thêm',
+                                                    style: const TextStyle(
                                                         color: Colors.white54),
                                                   ),
-                                                  //ten dao dien
-                                                  Text(
-                                                    Actors,
-                                                    style: const TextStyle(
-                                                        color: Colors.white),
-                                                  ),
-                                                ],
-                                              ),
+                                                ),
+                                              const SizedBox(height: 10),
+
+
                                               const SizedBox(height: 10),
                                               const Row(
                                                 children: [
@@ -285,7 +303,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                   Text(
                                                     'Thể loại A ,Thể loại B ,Thể loại C ,Thể loại D  ',
                                                     style: TextStyle(
-                                                        color: Colors.white),
+                                                        color: Colors.white54),
                                                   ),
                                                 ],
                                               ),

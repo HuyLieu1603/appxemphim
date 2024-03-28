@@ -6,6 +6,8 @@ import '../../data/model/eventindex.dart';
 import '../../data/provider/eventindexprovider.dart';
 import '../bodywidget/menumoviebody.dart';
 
+import 'package:dropdown_button2/dropdown_button2.dart';
+
 class Menumoviewidget extends StatefulWidget {
   const Menumoviewidget({super.key});
 
@@ -14,6 +16,29 @@ class Menumoviewidget extends StatefulWidget {
 }
 
 class _MenumoviewidgetState extends State<Menumoviewidget> {
+    final List<String> items = [
+'Comedy',
+'Adventure',
+'Science Fiction',
+'Love',
+'War',
+'History',
+'Children',
+'Music',
+'Dreamy',
+'Fantasy horror',
+'Survival',
+'Oscar',
+'Supernatural',
+'Teenager',
+'Zombie',
+'Detective fiction',
+'Psychological sensation',
+'Resonant drama',
+'Far West'
+  ];
+  String? selectedValue;
+
   List<Movies> lsMovies = [];
   Future<String> loadmovies() async {
     lsMovies = await ReadDataMovies().loadDataMovies();
@@ -86,6 +111,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
             return Center(
                 child: ListView(
               children: [
+                menuTopBar(context),
                 OnlyHuflix(context),
                 AnimeSeries(context),
                 NewonHuflix(context),
@@ -145,6 +171,111 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
       ),
     );
   }
+  Widget menuTopBar(BuildContext context){
+    return Container(
+      height: 50,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+        Container(
+          margin: EdgeInsets.only(left: 30),
+          decoration: BoxDecoration(
+          border: Border.all(style: BorderStyle.solid,width: 0.5,
+          color: Colors.white,),
+          borderRadius: BorderRadius.circular(19),),
+          child: Padding(padding: EdgeInsets.all(10),child: Text('TV series',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),),
+        ),
+        SizedBox(width: 10,),
+        Container(
+          width: 80,
+          decoration: BoxDecoration(
+          border: Border.all(style: BorderStyle.solid,width: 0.5,
+          color: Colors.white,),
+          borderRadius: BorderRadius.circular(19),),
+          child: Padding(padding: EdgeInsets.all(10),child: Text('Movies',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),textAlign: TextAlign.center,),),
+        ),
+        SizedBox(width: 10,),
+        
+        Container(
+          decoration: BoxDecoration(
+          border: Border.all(style: BorderStyle.solid,width: 0.5,
+          color: Colors.white,),
+          borderRadius: BorderRadius.circular(19),),
+          child: DropdownButtonHideUnderline(
+          child: DropdownButton2<String>(
+          isExpanded: true,
+          hint: Text(
+            'Category',
+          style: TextStyle(
+              color: Colors.white,fontWeight: FontWeight.bold
+            ),
+          ),
+         items: items
+              .map((String item) => DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(
+                      item,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ))
+              .toList(),
+          value: selectedValue,
+          onChanged: (value) {
+            setState(() {
+             
+            });
+          },
+          buttonStyleData: ButtonStyleData(
+            height: 40,
+            width: 120,
+            padding: const EdgeInsets.only(left: 14, right: 14),
+            
+            elevation: 2,
+          ),
+          iconStyleData: const IconStyleData(
+            icon: Icon(
+              Icons.arrow_drop_down_outlined,
+            ),
+            iconSize: 24,
+            iconEnabledColor: Colors.white,
+            iconDisabledColor: Colors.grey,
+          ),
+          dropdownStyleData: DropdownStyleData(
+            maxHeight: 200,
+            width: 200,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+              color: Colors.white,
+            ),
+            offset: const Offset(-20, 0),
+            scrollbarTheme: ScrollbarThemeData(
+              radius: const Radius.circular(40),
+              thickness: MaterialStateProperty.all(6),
+              thumbVisibility: MaterialStateProperty.all(true),
+            ),
+          ),
+          menuItemStyleData: const MenuItemStyleData(
+            height: 40,
+            padding: EdgeInsets.only(left: 14, right: 14),
+          ),
+        
+        ),
+      ),
+      ),
+
+      ],
+      ),
+    );
+  }
+ 
+
+
 
   Widget AnimeSeries(BuildContext context) {
     return Container(
