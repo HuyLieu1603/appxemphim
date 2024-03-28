@@ -37,7 +37,9 @@ class _StateMainPageWidget extends State<MainPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              margin: EdgeInsets.only(top: 500),
+
+              margin:EdgeInsets.only(top:500),
+
               child: const Text(
                 "Chương trình truyền hình,phim không giới hạn và nhiều nội dung khác",
                 style: TextStyle(

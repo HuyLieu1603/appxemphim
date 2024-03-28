@@ -5,6 +5,9 @@ import 'package:appxemphim/page/registers.dart';
 import 'package:flutter/material.dart';
 import 'page/logo.dart';
 import 'page/servicewidget.dart';
+import 'page/MainPage.dart';
+import 'page/NaviFrame.dart';
+import 'page/register.dart';
 import 'page/register.dart';
 import 'mainpage.dart';
 
