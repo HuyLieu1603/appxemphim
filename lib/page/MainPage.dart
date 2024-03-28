@@ -1,3 +1,4 @@
+import 'package:appxemphim/page/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -37,9 +38,7 @@ class _StateMainPageWidget extends State<MainPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-
-              margin:EdgeInsets.only(top:500),
-
+              margin: EdgeInsets.only(top: 500),
               child: const Text(
                 "Chương trình truyền hình,phim không giới hạn và nhiều nội dung khác",
                 style: TextStyle(
@@ -74,7 +73,14 @@ class _StateMainPageWidget extends State<MainPage> {
               height: 50,
               padding: const EdgeInsets.all(1),
               child: ElevatedButton(
-                onPressed: () => {},
+                onPressed: () => {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Login(),
+                    ),
+                  ),
+                },
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
                   backgroundColor: const Color.fromRGBO(198, 10, 10, 1),

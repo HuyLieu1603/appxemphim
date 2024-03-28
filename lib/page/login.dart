@@ -1,3 +1,5 @@
+import 'package:appxemphim/page/naviFrame.dart';
+import 'package:appxemphim/page/register.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const Login());
@@ -22,6 +24,7 @@ class _LoginState extends State<Login> {
   }
 
   void _register() {
+    // ignore: avoid_print
     print('Register method called'); // Thêm dòng này để in thông báo
     if (_formKey.currentState!.validate()) {
       // Perform registration logic here
@@ -37,7 +40,12 @@ class _LoginState extends State<Login> {
               TextButton(
                 child: const Text('OK'),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const NaviFrame(),
+                    ),
+                  );
                 },
               ),
             ],
@@ -152,9 +160,10 @@ class _LoginState extends State<Login> {
                         child: ElevatedButton(
                           onPressed: _register,
                           style: ButtonStyle(
-                             backgroundColor:
-                                  MaterialStateProperty.all(Colors.black),
-                                  minimumSize: MaterialStateProperty.all(Size(double.infinity, 50)),
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.black),
+                            minimumSize: MaterialStateProperty.all(
+                                const Size(double.infinity, 50)),
                           ),
                           child: const Text(
                             'Đăng Nhập',
@@ -162,7 +171,6 @@ class _LoginState extends State<Login> {
                               color: Colors.white,
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              
                             ),
                           ),
                         ),
@@ -172,7 +180,7 @@ class _LoginState extends State<Login> {
                     Container(
                       child: const Align(
                         alignment: Alignment.center,
-                        child:  Text(
+                        child: Text(
                           'Quên Mật Khẩu',
                           style: TextStyle(
                             color: Colors.white,
@@ -184,14 +192,24 @@ class _LoginState extends State<Login> {
                     ),
                     const SizedBox(height: 5),
                     Container(
-                      child: const Align(
+                      child: Align(
                         alignment: Alignment.center,
-                        child: Text(
-                          'Chưa có tài khoản ? đăng ký ngay  ',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const RegisterWidget(),
+                              ), // Thay SignUpScreen() bằng màn hình đăng ký người dùng của bạn
+                            );
+                          },
+                          child: const Text(
+                            'Chưa có tài khoản ? đăng ký ngay',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
@@ -200,10 +218,12 @@ class _LoginState extends State<Login> {
                     Container(
                       child: const Align(
                         alignment: Alignment.center,
-                        child:  Text(
+                        child: Text(
                           'Sign in is protected by Google reCAPTCHA to ensure you’re not a bot.',
                           style: TextStyle(
-                              color: Colors.white, fontFamily: 'Arial', fontSize: 13),
+                              color: Colors.white,
+                              fontFamily: 'Arial',
+                              fontSize: 13),
                         ),
                       ),
                     ),

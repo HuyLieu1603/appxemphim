@@ -2,17 +2,24 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import '../../data/model/usermodel.dart';
+import '../../data/model/bankmodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../config/const.dart';
 
 class PaymentWidget extends StatefulWidget {
-  const PaymentWidget({super.key});
+  final Bank objBank;
+  const PaymentWidget({Key? key, required this.objBank}) : super(key: key);
 
   @override
   State<PaymentWidget> createState() => _PaymentWidgetState();
 }
 
 class _PaymentWidgetState extends State<PaymentWidget> {
+  @override
+  void initState() {
+    super.initState;
+  }
+
   final _sothe = TextEditingController();
   final _tenchuthe = TextEditingController();
   final _ngayphathanh = TextEditingController();
@@ -96,6 +103,23 @@ class _PaymentWidgetState extends State<PaymentWidget> {
             const Text("VNĐ 180.000đ"),
             const Text("Total: VNĐ 180.000đ"),
             const SizedBox(height: 16),
+            Row(
+              children: [
+                Image.asset(
+                  url_bank_img + widget.objBank.img!,
+                  width: 75,
+                  height: 75,
+                  errorBuilder: (context, error, stackTrace) =>
+                      const Icon(Icons.image),
+                ),
+                const SizedBox(width: 16),
+                Text(widget.objBank.name.toString().toUpperCase(), 
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold
+                ),),
+              ],
+            ),
             TextFormField(
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.symmetric(

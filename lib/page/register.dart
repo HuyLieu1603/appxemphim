@@ -1,3 +1,4 @@
+import 'package:appxemphim/page/registers.dart';
 import 'package:flutter/material.dart';
 
 class RegisterWidget extends StatefulWidget {
@@ -72,7 +73,14 @@ class _RegisterWidgetState extends State<RegisterWidget> {
               height: 18,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Registers(),
+                  ),
+                );
+              },
               style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(198, 198, 10, 10),
                   padding: const EdgeInsets.symmetric(
@@ -84,7 +92,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                   ),
                   minimumSize: (const Size(370, 40))),
               child: const Text(
-                "Bắt đầu",
+                "Tiếp theo",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
             ),

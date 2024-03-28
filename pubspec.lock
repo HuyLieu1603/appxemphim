@@ -349,6 +349,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.1"
+    dependency: transitive
+    description:
+      name: vm_service
+      sha256: b3d56ff4341b8f182b96aceb2fa20e3dcb336b9f867bc0eafc0de10f1048e957
+      url: "https://pub.dev"
+    source: hosted
+    version: "13.0.0"
   win32:
     dependency: transitive
     description:
@@ -368,3 +375,5 @@ packages:
 sdks:
   dart: ">=3.3.0 <4.0.0"
   flutter: ">=3.19.0"
+  dart: ">=3.2.0-0 <4.0.0"
+  flutter: ">=3.10.0"
