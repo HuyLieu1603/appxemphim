@@ -1,0 +1,21 @@
+{
+    "dataeventindex":
+    [
+        {
+            "id":1,
+            "name": "Releases in the Past Year"
+        },
+        {
+            "id":2,
+            "name": "Continue Watching for Drashti"
+        },
+        {
+            "id":3,
+            "name": "New Releases"
+        },
+        {
+            "id":4,
+            "name": "Chilly Thrillers"
+        }
+    ]
+}

@@ -1,3 +1,6 @@
+// ignore_for_file: unnecessary_string_interpolations
+
+import 'package:appxemphim/page/paymentmethod/paymentmethodwidget.dart';
 import 'package:flutter/material.dart';
 import '../data/model/service.dart';
 import '../config/const.dart';
@@ -56,7 +59,7 @@ class _ServiceWidgetState extends State<ServiceWidget> {
                   height: 16,
                 ),
                 SizedBox(
-                  height: 200,
+                  height: 150,
                   child: GridView.builder(
                     itemCount: lstService.length,
                     gridDelegate:
@@ -69,6 +72,9 @@ class _ServiceWidgetState extends State<ServiceWidget> {
                       return slide(lstService[index]);
                     },
                   ),
+                ),
+                const SizedBox(
+                  height: 23,
                 ),
                 Column(
                   children: [
@@ -175,7 +181,7 @@ class _ServiceWidgetState extends State<ServiceWidget> {
                   ],
                 ),
                 const SizedBox(
-                  height: 32,
+                  height: 60,
                 ),
                 const Text(
                   "Khả năng xem ở chế độ HD và Ultra HD tùy thuộc vào dịch vụ Internet và khả năng thiết bị của bạn. Không phải nội dung nào cũng xem được ở chế độ HD hoặc Ultra HD. Xem điều khoản sử dụng để biết thêm chi tiết",
@@ -189,7 +195,14 @@ class _ServiceWidgetState extends State<ServiceWidget> {
                   height: 32,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const PaymentMethodWidget(),
+                      ),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(198, 198, 10, 10),
                       padding: const EdgeInsets.symmetric(
@@ -213,23 +226,6 @@ class _ServiceWidgetState extends State<ServiceWidget> {
           ),
         );
       },
-    );
-  }
-
-  Widget grid(Service listService) {
-    return Container(
-      child: Column(
-        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Text(
-            "${listService.resolution}",
-            style: const TextStyle(
-                fontSize: 11,
-                color: Colors.grey,
-                decoration: TextDecoration.none),
-          ),
-        ],
-      ),
     );
   }
 
