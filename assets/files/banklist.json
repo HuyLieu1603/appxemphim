@@ -1,0 +1,150 @@
+{
+    "data":
+    [
+        {
+            "id": 1,
+            "name": "ACB Bank",
+            "img": "acb.png"
+        },
+        {
+            "id": 2,
+            "name": "Agribank",
+            "img": "agribank.png"
+        },
+        {
+            "id": 3,
+            "name": "bidv Bank",
+            "img": "bidv.png"
+        },
+        {
+            "id": 4,
+            "name": "CB Bank",
+            "img": "cb.png"
+        },
+        {
+            "id": 5,
+            "name": "Đông Á Bank",
+            "img": "dongabank.png"
+        },
+        {
+            "id": 6,
+            "name": "EximBank",
+            "img": "eximbank.png"
+        },
+        {
+            "id": 7,
+            "name": "GPBank",
+            "img": "gpbank.png"
+        },
+        {
+            "id": 8,
+            "name": "HDBank",
+            "img": "hdbank.png"
+        },
+        {
+            "id": 9,
+            "name": "Liên Việt post Bank",
+            "img": "lienvietpostbank.png"
+        },
+        {
+            "id": 10,
+            "name": "MB Bank",
+            "img": "mb.png"
+        },
+        {
+            "id": 11,
+            "name": "MSB Bank",
+            "img": "msb.png"
+        },
+        {
+            "id": 13,
+            "name": "OCB Bank",
+            "img": "ocb.png"
+        },
+        {
+            "id": 14,
+            "name": "Ocean Bank",
+            "img": "oceanbank.png"
+        },
+        {
+            "id": 15,
+            "name": "PVComBank",
+            "img": "pvcombank.png"
+        },
+        {
+            "id": 16,
+            "name": "SaComBank",
+            "img": "sacombank.png"
+        },
+        {
+            "id": 17,
+            "name": "SCB Bank",
+            "img": "scb.png"
+        },
+        {
+            "id": 18,
+            "name": "Sea Bank",
+            "img": "seabank.png"
+        },
+        {
+            "id": 19,
+            "name": "SHB Bank",
+            "img": "shb.png"
+        },
+        {
+            "id": 20,
+            "name": "TechComBank",
+            "img": "techcombank.png"
+        },
+        {
+            "id": 21,
+            "name": "TP Bank",
+            "img": "tpbank.png"
+        },
+        {
+            "id": 22,
+            "name": "VIB Bank",
+            "img": "vib.png"
+        },
+        {
+            "id": 23,
+            "name": "VietComBank",
+            "img": "vietcombank.png"
+        },
+        {
+            "id": 24,
+            "name": "VietinBank",
+            "img": "vietinbank.png"
+        },
+        {
+            "id": 25,
+            "name": "VPBank",
+            "img": "vpbank.png"
+        },
+        {
+            "id": 26,
+            "name": "Bắc Á Bank",
+            "img": "baca.png"
+        },
+        {
+            "id": 27,
+            "name": "AB Bank",
+            "img": "ab.png"
+        },
+        {
+            "id": 28,
+            "name": "Bảo Việt Bank",
+            "img": "baoviet.png"
+        },
+        {
+            "id": 29,
+            "name": "Việt Á Bank",
+            "img": "vieta.png"
+        },
+        {
+            "id": 30,
+            "name": "Việt Bank",
+            "img": "viet.png"
+        }
+    ]
+}
