@@ -10,11 +10,13 @@ class Registers extends StatefulWidget {
 }
 
 class _RegistersState extends State<Registers> {
+  bool _isPasswordEmpty = false;
+  String _passwordErrorMessage = '';
+  bool _isConfirmPasswordEmpty = false;
+  String _confirmPasswordMessage = '';
   final _formKey = GlobalKey<FormState>();
   final _passwordController = TextEditingController();
   final _confirmpasswordController = TextEditingController();
-  String password = '';
-  String confirmPassword = '';
 
   @override
   void dispose() {
@@ -28,24 +30,48 @@ class _RegistersState extends State<Registers> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
-          iconTheme: const IconThemeData(
-            color: Colors.black,
+        backgroundColor: Colors.white,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(kToolbarHeight),
+          child: AppBar(
+            backgroundColor: Colors.white,
+            title: Stack(
+              alignment: Alignment.center,
+              children: [
+                Positioned(
+                  left: 0,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {
+                      // Mốt làm lệnh cho nó truyển trang
+                    },
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Image.asset(
+                    'assets/images/HUFLIX.png',
+                    width: 130,
+                    height: 80,
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              IconButton(
+                icon: Icon(
+                  Icons.cancel,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  // Lệnh khi nhấn vào biểu tượng cancel
+                },
+              ),
+            ],
           ),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {},
-          ),
-          centerTitle: true,
-          // title: Container(
-          //   padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-          //   child: Image.asset(
-          //     'assets/images/HUFLIX.png',
-          //     width: 200,
-          //     height: 80,
-          //   ),
-          // ),
-          backgroundColor: Colors.white,
         ),
         body: Container(
           color: Colors.white,
@@ -66,63 +92,75 @@ class _RegistersState extends State<Registers> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 10),
                     const Text(
-                      'Chỉ cần vài bước là bạn sẽ hoàn tất!',
+                      'Chỉ cần vài bước là bạn sẽ hoàn tất ',
                       style: TextStyle(
-                        color: Color.fromARGB(255, 100, 97, 97),
-                        fontSize: 13,
+                        color: Colors.black,
+                        fontSize: 12,
                       ),
                     ),
                     const Text(
                       'Chúng tôi cũng chẳng hứng thú  gì với các loại giấy tờ',
                       style: TextStyle(
-                        color: Color.fromARGB(255, 100, 97, 97),
-                        fontSize: 13,
+                        color: Colors.black,
+                        fontSize: 12,
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
                     Container(
                       height: 60,
                       decoration: BoxDecoration(
                         color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(8.0),
+                        border: _isPasswordEmpty
+                            ? Border.all(color: Colors.red)
+                            : null,
                       ),
                       child: TextFormField(
-                        obscureText: true,
                         controller: _passwordController,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 30.0, horizontal: 10.0),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(11.0),
-                            borderSide: const BorderSide(
-                              color: Color.fromRGBO(255, 252, 252, 1),
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(11.0),
-                            borderSide: const BorderSide(
-                              width: 1.0,
-                              color: Color.fromRGBO(255, 252, 252, 1),
-                            ),
-                          ),
-                          labelText: "Mật khẩu",
+                        decoration: const InputDecoration(
+                          labelText: 'Mật Khẩu',
+                          border: InputBorder.none,
+                          contentPadding:
+                              EdgeInsets.symmetric(horizontal: 30.0),
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Không được bỏ trống mật khẩu';
-                          }
-                          return null;
-                        },
+                        validator: (value) => _validatePassword(value),
                       ),
+                    
                     ),
+                     SizedBox(height: 20),
+                    if (_isPasswordEmpty && _passwordErrorMessage.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: Row(
+                          children: [
+                           
+                            Icon(
+                              Icons.error_outline,
+                              color: Colors.red,
+                              size: 16.0,
+                            ),
+                            SizedBox(width: 5.0),
+                            Text(
+                              _passwordErrorMessage,
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 12.0,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     const SizedBox(height: 16),
                     Container(
                       height: 60,
                       decoration: BoxDecoration(
                         color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(8.0),
+                        border: _isPasswordEmpty
+                            ? Border.all(color: Colors.red)
+                            : null,
                       ),
                       child: TextFormField(
                         controller: _confirmpasswordController,
@@ -133,19 +171,40 @@ class _RegistersState extends State<Registers> {
                               EdgeInsets.symmetric(horizontal: 30.0),
                         ),
                         obscureText: true,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Không để trống';
-                          } else if (value != _passwordController.text) {
-                            return 'Mật khẩu không khớp';
-                          } else if (value == _passwordController.text) {
-                            return 'Trùng Mật Khẩu';
-                          }
-                        },
+                        validator: (value) => _validateConfirmPassword(value!),
                       ),
                     ),
+                    SizedBox(height: 10),
+                    if (_isConfirmPasswordEmpty &&
+                        _confirmPasswordMessage.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: Row(
+                          children: [
+                            SizedBox(height: 20),
+                            Icon(
+                              Icons.error_outline,
+                              color: Colors.red,
+                              size: 16.0,
+                            ),
+                            SizedBox(width: 5.0),
+                            Text(
+                              _confirmPasswordMessage,
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 12.0,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     const SizedBox(height: 50),
                     Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(8.0),
+                        border: Border.all(color: Colors.grey, width: 2.0),
+                      ),
                       child: Padding(
                         padding: const EdgeInsets.all(
                             2.0), // Điều chỉnh giá trị padding tùy ý
@@ -158,21 +217,19 @@ class _RegistersState extends State<Registers> {
                                 // Ví dụ: Chuyển đến trang tiếp theo
                               }
                             },
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    const Color.fromARGB(255, 198, 10, 10),
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 10,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                minimumSize: (const Size(317, 46))),
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.black),
+                              minimumSize: MaterialStateProperty.all(
+                                  Size(double.infinity, 50)),
+                            ),
                             child: const Text(
-                              "Tiếp theo",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 24),
+                              'Tiếp Theo',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
@@ -186,5 +243,58 @@ class _RegistersState extends State<Registers> {
         ),
       ),
     );
+  }
+
+  String? _validatePassword(String? passwordConfirmation) {
+    final password = _passwordController.text;
+
+    if (password.isEmpty || passwordConfirmation!.isEmpty) {
+      setState(() {
+        _isPasswordEmpty = true;
+        _passwordErrorMessage = 'Không được để trống';
+      });
+      return null;
+    }
+
+    if (password != passwordConfirmation) {
+      setState(() {
+        _isPasswordEmpty = false;
+        _passwordErrorMessage = 'Mật khẩu không trùng';
+      });
+      return null;
+    }
+
+    setState(() {
+      _isPasswordEmpty = false;
+      _passwordErrorMessage = '';
+    });
+
+    return null;
+  }
+
+  String? _validateConfirmPassword(String passwordConfirmation) {
+    final password = _passwordController.text;
+    final confirmPasssword = _confirmpasswordController.text;
+    if (confirmPasssword.isEmpty || confirmPasssword!.isEmpty) {
+      setState(() {
+        _isConfirmPasswordEmpty = true;
+        _confirmPasswordMessage = 'Không được để trống ';
+      });
+      return null;
+    }
+
+    if (confirmPasssword != password) {
+      setState(() {
+        _isConfirmPasswordEmpty = true; // Thay đổi tại đây
+        _confirmPasswordMessage = 'Mật khẩu không trùng';
+      });
+      return null;
+    }
+
+    setState(() {
+      _isConfirmPasswordEmpty = false;
+      _confirmPasswordMessage = '';
+    });
+    return null;
   }
 }
