@@ -9,15 +9,18 @@ import '../Detailwidget/detailmoviewidget.dart';
 import 'package:intl/intl.dart';
 
 Widget Searchmoviebody(Movies itemmovie, BuildContext context) {
-
   final screenSize = MediaQuery.of(context).size;
 
   return InkWell(
-     onTap: (){
-      Navigator.push(context, MaterialPageRoute(builder: ((context) => DetailMovies(objMov : itemmovie,))));
+    onTap: () {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: ((context) => DetailMovies(
+                    objMov: itemmovie,
+                  ))));
     },
     child: Container(
-      
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       width: double.infinity,
       height: 150,
@@ -37,15 +40,15 @@ Widget Searchmoviebody(Movies itemmovie, BuildContext context) {
                 child: Image.asset(
                   urlimgmovies + itemmovie.img!,
                   fit: BoxFit.fill,
-                ), 
+                ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Container(
-                decoration: BoxDecoration(color: Colors.amber),
+                //decoration: BoxDecoration(color: Colors.amber),
                 height: 50,
-               
+
                 child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(

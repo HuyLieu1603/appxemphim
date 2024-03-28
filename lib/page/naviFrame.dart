@@ -32,14 +32,17 @@ class _NaviFrameState extends State<NaviFrame> {
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
-        title: Text("For you",style: TextStyle(color: Colors.white,fontSize: 30),),
+        title: Text(
+          "For you",
+          style: TextStyle(color: Colors.white, fontSize: 30),
+        ),
         leading: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              height: 40,
-               margin: EdgeInsets.only(right: 10),
+              height: 30,
+              margin: EdgeInsets.only(right: 10),
               child: Image.asset(
                 url_img + "H.png",
                 fit: BoxFit.fill,
@@ -47,20 +50,22 @@ class _NaviFrameState extends State<NaviFrame> {
             ),
           ],
         ),
-        actions: [// mai mot no se la nut 
+        actions: [
+          // mai mot no se la nut
           Container(
-            height: 15,
             margin: EdgeInsets.only(right: 10),
             child: Image.asset(
               url_img + "User_logo.png",
-              fit: BoxFit.fill,
+              width: 30,
+              height: 30,
+              fit: BoxFit.contain,
             ),
           )
         ],
         //them logo , anh nhan vat
 
         //anh profile login do moi hien , now just make like a demo
-        
+
         backgroundColor: Colors.black,
       ),
       body: Center(

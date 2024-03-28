@@ -18,6 +18,8 @@ class DetailMovies extends StatefulWidget {
 class _DetailMoviesWidgetState extends State<DetailMovies> {
   List<Movies> detailMovies = [];
   bool isExpanded = false;
+  bool isExpandedActors = false;
+
   late Future<String> _loadcurrentMovies;
   Future<String> loadCurrent(int movId) async {
     detailMovies =
@@ -35,6 +37,9 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
   Widget build(BuildContext context) {
     String description =
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget justo ac turpis volutpat fermentum. Integer ac justo nec eros consequat ultricies. Quisque auctor, nunc at varius ultrices, nisi libero tincidunt orci, sed vestibulum elit purus et mauris. ';
+
+    String Actors =
+        'diễn viên A ,diễn viên B ,diễn viên C ,diễn viên D ,diễn viên E';
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Center(
@@ -94,13 +99,13 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                     child: Container(
                                       width: 40,
                                       height: 40,
-                                      decoration: BoxDecoration(
+                                      decoration:const BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: const Color.fromARGB(
+                                        color:  Color.fromARGB(
                                             255, 11, 11, 11),
                                       ),
                                       child: IconButton(
-                                        icon: Icon(
+                                        icon: const Icon(
                                           Icons.close,
                                           color: Colors.white,
                                         ),
@@ -119,7 +124,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                 decoration: BoxDecoration(
                                     color: Colors.transparent.withOpacity(1)),
                                 child: Container(
-                                  margin: EdgeInsets.all(20),
+                                  margin: const EdgeInsets.all(20),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
@@ -162,7 +167,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                         ],
                                       ),
                                       Container(
-                                        margin: EdgeInsets.only(top: 10),
+                                        margin: const EdgeInsets.only(top: 10),
                                         width: screenSize.width,
                                         height: 50,
                                         padding: const EdgeInsets.all(1),
@@ -170,7 +175,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                           onPressed: () => {},
                                           style: ElevatedButton.styleFrom(
                                             foregroundColor: Colors.white,
-                                            backgroundColor: Color.fromARGB(
+                                            backgroundColor: const Color.fromARGB(
                                                 255, 255, 255, 255),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
@@ -206,7 +211,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                       ),
                                       Container(
                                           //des
-                                          margin: EdgeInsets.only(top: 20),
+                                          margin: const EdgeInsets.only(top: 20),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -217,10 +222,10 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                     : description.substring(
                                                             0, 100) +
                                                         '...',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     color: Colors.white),
                                               ),
-                                              SizedBox(height: 8),
+                                              const SizedBox(height: 8),
                                               if (description.length > 100)
                                                 GestureDetector(
                                                   onTap: () {
@@ -232,12 +237,12 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                     isExpanded
                                                         ? 'Thu gọn'
                                                         : 'Đọc thêm',
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         color: Colors.white54),
                                                   ),
                                                 ),
-                                              SizedBox(height: 10),
-                                              Row(
+                                              const SizedBox(height: 10),
+                                              const Row(
                                                 children: [
                                                   Text(
                                                     'Director : ',
@@ -252,24 +257,24 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                   ),
                                                 ],
                                               ),
-                                              SizedBox(height: 10),
+                                              const SizedBox(height: 10),
                                               Row(
                                                 children: [
-                                                  Text(
+                                                  const Text(
                                                     'Actor : ',
                                                     style: TextStyle(
                                                         color: Colors.white54),
                                                   ),
                                                   //ten dao dien
                                                   Text(
-                                                    'diễn viên A ,diễn viên B ,diễn viên C ,diễn viên D ,diễn viên E',
-                                                    style: TextStyle(
+                                                    Actors,
+                                                    style: const TextStyle(
                                                         color: Colors.white),
                                                   ),
                                                 ],
                                               ),
-                                              SizedBox(height: 10),
-                                              Row(
+                                              const SizedBox(height: 10),
+                                              const Row(
                                                 children: [
                                                   Text(
                                                     'Category : ',
