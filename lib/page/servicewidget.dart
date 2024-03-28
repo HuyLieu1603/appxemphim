@@ -1,3 +1,6 @@
+// ignore_for_file: unnecessary_string_interpolations
+
+import 'package:appxemphim/page/paymentmethod/paymentmethodwidget.dart';
 import 'package:flutter/material.dart';
 import '../data/model/service.dart';
 import '../config/const.dart';
@@ -27,175 +30,6 @@ class _ServiceWidgetState extends State<ServiceWidget> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: loadServiceList(),
-      builder: (BuildContext, AsyncSnapshot<String> snapshot) {
-        return Container(
-          color: Colors.white,
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 64,
-              ),
-              const Text(
-                "Chọn gói dịch vụ",
-                style: titleStyle,
-                textAlign: TextAlign.center,
-              ),
-              Container(
-                height: 250,
-                child: GridView.builder(
-                  itemCount: lstService.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      childAspectRatio: 0.8,
-                      crossAxisSpacing: 5,
-                      mainAxisSpacing: 5),
-                  itemBuilder: (context, index) {
-                    return slide(lstService[index]);
-                  },
-                ),
-              ),
-              Column(
-                children: [
-                  Container(
-                    height: 1, // Chiều cao của Divider
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 10), // Khoảng cách top và bottom
-                    color: Colors.grey, // Màu của Divider
-                    width: 300, // Độ rộng của Divider
-                  ),
-                  const Text(
-                    "Số lượng thiết bị",
-                    style: TextStyle(
-                        fontSize: 32,
-                        color: Colors.black,
-                        decoration: TextDecoration.none),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(
-                    "1",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 11,
-                      decoration: TextDecoration.none,
-                    ),
-                  ),
-                  Text(
-                    "2",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 11,
-                      decoration: TextDecoration.none,
-                    ),
-                  ),
-                  Text(
-                    "4",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 11,
-                      decoration: TextDecoration.none,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-              Column(
-                children: [
-                  Container(
-                    height: 1, // Chiều cao của Divider
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 10), // Khoảng cách top và bottom
-                    color: Colors.grey, // Màu của Divider
-                    width: 300, // Độ rộng của Divider
-                  ),
-                  const Text(
-                    "Độ phân giải",
-                    style: TextStyle(
-                      fontSize: 32,
-                      color: Colors.black,
-                      decoration: TextDecoration.none,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(
-                    "480p",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 11,
-                      decoration: TextDecoration.none,
-                    ),
-                  ),
-                  Text(
-                    "1080p",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 11,
-                      decoration: TextDecoration.none,
-                    ),
-                  ),
-                  Text(
-                    "4K +HDR",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 11,
-                      decoration: TextDecoration.none,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-              const Text(
-                "Khả năng xem ở chế độ HD và Ultra HD tùy thuộc vào dịch vụ Internet và khả năng thiết bị của bạn. Không phải nội dung nào cũng xem được ở chế độ HD hoặc Ultra HD. Xem điều khoản sử dụng để biết thêm chi tiết",
-                style: TextStyle(
-                  fontSize: 11,
-                  color: Colors.grey,
-                  decoration: TextDecoration.none,
-                ),
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(198, 198, 10, 10),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 10,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    minimumSize: (const Size(317, 46))),
-                child: const Text(
-                  "Tiếp theo",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-            ],
-
-          ),);
-
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         return Scaffold(
           appBar: AppBar(
@@ -361,7 +195,14 @@ class _ServiceWidgetState extends State<ServiceWidget> {
                   height: 32,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const PaymentMethodWidget(),
+                      ),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(198, 198, 10, 10),
                       padding: const EdgeInsets.symmetric(

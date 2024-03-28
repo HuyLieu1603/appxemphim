@@ -30,9 +30,10 @@ class _NaviFrameState extends State<NaviFrame> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
         home: Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "For you",
           style: TextStyle(color: Colors.white, fontSize: 30),
         ),
@@ -42,7 +43,7 @@ class _NaviFrameState extends State<NaviFrame> {
           children: [
             Container(
               height: 30,
-              margin: EdgeInsets.only(right: 10),
+              margin: const EdgeInsets.only(right: 10),
               child: Image.asset(
                 url_img + "H.png",
                 fit: BoxFit.fill,
@@ -53,7 +54,7 @@ class _NaviFrameState extends State<NaviFrame> {
         actions: [
           // mai mot no se la nut
           Container(
-            margin: EdgeInsets.only(right: 10),
+            margin: const EdgeInsets.only(right: 10),
             child: Image.asset(
               url_img + "User_logo.png",
               width: 30,

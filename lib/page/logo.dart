@@ -11,14 +11,15 @@ class LogoPage extends StatefulWidget {
 }
 
 class _LogoPageState extends State<LogoPage> {
+  @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 2), () {
+    Timer(const Duration(seconds: 2), () {
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
           transitionDuration:
-              Duration(milliseconds: 500), // Độ dài của hiệu ứng
+              const Duration(milliseconds: 500), // Độ dài của hiệu ứng
           transitionsBuilder: (BuildContext context,
               Animation<double> animation,
               Animation<double> secondaryAnimation,
@@ -37,7 +38,7 @@ class _LogoPageState extends State<LogoPage> {
           },
           pageBuilder: (BuildContext context, Animation<double> animation,
               Animation<double> secondaryAnimation) {
-            return MainPage(); // Màn hình mới sau khi đổi
+            return const MainPage(); // Màn hình mới sau khi đổi
           },
         ),
       );
