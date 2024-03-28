@@ -17,9 +17,6 @@ Widget itemBankView(Bank itembank, BuildContext context) {
       );
     },
     child: Container(
-Widget itemBankView(Bank bankModel) {
-  return Builder(
-    builder: (context) => Container(
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(
@@ -32,19 +29,6 @@ Widget itemBankView(Bank bankModel) {
         url_bank_img + itembank.img!,
         errorBuilder: (context, error, stackTrace) => const Icon(Icons.image),
       ),
-        child: TextButton(
-          onPressed: () {
-            // Điều hướng sang màn hình chi tiết ngân hàng khi nút được nhấn
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) =>const  PaymentWidget()),
-            );
-          },
-          child: Image.asset(
-            url_bank_img + bankModel.img!,
-            errorBuilder: (context, error, stackTrace) =>
-            const Icon(Icons.image),
-          ),
-        ),
     ),
   );
 }
