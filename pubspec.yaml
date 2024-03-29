@@ -11,6 +11,9 @@ dependencies:
     sdk: flutter
   intl: ^0.19.0
   carousel_slider: ^4.2.1
+  dropdown_button2: ^2.3.8
+  shared_preferences: ^2.2.2
+
 
 dev_dependencies:
   flutter_test:
@@ -24,3 +27,5 @@ flutter:
     - assets/images/
     - assets/files/
     - assets/images/MainPage/
+    - assets/images/MovieList/
+    - assets/images/bankimg/

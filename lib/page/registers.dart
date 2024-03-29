@@ -1,3 +1,6 @@
+// ignore_for_file: avoid_unnecessary_containers, body_might_complete_normally_nullable
+
+import 'package:appxemphim/page/servicewidget.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const Registers());
@@ -6,6 +9,7 @@ class Registers extends StatefulWidget {
   const Registers({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _RegistersState createState() => _RegistersState();
 }
 
@@ -212,10 +216,16 @@ class _RegistersState extends State<Registers> {
                           alignment: Alignment.center,
                           child: ElevatedButton(
                             onPressed: () {
-                              if (_formKey.currentState!.validate()) {
+                              //if (_formKey.currentState!.validate()) {
                                 // Hành động khi điều kiện thỏa mãn
                                 // Ví dụ: Chuyển đến trang tiếp theo
-                              }
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const ServiceWidget(),
+                                  ),
+                                );
+                              //}
                             },
                             style: ButtonStyle(
                               backgroundColor:
