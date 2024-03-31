@@ -36,7 +36,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
   @override
   Widget build(BuildContext context) {
     String description =
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget justo ac turpis volutpat fermentum. Integer ac justo nec eros consequat ultricies. Quisque auctor, nunc at varius ultrices, nisi libero tincidunt orci, sed vestibulum elit purus et mauris. ';
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget justo ac turpis volutpat fermentum. ';
 
     String Actors =
         'Actors : diễn viên A ,diễn viên B ,diễn viên C ,diễn viên D ,diễn viên Ediễn viên D ,diễn viên E ';
@@ -55,14 +55,13 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                 child: Text('Error: ${snapshot.error}'),
               );
             } else {
-              return Center(
-                child: ListView(
-                  children: [
-                    Stack(
-                      children: [
-                        Container(
-                          height: screenSize.height,
-                          decoration: BoxDecoration(
+              return ListView(
+                children: [
+                  Stack(
+                    children: [
+                      Container(
+                        height: screenSize.height,
+                        decoration: BoxDecoration(
                             image: DecorationImage(
                               image: AssetImage(
                                   urlimgmovies + detailMovies[0].img!),
@@ -72,20 +71,19 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                 BlendMode.dstATop,
                               ),
                             ),
-                            color: Colors.black
-                          ),
-                        ),
-                        Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Stack(
-                                children: [
-                                  Center(
-                                    child: Container(
+                            color: Colors.black),
+                      ),
+                      Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Stack(
+                              children: [
+                                Center(
+                                  child: Container(
                                     height: 400,
-                                    width: screenSize.width -100 ,
+                                    width: screenSize.width - 100,
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
                                           image: AssetImage(urlimgmovies +
@@ -94,232 +92,224 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                           alignment: Alignment.topCenter),
                                     ),
                                   ),
-                                  ),
-                                  
-                                  Positioned(
-                                    top: 36,
-                                    right: 36,
-                                    child: Container(
-                                      width: 40,
-                                      height: 40,
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Color.fromARGB(255, 11, 11, 11),
+                                ),
+                                Positioned(
+                                  top: 36,
+                                  right: 16,
+                                  child: Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.white54,
+                                    ),
+                                    child: IconButton(
+                                      icon: const Icon(
+                                        Icons.close,
+                                        color: Colors.black,
                                       ),
-                                      child: IconButton(
-                                        icon: const Icon(
-                                          Icons.close,
-                                          color: Colors.white,
-                                        ),
-                                        onPressed: () {
-                                          // Xử lý sự kiện khi nút close được nhấn
-                                          Navigator.pop(context);
-                                        },
-                                      ),
+                                      onPressed: () {
+                                        // Xử lý sự kiện khi nút close được nhấn
+                                        Navigator.pop(context);
+                                      },
                                     ),
                                   ),
-                                ],
-                              ),
-                              Container(
-                                height: screenSize.height - 400,
-                                width: screenSize.width,
-                                decoration: BoxDecoration(
-                                    color: Colors.transparent.withOpacity(1)),
-                                child: Container(
-                                  margin: const EdgeInsets.all(20),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      //ten phim
-                                      Container(
-                                        child: Text(
-                                          '${detailMovies[0].name}',
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 30,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                      const Row(
-                                        children: [
-                                          Text(
-                                            '2019',
-                                            style: TextStyle(
-                                                color: Colors.white54),
-                                          ),
-                                          Icon(
-                                            Icons.calendar_month,
-                                            color: Colors.white54,
-                                            size: 20,
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            '1g 30p',
-                                            style: TextStyle(
-                                                color: Colors.white54),
-                                          ),
-                                          Icon(
-                                            Icons.access_time_sharp,
-                                            color: Colors.white54,
-                                          ),
-                                        ],
-                                      ),
-                                      Container(
-                                        margin: const EdgeInsets.only(top: 10),
-                                        width: screenSize.width,
-                                        height: 50,
-                                        padding: const EdgeInsets.all(1),
-                                        child: ElevatedButton(
-                                          onPressed: () => {},
-                                          style: ElevatedButton.styleFrom(
-                                            foregroundColor: Colors.white,
-                                            backgroundColor:
-                                                const Color.fromARGB(
-                                                    255, 255, 255, 255),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                            ),
-                                            textStyle: const TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          child: const Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                Icons.play_arrow,
-                                                size: 40,
-                                                color: Colors.black,
-                                              ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                'Play',
-                                                style: TextStyle(
-                                                    color: Colors.black),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                          //des
-                                          margin:
-                                              const EdgeInsets.only(top: 20),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Text(
-                                                isExpanded
-                                                    ? description
-                                                    : description.substring(
-                                                            0, 100) +
-                                                        '...',
-                                                style: const TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                              const SizedBox(height: 8),
-                                              if (description.length > 100)
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    setState(() {
-                                                      isExpanded = !isExpanded;
-                                                    });
-                                                  },
-                                                  child: Text(
-                                                    isExpanded
-                                                        ? 'Thu gọn'
-                                                        : 'Đọc thêm',
-                                                    style: const TextStyle(
-                                                        color: Colors.white54),
-                                                  ),
-                                                ),
-                                              const SizedBox(height: 10),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'Director : ',
-                                                    style: TextStyle(
-                                                        color: Colors.white54),
-                                                  ),
-                                                  //ten dao dien
-                                                  Text(
-                                                    'Liêu Trương Gia Huy',
-                                                    style: TextStyle(
-                                                        color: Colors.white54),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(height: 10),
-                                              
-                                              Text(
-                                                isExpandedActors
-                                                    ? Actors
-                                                    : Actors.substring(
-                                                            0, 50) +
-                                                        '...',
-                                                style: const TextStyle(
-                                                    color: Colors.white54),
-                                              ),
-                                              const SizedBox(height: 8),
-                                              if (Actors.length > 50)
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    setState(() {
-                                                      isExpandedActors = !isExpandedActors;
-                                                    });
-                                                  },
-                                                  child: Text(
-                                                    isExpandedActors
-                                                        ? 'Thu gọn'
-                                                        : 'Đọc thêm',
-                                                    style: const TextStyle(
-                                                        color: Colors.white54),
-                                                  ),
-                                                ),
-                                              const SizedBox(height: 10),
-
-
-                                              const SizedBox(height: 10),
-                                              const Row(
-                                                children: [
-                                                  Text(
-                                                    'Category : ',
-                                                    style: TextStyle(
-                                                        color: Colors.white54),
-                                                  ),
-                                                  //ten dao dien
-                                                  Text(
-                                                    'Thể loại A ,Thể loại B ,Thể loại C ,Thể loại D  ',
-                                                    style: TextStyle(
-                                                        color: Colors.white54),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          )),
-                                    ],
-                                  ),
                                 ),
-                              ) // Các thành phần giao diện khác ở đây
-                            ],
-                          ),
+                              ],
+                            ),
+                            Container(
+                              height: screenSize.height - 400,
+                              width: screenSize.width,
+                              decoration: BoxDecoration(
+                                  color: Colors.transparent.withOpacity(1)),
+                              child: Container(
+                                margin: const EdgeInsets.all(20),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    //ten phim
+                                    Container(
+                                      child: Text(
+                                        '${detailMovies[0].name}',
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    const Row(
+                                      children: [
+                                        Text(
+                                          '2019',
+                                          style:
+                                              TextStyle(color: Colors.white54),
+                                        ),
+                                        Icon(
+                                          Icons.calendar_month,
+                                          color: Colors.white54,
+                                          size: 20,
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          '1g 30p',
+                                          style:
+                                              TextStyle(color: Colors.white54),
+                                        ),
+                                        Icon(
+                                          Icons.access_time_sharp,
+                                          color: Colors.white54,
+                                        ),
+                                      ],
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 10),
+                                      width: screenSize.width,
+                                      height: 50,
+                                      padding: const EdgeInsets.all(1),
+                                      child: ElevatedButton(
+                                        onPressed: () => {},
+                                        style: ElevatedButton.styleFrom(
+                                          foregroundColor: Colors.white,
+                                          backgroundColor: const Color.fromARGB(
+                                              255, 255, 255, 255),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                          ),
+                                          textStyle: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        child: const Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.play_arrow,
+                                              size: 40,
+                                              color: Colors.black,
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              'Play',
+                                              style: TextStyle(
+                                                  color: Colors.black),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                        //des
+                                        margin: const EdgeInsets.only(top: 20),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Text(
+                                              isExpanded
+                                                  ? description
+                                                  : description.substring(
+                                                          0, 70) +
+                                                      '...',
+                                              style: const TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                            const SizedBox(height: 8),
+                                            if (description.length > 70)
+                                              GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    isExpanded = !isExpanded;
+                                                  });
+                                                },
+                                                child: Text(
+                                                  isExpanded
+                                                      ? 'Thu gọn'
+                                                      : 'Đọc thêm',
+                                                  style: const TextStyle(
+                                                      color: Colors.white54),
+                                                ),
+                                              ),
+                                            const SizedBox(height: 10),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'Director : ',
+                                                  style: TextStyle(
+                                                      color: Colors.white54),
+                                                ),
+                                                //ten dao dien
+                                                Text(
+                                                  'Liêu Trương Gia Huy',
+                                                  style: TextStyle(
+                                                      color: Colors.white54),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 10),
+                                            Text(
+                                              isExpandedActors
+                                                  ? Actors
+                                                  : Actors.substring(0, 50) +
+                                                      '...',
+                                              style: const TextStyle(
+                                                  color: Colors.white54),
+                                            ),
+                                            const SizedBox(height: 8),
+                                            if (Actors.length > 50)
+                                              GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    isExpandedActors =
+                                                        !isExpandedActors;
+                                                  });
+                                                },
+                                                child: Text(
+                                                  isExpandedActors
+                                                      ? 'Thu gọn'
+                                                      : 'Đọc thêm',
+                                                  style: const TextStyle(
+                                                      color: Colors.white54),
+                                                ),
+                                              ),
+                                            const SizedBox(height: 10),
+                                            const SizedBox(height: 10),
+                                            const Row(
+                                              children: [
+                                                Text(
+                                                  'Category : ',
+                                                  style: TextStyle(
+                                                      color: Colors.white54),
+                                                ),
+                                                //ten dao dien
+                                                Text(
+                                                  'Thể loại A ,Thể loại B ,Thể loại C ,Thể loại D  ',
+                                                  style: TextStyle(
+                                                      color: Colors.white54),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            ) // Các thành phần giao diện khác ở đây
+                          ],
                         ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                ],
               );
             }
           },

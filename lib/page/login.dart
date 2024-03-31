@@ -34,8 +34,11 @@ class _LoginState extends State<Login> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Registration Successful'),
-            content: const Text('You have successfully registered.'),
+            title: const Text('Thông báo', textAlign: TextAlign.center),
+            content: const Text(
+              'Bạn đã đăng nhập thành công',
+              textAlign: TextAlign.center,
+            ),
             actions: <Widget>[
               TextButton(
                 child: const Text('OK'),

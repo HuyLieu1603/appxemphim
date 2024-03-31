@@ -35,47 +35,17 @@ class _RegistersState extends State<Registers> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.white,
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight),
-          child: AppBar(
-            backgroundColor: Colors.white,
-            title: Stack(
-              alignment: Alignment.center,
-              children: [
-                Positioned(
-                  left: 0,
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.arrow_back,
-                      color: Colors.black,
-                    ),
-                    onPressed: () {
-                      // Mốt làm lệnh cho nó truyển trang
-                    },
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Image.asset(
-                    'assets/images/HUFLIX.png',
-                    width: 130,
-                    height: 80,
-                  ),
-                ),
-              ],
-            ),
-            actions: [
-              IconButton(
-                icon: Icon(
-                  Icons.cancel,
-                  color: Colors.black,
-                ),
-                onPressed: () {
-                  // Lệnh khi nhấn vào biểu tượng cancel
-                },
-              ),
-            ],
+        appBar: AppBar(
+          iconTheme: const IconThemeData(
+            color: Colors.black,
           ),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          backgroundColor: Colors.white,
         ),
         body: Container(
           color: Colors.white,
@@ -111,7 +81,7 @@ class _RegistersState extends State<Registers> {
                         fontSize: 12,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 16),
                     Container(
                       height: 60,
                       decoration: BoxDecoration(
@@ -131,15 +101,13 @@ class _RegistersState extends State<Registers> {
                         ),
                         validator: (value) => _validatePassword(value),
                       ),
-                    
                     ),
-                     SizedBox(height: 20),
+                    SizedBox(height: 20),
                     if (_isPasswordEmpty && _passwordErrorMessage.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.only(left: 16.0),
                         child: Row(
                           children: [
-                           
                             Icon(
                               Icons.error_outline,
                               color: Colors.red,
@@ -156,7 +124,7 @@ class _RegistersState extends State<Registers> {
                           ],
                         ),
                       ),
-                    const SizedBox(height: 16),
+                    // const SizedBox(height: 16),
                     Container(
                       height: 60,
                       decoration: BoxDecoration(
@@ -202,12 +170,10 @@ class _RegistersState extends State<Registers> {
                           ],
                         ),
                       ),
-                    const SizedBox(height: 50),
+                    const SizedBox(height: 16),
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(8.0),
-                        border: Border.all(color: Colors.grey, width: 2.0),
+                        borderRadius: BorderRadius.circular(10.0),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(
@@ -217,19 +183,20 @@ class _RegistersState extends State<Registers> {
                           child: ElevatedButton(
                             onPressed: () {
                               //if (_formKey.currentState!.validate()) {
-                                // Hành động khi điều kiện thỏa mãn
-                                // Ví dụ: Chuyển đến trang tiếp theo
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const ServiceWidget(),
-                                  ),
-                                );
+                              // Hành động khi điều kiện thỏa mãn
+                              // Ví dụ: Chuyển đến trang tiếp theo
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ServiceWidget(),
+                                ),
+                              );
                               //}
                             },
                             style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.black),
+                              backgroundColor: MaterialStateProperty.all(
+                                const Color.fromARGB(198, 198, 10, 10),
+                              ),
                               minimumSize: MaterialStateProperty.all(
                                   Size(double.infinity, 50)),
                             ),

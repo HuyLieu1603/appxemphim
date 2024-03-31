@@ -1,4 +1,5 @@
 import 'package:appxemphim/page/login.dart';
+import 'package:appxemphim/page/naviFrame.dart';
 import 'package:flutter/material.dart';
 import '../data/model/account.dart';
 import '../data/provider/accountprovider.dart';
@@ -25,10 +26,17 @@ class _settingWidgetState extends State<settingWidget> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {},
-          ),
+          // leading: IconButton(
+          //   icon: const Icon(Icons.arrow_back),
+          //   onPressed: () {
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //         builder: (context) => const NaviFrame(),
+          //       ),
+          //     );
+          //   },
+          // ),
           title: const Text(
             "Profiles & More",
             style: TextStyle(
