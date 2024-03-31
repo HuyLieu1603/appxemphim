@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import, unused_field, constant_identifier_names, prefer_interpolation_to_compose_strings
+// ignore_for_file: unused_import, unused_field, constant_identifier_names, prefer_interpolation_to_compose_strings, file_names
 
 import 'package:appxemphim/page/Detailwidget/menumoviewidget.dart';
 import 'package:appxemphim/page/Detailwidget/searchmoviewidget.dart';
