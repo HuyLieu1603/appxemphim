@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, camel_case_types, non_constant_identifier_names, sized_box_for_whitespace, avoid_unnecessary_containers
+
 import 'package:appxemphim/page/login.dart';
 import 'package:appxemphim/page/naviFrame.dart';
 import 'package:flutter/material.dart';

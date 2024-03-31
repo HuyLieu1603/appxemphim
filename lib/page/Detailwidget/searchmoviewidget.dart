@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, unused_field
+
 import 'package:flutter/material.dart';
 
 import '../../data/model/movies.dart';
@@ -41,7 +43,7 @@ class _SearchmoviewidgetState extends State<Searchmoviewidget> {
                     color: Colors.black,
                     child: Center(
                       child: Padding(
-                        padding: EdgeInsets.all(0),
+                        padding: const EdgeInsets.all(0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [

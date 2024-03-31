@@ -1,8 +1,10 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: prefer_interpolation_to_compose_strings, avoid_unnecessary_containers, non_constant_identifier_names
+
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+// import 'package:flutter/widgets.dart';
 import '../../config/const.dart';
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 import '../../data/model/movies.dart';
 import '../../data/provider/moviesprovider.dart';
 
@@ -240,7 +242,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                 ),
                                               ),
                                             const SizedBox(height: 10),
-                                            Row(
+                                            const Row(
                                               children: [
                                                 Text(
                                                   'Director : ',
