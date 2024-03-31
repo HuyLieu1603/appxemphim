@@ -1,3 +1,5 @@
+// ignore_for_file: sized_box_for_whitespace, non_constant_identifier_names, unused_import
+
 import 'package:flutter/material.dart';
 import '../../data/model/movies.dart';
 import '../../data/provider/moviesprovider.dart';
@@ -152,7 +154,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
                         itemBuilder: (context, index) {
                           return Container(
                               width: 180,
-                              margin: EdgeInsets.fromLTRB(0, 5, 5, 0),
+                              margin: const EdgeInsets.fromLTRB(0, 5, 5, 0),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(5),
                                 child: Image.asset(
@@ -178,7 +180,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            margin: EdgeInsets.only(left: 30),
+            margin: const EdgeInsets.only(left: 30),
             decoration: BoxDecoration(
               border: Border.all(
                 style: BorderStyle.solid,
@@ -187,7 +189,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
               ),
               borderRadius: BorderRadius.circular(19),
             ),
-            child: Padding(
+            child: const Padding(
               padding: EdgeInsets.all(10),
               child: Text(
                 'TV series',
@@ -196,7 +198,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           Container(
@@ -209,7 +211,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
               ),
               borderRadius: BorderRadius.circular(19),
             ),
-            child: Padding(
+            child: const Padding(
               padding: EdgeInsets.all(10),
               child: Text(
                 'Movies',
@@ -219,7 +221,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           Container(
@@ -234,7 +236,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
             child: DropdownButtonHideUnderline(
               child: DropdownButton2<String>(
                 isExpanded: true,
-                hint: Text(
+                hint: const Text(
                   'Category',
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold),
@@ -257,10 +259,10 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
                 onChanged: (value) {
                   setState(() {});
                 },
-                buttonStyleData: ButtonStyleData(
+                buttonStyleData:const  ButtonStyleData(
                   height: 40,
                   width: 120,
-                  padding: const EdgeInsets.only(left: 14, right: 14),
+                  padding: EdgeInsets.only(left: 14, right: 14),
                   elevation: 2,
                 ),
                 iconStyleData: const IconStyleData(

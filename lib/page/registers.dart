@@ -102,21 +102,21 @@ class _RegistersState extends State<Registers> {
                         validator: (value) => _validatePassword(value),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     if (_isPasswordEmpty && _passwordErrorMessage.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.only(left: 16.0),
                         child: Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.error_outline,
                               color: Colors.red,
                               size: 16.0,
                             ),
-                            SizedBox(width: 5.0),
+                            const SizedBox(width: 5.0),
                             Text(
                               _passwordErrorMessage,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.red,
                                 fontSize: 12.0,
                               ),
@@ -146,23 +146,23 @@ class _RegistersState extends State<Registers> {
                         validator: (value) => _validateConfirmPassword(value!),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     if (_isConfirmPasswordEmpty &&
                         _confirmPasswordMessage.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.only(left: 16.0),
                         child: Row(
                           children: [
-                            SizedBox(height: 20),
-                            Icon(
+                            const SizedBox(height: 20),
+                            const Icon(
                               Icons.error_outline,
                               color: Colors.red,
                               size: 16.0,
                             ),
-                            SizedBox(width: 5.0),
+                            const SizedBox(width: 5.0),
                             Text(
                               _confirmPasswordMessage,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.red,
                                 fontSize: 12.0,
                               ),
@@ -198,7 +198,7 @@ class _RegistersState extends State<Registers> {
                                 const Color.fromARGB(198, 198, 10, 10),
                               ),
                               minimumSize: MaterialStateProperty.all(
-                                  Size(double.infinity, 50)),
+                                  const Size(double.infinity, 50)),
                             ),
                             child: const Text(
                               'Tiếp Theo',
