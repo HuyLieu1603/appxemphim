@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'package:appxemphim/data/model/login.dart';
 import 'package:http/http.dart' as http;
 import 'package:appxemphim/data/model/account.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../model/user.dart';
 
 class API {
   final Dio _dio = Dio();
@@ -13,28 +15,31 @@ class API {
 class APIResponsitory {
   API api = API();
 
-  Map<String, dynamic> header() {
-    return {
-      'Content-Type': 'application/json',
-    };
-  }
+  Future<bool> fetchdata(String name, String pass) async {
+    final baseurl =
+        Uri.parse('${(API().baseUrl)}/Account');
+    //String baseurl = "https://6629a5d367df268010a13cf2.mockapi.io/api/v1";
+    bool result = false;
+    final reponse = await http.get(baseurl);
+    List<Account> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<Account>((json) => Account(
+                name: json['name'],
+                pass: json['pass'],
+                id: json['id'],
+              ))
+          .toList();
+    }
 
-  Future<int> checkLogin(String username, String password) async {
-  final url = Uri.parse('http://mockapi.io/api/v1/account');
-  final response = await http.get(url);
-
-  if (response.statusCode == 200) {
-    final data = json.decode(response.body);
-    final accounts = data['data'];
-
-    for (var account in accounts) {
-      if (account['username'] == username && account['password'] == password) {
-        return 1; // Đăng nhập đúng
+    if (reponse.statusCode == 200) {
+      List<Account> accounts = parseAccounts(reponse.body);
+      for (var item in accounts) {
+        if (item.name == name && item.pass == pass) {
+          result = true;
+        }
       }
     }
+    return result;
   }
-
-  return 0; // Đăng nhập sai hoặc có lỗi xảy ra
-}
-    
 }

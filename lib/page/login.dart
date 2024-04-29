@@ -19,17 +19,39 @@ class _LoginState extends State<Login> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  login() async {
-    int token = await APIResponsitory()
-        .checkLogin(_usernameController.text, _passwordController.text);
-    print(token);
-    if (token == 1)
+  void showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Thông tin không chính xác'),
+          content: Text('Vui lòng kiểm tra lại tên người dùng và mật khẩu.'),
+          actions: [
+            TextButton(
+              child: Text('Đóng'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  test() async {
+    bool result = await APIResponsitory()
+        .fetchdata(_usernameController.text, _passwordController.text);
+    if (result) {
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => const NaviFrame(),
-        ),
+        ), // Thay SignUpScreen() bằng màn hình đăng ký người dùng của bạn
       );
+    } else {
+      showAlertDialog(context);
+    }
   }
 
   @override
@@ -177,7 +199,7 @@ class _LoginState extends State<Login> {
                       child: Align(
                         alignment: Alignment.center,
                         child: ElevatedButton(
-                          onPressed: _register,
+                          onPressed: test,
                           style: ButtonStyle(
                             backgroundColor:
                                 MaterialStateProperty.all(Colors.black),
