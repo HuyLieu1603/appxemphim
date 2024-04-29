@@ -30,7 +30,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
         child: Column(
           children: [
             const SizedBox(
-              height: 16,
+              height: 150,
             ),
             const Text(
               "Bạn đã sẵn sàng để xem chưa?",

@@ -1,7 +1,8 @@
-class AccountModel{
+class AccountModel {
   int? id;
   String? img;
-  String? name;
+  String? userName;
+  String? password;
 
-AccountModel ({this.id , this.img , this.name});
+  AccountModel({this.id, this.img, this.userName, this.password});
 }

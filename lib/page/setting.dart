@@ -63,6 +63,9 @@ class _settingWidgetState extends State<settingWidget> {
                     },
                   ),
                 ),
+                const SizedBox(
+                  height: 16,
+                ),
                 Container(
                   child: TextButton(
                     onPressed: () {},
@@ -345,7 +348,7 @@ class _settingWidgetState extends State<settingWidget> {
                       ),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 25,
                     ),
                     Container(
                       child: TextButton(
@@ -370,6 +373,9 @@ class _settingWidgetState extends State<settingWidget> {
                         ),
                       ),
                     ),
+                    const SizedBox(
+                      height: 17,
+                    )
                   ],
                 ),
               ],
@@ -393,7 +399,7 @@ Widget accountListView(AccountModel accountModel) {
           errorBuilder: (context, error, StackTrace) => const Icon(Icons.image),
         ),
         Text(
-          accountModel.name ?? '',
+          accountModel.userName ?? '',
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontSize: 15,

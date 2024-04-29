@@ -1,5 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api, avoid_unnecessary_containers
 
+import 'package:appxemphim/data/API/api.dart';
 import 'package:appxemphim/page/naviFrame.dart';
 import 'package:appxemphim/page/register.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,19 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  login() async {
+    int token = await APIResponsitory()
+        .checkLogin(_usernameController.text, _passwordController.text);
+    print(token);
+    if (token == 1)
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const NaviFrame(),
+        ),
+      );
+  }
 
   @override
   void dispose() {

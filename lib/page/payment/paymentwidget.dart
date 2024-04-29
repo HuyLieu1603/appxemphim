@@ -222,17 +222,26 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                                 textAlign: TextAlign.center,
                               ),
                               actions: <Widget>[
-                                TextButton(
-                                  child: const Text('OK'),
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => const NaviFrame(),
+                                ButtonBar(
+                                  alignment: MainAxisAlignment.center,
+                                  children: [
+                                    TextButton(
+                                      child: const Text(
+                                        'OK',
+                                        textAlign: TextAlign.center,
                                       ),
-                                    );
-                                  },
-                                ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const NaviFrame(),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                )
                               ],
                             );
                           },
@@ -240,10 +249,11 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red, // Màu nền của nút
+                      backgroundColor: const Color.fromARGB(
+                          198, 198, 10, 10), // Màu nền của nút
                       foregroundColor: Colors.white, // Màu của text và icon
                       minimumSize:
-                          const Size(300, 50), // Kích thước tối thiểu của nút
+                          const Size(400, 50), // Kích thước tối thiểu của nút
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)), // Bo góc
                     ),

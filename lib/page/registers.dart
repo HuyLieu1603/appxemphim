@@ -25,7 +25,6 @@ class _RegistersState extends State<Registers> {
   @override
   void dispose() {
     _passwordController.dispose();
-    _passwordController.dispose();
     super.dispose();
   }
 
@@ -62,23 +61,23 @@ class _RegistersState extends State<Registers> {
                       'Tạo mật khẩu để bắt đầu với tư cách thành viên',
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 25,
                       ),
+                      // textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 10),
                     const Text(
                       'Chỉ cần vài bước là bạn sẽ hoàn tất ',
                       style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
+                        color: Colors.grey,
+                        fontSize: 14,
                       ),
                     ),
                     const Text(
                       'Chúng tôi cũng chẳng hứng thú  gì với các loại giấy tờ',
                       style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
+                        color: Colors.grey,
+                        fontSize: 14,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -197,11 +196,18 @@ class _RegistersState extends State<Registers> {
                               backgroundColor: MaterialStateProperty.all(
                                 const Color.fromARGB(198, 198, 10, 10),
                               ),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      10), // Đặt border radius ở đây
+                                ),
+                              ),
                               minimumSize: MaterialStateProperty.all(
                                   const Size(double.infinity, 50)),
                             ),
                             child: const Text(
-                              'Tiếp Theo',
+                              'Tiếp theo',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20,
