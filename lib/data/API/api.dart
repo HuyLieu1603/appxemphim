@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:appxemphim/data/model/login.dart';
 import 'package:http/http.dart' as http;
 import 'package:appxemphim/data/model/account.dart';
 import 'package:dio/dio.dart';
@@ -16,8 +15,7 @@ class APIResponsitory {
   API api = API();
 
   Future<bool> fetchdata(String name, String pass) async {
-    final baseurl =
-        Uri.parse('${(API().baseUrl)}/Account');
+    final baseurl = Uri.parse('${(API().baseUrl)}/Account');
     //String baseurl = "https://6629a5d367df268010a13cf2.mockapi.io/api/v1";
     bool result = false;
     final reponse = await http.get(baseurl);
