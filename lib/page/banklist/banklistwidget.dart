@@ -36,7 +36,9 @@ class _BankWidgetState extends State<BankWidget> {
               ),
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
               backgroundColor: Colors.white,
             ),

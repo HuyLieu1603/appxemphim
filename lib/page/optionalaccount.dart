@@ -106,7 +106,7 @@ class _OptionalAccountState extends State<OptionalAccount> {
                 const Icon(Icons.image),
           ),
           Text(
-            accountModel.name ?? '',
+            accountModel.userName ?? '',
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 15,
