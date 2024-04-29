@@ -7,7 +7,7 @@ import '../model/user.dart';
 
 class API {
   final Dio _dio = Dio();
-  String baseUrl = "https://662f7f6e43b6a7dce30fb0bf.mockapi.io/api/v1/";
+  String baseUrl = "https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/";
   Dio get sendRequest => _dio;
 }
 
@@ -15,7 +15,7 @@ class APIResponsitory {
   API api = API();
 
   Future<bool> fetchdata(String name, String pass) async {
-    final baseurl = Uri.parse('${(API().baseUrl)}/Account');
+    final baseurl = Uri.parse('${(API().baseUrl)}user');
     //String baseurl = "https://6629a5d367df268010a13cf2.mockapi.io/api/v1";
     bool result = false;
     final reponse = await http.get(baseurl);
