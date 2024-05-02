@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'package:appxemphim/data/model/history/historyPurchase.dart';
 import 'package:http/http.dart' as http;
 import 'package:appxemphim/data/model/account.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/user.dart';
+import '../model/history/historyMovie.dart';
 
 class API {
   final Dio _dio = Dio();
@@ -35,9 +37,42 @@ class APIResponsitory {
       for (var item in accounts) {
         if (item.name == name && item.pass == pass) {
           result = true;
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('name', name);
         }
       }
     }
     return result;
   }
+
+  Future<List<History>> fetchHistory(String accountID) async {
+    final baseurl = Uri.parse('${(API().baseUrl)}History');
+    List<History> Histories = [];
+    final res = await http.get(baseurl);
+    List<History> lstHistory(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<History>((json) => History(
+              idMovie: json['idMovie'],
+              idAccount: json['idAccount'],
+              date: json['date'],
+              id: json['id']))
+          .toList();
+    }
+
+    if (res.statusCode == 200) {
+      Histories = lstHistory(res.body);
+      print(Histories[0].idAccount);
+    }
+    return Histories;
+  }
+
+  // Future<List<historyPurchase>> fetchPurchase(String accountID) async {
+  //   final baseurl = Uri.parse('${(API().baseUrl)}historyPurchase');
+  //   List<historyPurchase> lstPurchase = [];
+  //   final res = await http.get(baseurl);
+  //   List<historyPurchase> lstHistory (String respondbody){
+
+  //   }
+  // }
 }

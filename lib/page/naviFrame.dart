@@ -2,6 +2,7 @@
 
 import 'package:appxemphim/page/Detailwidget/menumoviewidget.dart';
 import 'package:appxemphim/page/Detailwidget/searchmoviewidget.dart';
+import 'package:appxemphim/page/history/Movie/historyMovie.dart';
 import 'package:appxemphim/page/logo.dart';
 import 'package:appxemphim/page/optionalaccount.dart';
 import 'package:appxemphim/page/setting.dart';
@@ -22,6 +23,7 @@ class _NaviFrameState extends State<NaviFrame> {
   static const List<Widget> _WidgetOptions = <Widget>[
     Menumoviewidget(),
     Searchmoviewidget(),
+    historyMovie(),
     settingWidget(),
   ];
 
@@ -34,88 +36,96 @@ class _NaviFrameState extends State<NaviFrame> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          appBar: AppBar(
-            title: const Text(
-              "For you",
-              style: TextStyle(color: Colors.white, fontSize: 30),
-            ),
-            leading: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            "For you",
+            style: TextStyle(color: Colors.white, fontSize: 30),
+          ),
+          leading: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                height: 30,
+                margin: const EdgeInsets.only(right: 10),
+                child: Image.asset(
+                  url_img + "H.png",
+                  fit: BoxFit.fill,
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            // mai mot no se la nut
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const OptionalAccount(),
+                  ),
+                );
+              },
+              child: Container(
+                margin: const EdgeInsets.only(right: 10),
+                child: Image.asset(
+                  url_img + "User_logo.png",
+                  width: 30,
                   height: 30,
-                  margin: const EdgeInsets.only(right: 10),
-                  child: Image.asset(
-                    url_img + "H.png",
-                    fit: BoxFit.fill,
-                  ),
+                  fit: BoxFit.contain,
                 ),
-              ],
+              ),
+            )
+          ],
+          //them logo , anh nhan vat
+
+          //anh profile login do moi hien , now just make like a demo
+
+          backgroundColor: Colors.black,
+        ),
+        body: Center(
+          child: _WidgetOptions.elementAt(_selectIndex),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+                size: 30,
+              ),
+              label: 'Home',
             ),
-            actions: [
-              // mai mot no se la nut
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const OptionalAccount(),
-                    ),
-                  );
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(right: 10),
-                  child: Image.asset(
-                    url_img + "User_logo.png",
-                    width: 30,
-                    height: 30,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              )
-            ],
-            //them logo , anh nhan vat
-
-            //anh profile login do moi hien , now just make like a demo
-
-            backgroundColor: Colors.black,
-          ),
-          body: Center(
-            child: _WidgetOptions.elementAt(_selectIndex),
-          ),
-          bottomNavigationBar: BottomNavigationBar(
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.home,
-                  size: 30,
-                ),
-                label: 'Home',
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.search,
+                size: 30,
               ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.search,
-                  size: 30,
-                ),
-                label: 'Search',
+              label: 'Search',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.history,
+                size: 30,
               ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.person,
-                  size: 30,
-                ),
-                label: 'Profile',
+              label: 'History',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person,
+                size: 30,
               ),
-            ],
-            currentIndex: _selectIndex,
-            selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.grey,
-            backgroundColor: Colors.black,
-            onTap: _onItemTapped,
-          ),
-        ));
+              label: 'Profile',
+            ),
+          ],
+          currentIndex: _selectIndex,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.grey,
+          backgroundColor: Colors.black,
+          onTap: _onItemTapped,
+        ),
+      ),
+    );
   }
 }
