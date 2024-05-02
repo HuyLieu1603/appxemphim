@@ -2,6 +2,7 @@
 
 import 'package:appxemphim/data/model/service.dart';
 import 'package:appxemphim/page/history/Movie/historyMovie.dart';
+import 'package:appxemphim/page/history/purchase/historyPurchase.dart';
 import 'package:appxemphim/page/login.dart';
 import 'package:appxemphim/page/optionalaccount.dart';
 import 'package:appxemphim/page/paymentmethod/paymentmethodwidget.dart';

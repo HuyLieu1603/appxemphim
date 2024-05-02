@@ -15,6 +15,7 @@ class historyMovie extends StatefulWidget {
 class _historyMovieState extends State<historyMovie> {
   Future<List<History>> fetchHistory() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(prefs.getString('name').toString());
     return await APIResponsitory()
         .fetchHistory(prefs.getString('name').toString());
   }
