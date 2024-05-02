@@ -40,8 +40,8 @@ class _NaviFrameState extends State<NaviFrame> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text(
-            "For you",
-            style: TextStyle(color: Colors.white, fontSize: 30),
+            "Dành cho bạn",
+            style: TextStyle(color: Colors.white, fontSize: 23),
           ),
           leading: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -91,32 +91,36 @@ class _NaviFrameState extends State<NaviFrame> {
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
+              backgroundColor: Colors.black,
               icon: Icon(
                 Icons.home,
                 size: 30,
               ),
-              label: 'Home',
+              label: 'Trang chủ',
             ),
             BottomNavigationBarItem(
+              backgroundColor: Colors.black,
               icon: Icon(
                 Icons.search,
                 size: 30,
               ),
-              label: 'Search',
+              label: 'Tìm kiếm',
             ),
             BottomNavigationBarItem(
+              backgroundColor: Colors.black,
               icon: Icon(
                 Icons.history,
                 size: 30,
               ),
-              label: 'History',
+              label: 'Lịch sử',
             ),
             BottomNavigationBarItem(
+              backgroundColor: Colors.black,
               icon: Icon(
-                Icons.person,
+                Icons.menu,
                 size: 30,
               ),
-              label: 'Profile',
+              label: 'Menu',
             ),
           ],
           currentIndex: _selectIndex,

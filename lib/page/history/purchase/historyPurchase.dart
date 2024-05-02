@@ -25,6 +25,17 @@ class _historyPurchaseWidgetState extends State<historyPurchaseWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Text('Lịch sử thanh toán'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: FutureBuilder<List<historyPurchase>>(
         future: fetchPurchase(),
         builder: (context, snapshot) {
@@ -62,7 +73,56 @@ class _historyPurchaseWidgetState extends State<historyPurchaseWidget> {
 }
 
 Widget historyWidget(historyPurchase his, BuildContext context) {
-  return Container(
-    child: Text('${his.idAccount} ${his.date}'),
+  return Card(
+    color: Color.fromARGB(255, 42, 42, 42),
+    child: Padding(
+      padding: EdgeInsets.all(8),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            children: [
+              Container(
+                height: 50,
+                alignment: Alignment.center,
+                child: Text(
+                  'Tên gói dịch vụ: \n${his.nameService}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Container(
+                height: 50,
+                alignment: Alignment.center,
+                child: Text(
+                  'Giá: ${his.price}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Container(
+            height: 50,
+            alignment: Alignment.center,
+            child: Text(
+              'Ngày thanh toán: \n ${his.date}',
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
   );
 }

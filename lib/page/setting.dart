@@ -41,7 +41,7 @@ class _settingWidgetState extends State<settingWidget> {
           //   },
           // ),
           title: const Text(
-            "Profiles & More",
+            "Cài đặt",
             style: TextStyle(
               color: Colors.white,
               fontSize: 20,
@@ -128,12 +128,12 @@ class _settingWidgetState extends State<settingWidget> {
                               alignment: Alignment.centerLeft,
                               child: Row(
                                 children: [
-                                  Icon(Icons.notifications), // Icon
+                                  Icon(Icons.history), // Icon
                                   SizedBox(
                                       width:
                                           10), // Khoảng cách giữa icon và text
                                   Text(
-                                    'Thông báo',
+                                    'Lịch sử thanh toán',
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       color: Colors.white,
