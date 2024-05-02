@@ -35,10 +35,10 @@ Widget Searchmoviebody(Movies itemmovie, BuildContext context) {
           Row(
             children: [
               Container(
-                width: 130, // Điều chỉnh kích thước hình ảnh theo nhu cầu
-                height: 160,
-                child: Image.asset(
-                  urlimgmovies + itemmovie.img!,
+                width: 120, // Điều chỉnh kích thước hình ảnh theo nhu cầu
+                height: 170,
+                child: Image.network(
+                  itemmovie.img!,
                   fit: BoxFit.fill,
                 ),
               ),
@@ -97,5 +97,7 @@ Widget Searchmoviebody(Movies itemmovie, BuildContext context) {
         ),
       ),*/
     ),
-  );
+  );  
 }
+
+

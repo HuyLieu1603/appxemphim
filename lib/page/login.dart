@@ -1,5 +1,4 @@
 // ignore_for_file: library_private_types_in_public_api, avoid_unnecessary_containers
-
 import 'package:appxemphim/data/API/api.dart';
 import 'package:appxemphim/page/naviFrame.dart';
 import 'package:appxemphim/page/register.dart';
@@ -95,7 +94,6 @@ class _LoginState extends State<Login> {
       );
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

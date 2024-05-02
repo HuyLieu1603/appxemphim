@@ -21,9 +21,10 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
   List<Movies> detailMovies = [];
   bool isExpanded = false;
   bool isExpandedActors = false;
+  bool isExpandedCategory = false;
 
   late Future<String> _loadcurrentMovies;
-  Future<String> loadCurrent(int movId) async {
+  Future<String> loadCurrent(String movId) async {
     detailMovies =
         await ReadDataMovies().loadDataMoviesbyId(movId) as List<Movies>;
     return '';
@@ -42,8 +43,13 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
 
     String Actors =
         'Actors : diễn viên A ,diễn viên B ,diễn viên C ,diễn viên D ,diễn viên Ediễn viên D ,diễn viên E ';
+    String Categorys =
+        "Category : Thể loại A ,Thể loại B ,Thể loại C ,Thể loại D  ";
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+      ),
       body: Center(
         child: FutureBuilder(
           future: _loadcurrentMovies,
@@ -65,8 +71,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                         height: screenSize.height,
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: AssetImage(
-                                  urlimgmovies + detailMovies[0].img!),
+                              image: NetworkImage(widget.objMov.img!),
                               fit: BoxFit.contain,
                               colorFilter: ColorFilter.mode(
                                 Colors.black87.withOpacity(0.1),
@@ -88,8 +93,8 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                     width: screenSize.width - 100,
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
-                                          image: AssetImage(urlimgmovies +
-                                              detailMovies[0].img!),
+                                          image:
+                                              NetworkImage(widget.objMov.img!),
                                           fit: BoxFit.contain,
                                           alignment: Alignment.topCenter),
                                     ),
@@ -120,7 +125,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                               ],
                             ),
                             Container(
-                              height: screenSize.height - 400,
+                              //height: screenSize.height - 200,
                               width: screenSize.width,
                               decoration: BoxDecoration(
                                   color: Colors.transparent.withOpacity(1)),
@@ -133,7 +138,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                     //ten phim
                                     Container(
                                       child: Text(
-                                        '${detailMovies[0].name}',
+                                        '${widget.objMov.name?.substring(0, 1).toUpperCase()}${widget.objMov.name?.substring(1)}',
                                         style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 30,
@@ -266,6 +271,15 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                               style: const TextStyle(
                                                   color: Colors.white54),
                                             ),
+                                            const SizedBox(height: 10),
+                                            Text(
+                                              isExpandedCategory
+                                                  ? Categorys
+                                                  : Categorys.substring(0, 50) +
+                                                      '...',
+                                              style: const TextStyle(
+                                                  color: Colors.white54),
+                                            ),
                                             const SizedBox(height: 8),
                                             if (Actors.length > 50)
                                               GestureDetector(
@@ -273,6 +287,8 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                   setState(() {
                                                     isExpandedActors =
                                                         !isExpandedActors;
+                                                    isExpandedCategory =
+                                                        !isExpandedCategory;
                                                   });
                                                 },
                                                 child: Text(
@@ -283,23 +299,6 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                       color: Colors.white54),
                                                 ),
                                               ),
-                                            const SizedBox(height: 10),
-                                            const SizedBox(height: 10),
-                                            const Row(
-                                              children: [
-                                                Text(
-                                                  'Category : ',
-                                                  style: TextStyle(
-                                                      color: Colors.white54),
-                                                ),
-                                                //ten dao dien
-                                                Text(
-                                                  'Thể loại A ,Thể loại B ,Thể loại C ,Thể loại D  ',
-                                                  style: TextStyle(
-                                                      color: Colors.white54),
-                                                ),
-                                              ],
-                                            ),
                                           ],
                                         )),
                                   ],
