@@ -2,6 +2,8 @@
 
 import 'package:appxemphim/data/API/api.dart';
 import 'package:appxemphim/page/Detailwidget/detailmoviewidget.dart';
+import 'package:appxemphim/page/movieCategory/movieCategory.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import '../../data/model/movies.dart';
@@ -21,27 +23,15 @@ class Menumoviewidget extends StatefulWidget {
 }
 
 class _MenumoviewidgetState extends State<Menumoviewidget> {
-  final List<String> items = [
-    'Comedy',
-    'Adventure',
-    'Science Fiction',
-    'Love',
-    'War',
-    'History',
-    'Children',
-    'Music',
-    'Dreamy',
-    'Fantasy horror',
-    'Survival',
-    'Oscar',
-    'Supernatural',
-    'Teenager',
-    'Zombie',
-    'Detective fiction',
-    'Psychological sensation',
-    'Resonant drama',
-    'Far West'
-  ];
+
+
+  List<String> CategoryList = [];
+  Future<String> loadCategoryList() async {
+    CategoryList = await APIResponsitory().fetchdataCategoryAll();
+    return '';
+  }
+
+
   String? selectedValue;
   List<Movies> lsMovies = [];
   Future<String> loadmovies() async {
@@ -112,7 +102,8 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
   //Dramatic movie
   List<Movies> lsDramaticmovie = [];
   Future<String> movie_Dramaticmovie(String name, String nameCate) async {
-    lsDramaticmovie = await APIResponsitory().fetchdatabyCategory(name, nameCate);
+    lsDramaticmovie =
+        await APIResponsitory().fetchdatabyCategory(name, nameCate);
     return '';
   }
 
@@ -127,6 +118,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
   void initState() {
     super.initState();
     loadmovies();
+    loadCategoryList();
     //loadmoviesonlyHuflix();
     //loadmoviesanime();
     //loadmoviesNewonHuflix();
@@ -148,6 +140,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
               return Center(
                   child: ListView(
                 children: [
+                  
                   menuTopBar(context),
                   OnlyHuflix(context),
                   AnimeSeries(context),
@@ -167,6 +160,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
   }
 
   Widget widget_movie(Movies item, BuildContext context) {
+   
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -188,7 +182,8 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
           )),
     );
   }
-    Widget widget_movie_small(Movies item, BuildContext context) {
+
+  Widget widget_movie_small(Movies item, BuildContext context) {
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -239,7 +234,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
                         scrollDirection: Axis.horizontal,
                         itemCount: lsOnlyhf.length,
                         itemBuilder: (context, index) {
-                          return widget_movie(lsOnlyhf[index],context);
+                          return widget_movie(lsOnlyhf[index], context);
                         },
                       ),
                     );
@@ -251,11 +246,13 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
 
   Widget menuTopBar(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(right: 20),
       height: 50,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          /*
           Container(
             margin: const EdgeInsets.only(left: 30),
             decoration: BoxDecoration(
@@ -297,11 +294,14 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
                 textAlign: TextAlign.center,
               ),
             ),
-          ),
+          ),*/
           const SizedBox(
             width: 10,
           ),
-          Container(
+          FutureBuilder(future: loadCategoryList(), builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+             
+              return  Container(
             decoration: BoxDecoration(
               border: Border.all(
                 style: BorderStyle.solid,
@@ -318,7 +318,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold),
                 ),
-                items: items
+                items: CategoryList
                     .map((String item) => DropdownMenuItem<String>(
                           value: item,
                           child: Text(
@@ -334,7 +334,14 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
                     .toList(),
                 value: selectedValue,
                 onChanged: (value) {
-                  setState(() {});
+                  print(value);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => MovieByCate (
+                                category_object: value.toString(),
+                              ))));
+                  //setState(() {});
                 },
                 buttonStyleData: const ButtonStyleData(
                   height: 40,
@@ -370,7 +377,14 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
                 ),
               ),
             ),
-          ),
+          );
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          }),
+         
         ],
       ),
     );
@@ -402,7 +416,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
                         scrollDirection: Axis.horizontal,
                         itemCount: lsAnime.length,
                         itemBuilder: (context, index) {
-                          return widget_movie_small(lsAnime[index],context);
+                          return widget_movie_small(lsAnime[index], context);
                         },
                       ),
                     );
@@ -438,7 +452,8 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
                         scrollDirection: Axis.horizontal,
                         itemCount: lsNewonHuflix.length,
                         itemBuilder: (context, index) {
-                          return widget_movie_small(lsNewonHuflix[index],context);
+                          return widget_movie_small(
+                              lsNewonHuflix[index], context);
                         },
                       ),
                     );
@@ -477,7 +492,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
                         scrollDirection: Axis.horizontal,
                         itemCount: lsCartoon.length,
                         itemBuilder: (context, index) {
-                           return widget_movie_small(lsCartoon[index],context);
+                          return widget_movie_small(lsCartoon[index], context);
                         },
                       ),
                     );
@@ -513,7 +528,8 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
                         scrollDirection: Axis.horizontal,
                         itemCount: lsDramaticmovie.length,
                         itemBuilder: (context, index) {
-                           return widget_movie_small(lsDramaticmovie[index],context);
+                          return widget_movie_small(
+                              lsDramaticmovie[index], context);
                         },
                       ),
                     );
@@ -550,7 +566,8 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
                         scrollDirection: Axis.horizontal,
                         itemCount: lsAmericanab.length,
                         itemBuilder: (context, index) {
-                          return widget_movie_small(lsDramaticmovie[index],context);
+                          return widget_movie_small(
+                              lsAmericanab[index], context);
                         },
                       ),
                     );

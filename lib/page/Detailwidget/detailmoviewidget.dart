@@ -49,6 +49,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Center(
         child: FutureBuilder(
@@ -100,7 +101,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                     ),
                                   ),
                                 ),
-                                Positioned(
+                                /*Positioned(
                                   top: 36,
                                   right: 16,
                                   child: Container(
@@ -121,7 +122,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                       },
                                     ),
                                   ),
-                                ),
+                                ),*/
                               ],
                             ),
                             Container(
