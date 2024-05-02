@@ -1,7 +1,7 @@
 {
     "datamovie":[
         {
-            "id": 1,
+            "id": "1",
             "name": "Dhokha" ,
             "img" : "Dhokha.png" ,
             "type":  [
@@ -20,7 +20,7 @@
             "category":"New Releases"
         },
         {
-            "id": 2,
+            "id": "2",
             "name": "Code Name Triranga" ,
             "img" : "Code_Name_Triranga.png" ,
             "type":  [
@@ -39,7 +39,7 @@
             "category":"New Releases"
         },
         {
-            "id": 3,
+            "id": "3",
             "name": "RRR" ,
             "img" : "RRR.png" ,
             "type":  [
@@ -58,7 +58,7 @@
             "category":"New Releases"
         },
         {
-            "id": 4,
+            "id": "4",
             "name": "Bahubali  2" ,
             "img" : "Bahubali_2.png" ,
             "type":  [
@@ -77,7 +77,7 @@
             "category":"New Releases"
         },
         {
-            "id": 5,
+            "id": "5",
             "name": "Thar" ,
             "img" : "Thar.png" ,
             "type":  [
@@ -96,7 +96,7 @@
             "category":"New Releases"
         },
         {
-            "id": 6,
+            "id": "6",
             "name": "Drive" ,
             "img" : "Drive.png" ,
             "type":  [
@@ -115,7 +115,7 @@
             "category":"New Releases"
         },
         {
-            "id": 7,
+            "id": "7",
             "name": "Double XL" ,
             "img" : "Double_XL.png" ,
             "type":  [
@@ -134,7 +134,7 @@
             "category":"Releases in the Past Year"
         },
         {
-            "id": 8,
+            "id": "8",
             "name": "Drishyam" ,
             "img" : "Drishyam.png" ,
             "type":  [
@@ -153,7 +153,7 @@
             "category":"Releases in the Past Year"
         },
         {
-            "id": 9,
+            "id": "9",
             "name": "Money Heist" ,
             "img" : "Money_Heist.png" ,
             "type":  [
@@ -172,7 +172,7 @@
             "category":"Only available on Huflix"
         },
         {
-            "id": 10,
+            "id": "10",
             "name": "queen's gambit" ,
             "img" : "queen's_gambit.png" ,
             "type":  [
@@ -191,7 +191,7 @@
             "category":"Only available on Huflix"
         },
         {
-            "id": 11,
+            "id": "11",
             "name": "stranger things" ,
             "img" : "stranger_things.png" ,
             "type":  [
@@ -210,7 +210,7 @@
             "category":"Only available on Huflix"
         },
         {
-            "id": 12,
+            "id": "12",
             "name": "enola holmes" ,
             "img" : "enola_holmes.png" ,
             "type":  [
@@ -229,7 +229,7 @@
             "category":"Only available on Huflix"
         },
         {
-            "id": 13,
+            "id": "13",
             "name": "my name" ,
             "img" : "my_name.png" ,
             "type":  [
@@ -248,7 +248,7 @@
             "category":"Only available on Huflix"
         },
         {
-            "id": 14,
+            "id": "14",
             "name": "Mashle" ,
             "img" : "Mashle.png" ,
             "type":  [
@@ -267,7 +267,7 @@
             "category":"Anime"
         },
         {
-            "id": 15,
+            "id": "15",
             "name": "Black clover" ,
             "img" : "Black_clover.png" ,
             "type":  [
@@ -286,7 +286,7 @@
             "category":"Anime"
         },
         {
-            "id": 16,
+            "id": "16",
             "name": "Frieren" ,
             "img" : "Frieren.png" ,
             "type":  [
@@ -305,7 +305,7 @@
             "category":"Anime"
         },
         {
-            "id": 17,
+            "id": "17",
             "name": "Solo leveling" ,
             "img" : "Solo_leveling.png" ,
             "type":  [
@@ -324,7 +324,7 @@
             "category":"Anime"
         },
         {
-            "id": 18,
+            "id": "18",
             "name": "Spy x family" ,
             "img" : "Spyxfamily.png" ,
             "type":  [
@@ -343,7 +343,7 @@
             "category":"Anime"
         },
         {
-            "id": 19,
+            "id": "19",
             "name": "The Three-Body Problem" ,
             "img" : "TheThreeBodyProblem.png" ,
             "type":  [
@@ -362,7 +362,7 @@
             "category":"New on Huflix"
         },
         {
-            "id": 20,
+            "id": "20",
             "name": "Shirley" ,
             "img" : "Shirley.png" ,
             "type":  [
@@ -381,7 +381,7 @@
             "category":"New on Huflix"
         },
         {
-            "id": 21,
+            "id": "21",
             "name": "Dune" ,
             "img" : "Dune.png" ,
             "type":  [
@@ -400,7 +400,7 @@
             "category":"New on Huflix"
         },
         {
-            "id": 22,
+            "id": "22",
             "name": "Black adam" ,
             "img" : "Black_adam.png" ,
             "type":  [
@@ -419,7 +419,7 @@
             "category":"New on Huflix"
         },
         {
-            "id": 23,
+            "id": "23",
             "name": "The gentlement" ,
             "img" : "The_gentlement.png" ,
             "type":  [
@@ -438,7 +438,7 @@
             "category":"New on Huflix"
         },
         {
-            "id": 24,
+            "id": "24",
             "name": "Kung Fu Panda 3" ,
             "img" : "KungFuPanda3.png" ,
             "type":  [
@@ -457,7 +457,7 @@
             "category":"Cartoon"
         },
         {
-            "id": 25,
+            "id": "25",
             "name": "Sing" ,
             "img" : "Sing.png" ,
             "type":  [
@@ -476,7 +476,7 @@
             "category":"Cartoon"
         },
         {
-            "id": 26,
+            "id": "26",
             "name": "Nimona" ,
             "img" : "Nimona.png" ,
             "type":  [
@@ -495,7 +495,7 @@
             "category":"Cartoon"
         },
         {
-            "id": 27,
+            "id": "27",
             "name": "Hotel Transylvania" ,
             "img" : "HotelTransylvania.png" ,
             "type":  [
@@ -514,7 +514,7 @@
             "category":"Cartoon"
         },
         {
-            "id": 28,
+            "id": "28",
             "name": "The Croods: A New Age" ,
             "img" : "TheCroodsANewAge.png" ,
             "type":  [
@@ -533,7 +533,7 @@
             "category":"Cartoon"
         },
         {
-            "id": 29,
+            "id": "29",
             "name": "Now here" ,
             "img" : "Now_here.png" ,
             "type":  [
@@ -552,7 +552,7 @@
             "category":"Dramatic movie"
         },
         {
-            "id": 30,
+            "id": "30",
             "name": "Get out" ,
             "img" : "Getout.png" ,
             "type":  [
@@ -571,7 +571,7 @@
             "category":"Dramatic movie"
         },
         {
-            "id": 31,
+            "id": "31",
             "name": "Hunger" ,
             "img" : "Hunger.png" ,
             "type":  [
@@ -590,7 +590,7 @@
             "category":"Dramatic movie"
         },
         {
-            "id": 32,
+            "id": "32",
             "name": "Split" ,
             "img" : "Split.png" ,
             "type":  [
@@ -609,7 +609,7 @@
             "category":"Dramatic movie"
         },
         {
-            "id": 33,
+            "id": "33",
             "name": "Red eye" ,
             "img" : "Red_eye.png" ,
             "type":  [
@@ -628,7 +628,7 @@
             "category":"Dramatic movie"
         },
         {
-            "id": 34,
+            "id": "34",
             "name": "Warcraft" ,
             "img" : "Warcraft.png" ,
             "type":  [
@@ -647,7 +647,7 @@
             "category":"American adventure blockbuster"
         },
         {
-            "id": 35,
+            "id": "35",
             "name": "The Adam Project" ,
             "img" : "TheAdamProject.png" ,
             "type":  [
@@ -666,7 +666,7 @@
             "category":"American adventure blockbuster"
         },
         {
-            "id": 36,
+            "id": "36",
             "name": "Noah" ,
             "img" : "Noah.png" ,
             "type":  [
@@ -685,7 +685,7 @@
             "category":"American adventure blockbuster"
         },
         {
-            "id": 37,
+            "id": "37",
             "name": "Pinocchio" ,
             "img" : "Pinocchio.png" ,
             "type":  [
@@ -704,7 +704,7 @@
             "category":"American adventure blockbuster"
         },
         {
-            "id": 38,
+            "id": "38",
             "name": "The Revenant" ,
             "img" : "TheRevenant.png" ,
             "type":  [

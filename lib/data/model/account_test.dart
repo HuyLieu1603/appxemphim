@@ -21,7 +21,4 @@ Map<String,dynamic> toJson(){
     data['id'] = id;
     return data;
   }
-
-
-
 }

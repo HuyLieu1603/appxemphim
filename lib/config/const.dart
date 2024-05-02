@@ -9,6 +9,10 @@ const urlimgmovies = "assets/images/MovieList/";
 var url_bank_img = "assets/images/bankimg/";
 
 
+// API Uri name core 
+
+
+
 const titleStyle= TextStyle(
   fontSize: 32,
   decoration: TextDecoration.none,

@@ -1,6 +1,9 @@
 // ignore_for_file: sized_box_for_whitespace, non_constant_identifier_names, unused_import
 
+import 'package:appxemphim/data/API/api.dart';
+import 'package:appxemphim/page/Detailwidget/detailmoviewidget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import '../../data/model/movies.dart';
 import '../../data/provider/moviesprovider.dart';
 import '../../config/const.dart';
@@ -40,7 +43,6 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
     'Far West'
   ];
   String? selectedValue;
-
   List<Movies> lsMovies = [];
   Future<String> loadmovies() async {
     lsMovies = await ReadDataMovies().loadDataMovies();
@@ -48,46 +50,76 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
   }
 
   //onlyhuflit
+  /* 
   List<Movies> lsMoviesonlyHuflitx = [];
   Future<String> loadmoviesonlyHuflix() async {
     lsMoviesonlyHuflitx =
         await ReadbyCategory().loadBycategory("Only available on Huflix");
     return '';
   }
+  List<Movies> lsMoviesonlyHuflitxfecth = [];
+  Future<String> OnlyHuflixfecth(String name) async {
+    lsMoviesonlyHuflitxfecth = await fetchdataOnlyHuflix(name);
+    return '';
+  }
+  */
+  List<Movies> lsOnlyhf = [];
+  Future<String> movie_onlyhuflix(String name, String nameCate) async {
+    lsOnlyhf = await APIResponsitory().fetchdatabyCategory(name, nameCate);
+    return '';
+  }
 
   //Anime
+  /*
   List<Movies> lsAnime = [];
   Future<String> loadmoviesanime() async {
     lsAnime = await ReadbyCategory().loadBycategory("Anime");
     return '';
   }
+  List<Movies> lsMovieslsAnimefetch = [];
+  Future<String> animefecth(String name) async {
+    lsMovieslsAnimefetch = await fetchdataOnlyHuflix(name);
+    return '';
+  }
+  */
+  List<Movies> lsAnime = [];
+  Future<String> movie_anime(String name, String nameCate) async {
+    lsAnime = await APIResponsitory().fetchdatabyCategory(name, nameCate);
+    return '';
+  }
 
   //New on Huflix
+  /*
   List<Movies> lsNewonHuflix = [];
   Future<String> loadmoviesNewonHuflix() async {
     lsNewonHuflix = await ReadbyCategory().loadBycategory("New on Huflix");
+    return '';
+  }*/
+
+  List<Movies> lsNewonHuflix = [];
+  Future<String> movie_NewonHuflix(String name, String nameCate) async {
+    lsNewonHuflix = await APIResponsitory().fetchdatabyCategory(name, nameCate);
     return '';
   }
 
   //Cartoon
   List<Movies> lsCartoon = [];
-  Future<String> loadmovieslsCartoon() async {
-    lsCartoon = await ReadbyCategory().loadBycategory("Cartoon");
+  Future<String> movie_Cartoon(String name, String nameCate) async {
+    lsCartoon = await APIResponsitory().fetchdatabyCategory(name, nameCate);
     return '';
   }
 
   //Dramatic movie
   List<Movies> lsDramaticmovie = [];
-  Future<String> loadmovieslsDramaticmovie() async {
-    lsDramaticmovie = await ReadbyCategory().loadBycategory("Dramatic movie");
+  Future<String> movie_Dramaticmovie(String name, String nameCate) async {
+    lsDramaticmovie = await APIResponsitory().fetchdatabyCategory(name, nameCate);
     return '';
   }
 
   //American adventure blockbuster
   List<Movies> lsAmericanab = [];
-  Future<String> loadmoviesAmericanab() async {
-    lsAmericanab =
-        await ReadbyCategory().loadBycategory("American adventure blockbuster");
+  Future<String> movie_Americanab(String name, String nameCate) async {
+    lsAmericanab = await APIResponsitory().fetchdatabyCategory(name, nameCate);
     return '';
   }
 
@@ -95,12 +127,14 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
   void initState() {
     super.initState();
     loadmovies();
-    loadmoviesonlyHuflix();
-    loadmoviesanime();
-    loadmoviesNewonHuflix();
-    loadmovieslsCartoon();
-    loadmovieslsDramaticmovie();
-    loadmoviesAmericanab();
+    //loadmoviesonlyHuflix();
+    //loadmoviesanime();
+    //loadmoviesNewonHuflix();
+    //loadmovieslsCartoon();
+    //loadmovieslsDramaticmovie();
+    //loadmoviesAmericanab();
+    //test
+    //OnlyHuflixfecth('OnlyHuflix');
   }
 
   @override
@@ -110,23 +144,75 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
       child: FutureBuilder(
           future: loadmovies(),
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-            return Center(
-                child: ListView(
-              children: [
-                menuTopBar(context),
-                OnlyHuflix(context),
-                AnimeSeries(context),
-                NewonHuflix(context),
-                Cartoons(context),
-                Dramatics(context),
-                Americanab(context),
-              ],
-            ));
+            if (snapshot.connectionState == ConnectionState.done) {
+              return Center(
+                  child: ListView(
+                children: [
+                  menuTopBar(context),
+                  OnlyHuflix(context),
+                  AnimeSeries(context),
+                  NewonHuflix(context),
+                  Cartoons(context),
+                  Dramatics(context),
+                  Americanab(context),
+                ],
+              ));
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
           }),
     );
   }
 
+  Widget widget_movie(Movies item, BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: ((context) => DetailMovies(
+                      objMov: item,
+                    ))));
+      },
+      child: Container(
+          width: 180,
+          margin: const EdgeInsets.fromLTRB(0, 5, 5, 0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(5),
+            child: Image.network(
+              item.img!,
+              fit: BoxFit.fill,
+            ),
+          )),
+    );
+  }
+    Widget widget_movie_small(Movies item, BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: ((context) => DetailMovies(
+                      objMov: item,
+                    ))));
+      },
+      child: Container(
+          width: 140,
+          margin: const EdgeInsets.fromLTRB(0, 5, 5, 0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(5),
+            child: Image.network(
+              item.img!,
+              fit: BoxFit.fill,
+            ),
+          )),
+    );
+  }
+
   Widget OnlyHuflix(BuildContext context) {
+    //print(lsMoviesonlyHuflitxfecth);
     return Container(
       // nguyen khung phim chi co tren netflex
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -144,25 +230,16 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
               //hinh anh
               height: 280,
               child: FutureBuilder(
-                  future: loadmoviesonlyHuflix(),
+                  future:
+                      movie_onlyhuflix("Movies", 'Only available on Huflix'),
                   builder:
                       (BuildContext context, AsyncSnapshot<String> snapshot) {
                     return Center(
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: lsMoviesonlyHuflitx.length,
+                        itemCount: lsOnlyhf.length,
                         itemBuilder: (context, index) {
-                          return Container(
-                              width: 180,
-                              margin: const EdgeInsets.fromLTRB(0, 5, 5, 0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: Image.asset(
-                                  urlimgmovies +
-                                      lsMoviesonlyHuflitx[index].img!,
-                                  fit: BoxFit.fill,
-                                ),
-                              ));
+                          return widget_movie(lsOnlyhf[index],context);
                         },
                       ),
                     );
@@ -259,7 +336,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
                 onChanged: (value) {
                   setState(() {});
                 },
-                buttonStyleData:const  ButtonStyleData(
+                buttonStyleData: const ButtonStyleData(
                   height: 40,
                   width: 120,
                   padding: EdgeInsets.only(left: 14, right: 14),
@@ -317,7 +394,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
               //hinh anh
               height: 210,
               child: FutureBuilder(
-                  future: loadmoviesanime(),
+                  future: movie_anime("Movies", 'Anime'),
                   builder:
                       (BuildContext context, AsyncSnapshot<String> snapshot) {
                     return Center(
@@ -325,16 +402,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
                         scrollDirection: Axis.horizontal,
                         itemCount: lsAnime.length,
                         itemBuilder: (context, index) {
-                          return Container(
-                              width: 140,
-                              margin: const EdgeInsets.fromLTRB(0, 5, 5, 0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: Image.asset(
-                                  urlimgmovies + lsAnime[index].img!,
-                                  fit: BoxFit.fill,
-                                ),
-                              ));
+                          return widget_movie_small(lsAnime[index],context);
                         },
                       ),
                     );
@@ -362,7 +430,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
               //hinh anh
               height: 210,
               child: FutureBuilder(
-                  future: loadmoviesNewonHuflix(),
+                  future: movie_NewonHuflix("Movies", 'New on Huflix'),
                   builder:
                       (BuildContext context, AsyncSnapshot<String> snapshot) {
                     return Center(
@@ -370,16 +438,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
                         scrollDirection: Axis.horizontal,
                         itemCount: lsNewonHuflix.length,
                         itemBuilder: (context, index) {
-                          return Container(
-                              width: 140,
-                              margin: const EdgeInsets.fromLTRB(0, 5, 5, 0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: Image.asset(
-                                  urlimgmovies + lsNewonHuflix[index].img!,
-                                  fit: BoxFit.fill,
-                                ),
-                              ));
+                          return widget_movie_small(lsNewonHuflix[index],context);
                         },
                       ),
                     );
@@ -410,7 +469,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
               //hinh anh
               height: 210,
               child: FutureBuilder(
-                  future: loadmovieslsCartoon(),
+                  future: movie_Cartoon("Movies", "Cartoon"),
                   builder:
                       (BuildContext context, AsyncSnapshot<String> snapshot) {
                     return Center(
@@ -418,16 +477,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
                         scrollDirection: Axis.horizontal,
                         itemCount: lsCartoon.length,
                         itemBuilder: (context, index) {
-                          return Container(
-                              width: 140,
-                              margin: const EdgeInsets.fromLTRB(0, 5, 5, 0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: Image.asset(
-                                  urlimgmovies + lsCartoon[index].img!,
-                                  fit: BoxFit.fill,
-                                ),
-                              ));
+                           return widget_movie_small(lsCartoon[index],context);
                         },
                       ),
                     );
@@ -455,7 +505,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
               //hinh anh
               height: 210,
               child: FutureBuilder(
-                  future: loadmovieslsDramaticmovie(),
+                  future: movie_Dramaticmovie("Movies", "Dramatic movie"),
                   builder:
                       (BuildContext context, AsyncSnapshot<String> snapshot) {
                     return Center(
@@ -463,16 +513,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
                         scrollDirection: Axis.horizontal,
                         itemCount: lsDramaticmovie.length,
                         itemBuilder: (context, index) {
-                          return Container(
-                              width: 140,
-                              margin: const EdgeInsets.fromLTRB(0, 5, 5, 0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: Image.asset(
-                                  urlimgmovies + lsDramaticmovie[index].img!,
-                                  fit: BoxFit.fill,
-                                ),
-                              ));
+                           return widget_movie_small(lsDramaticmovie[index],context);
                         },
                       ),
                     );
@@ -500,7 +541,8 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
               //hinh anh
               height: 210,
               child: FutureBuilder(
-                  future: loadmoviesAmericanab(),
+                  future: movie_Americanab(
+                      "Movies", "American adventure blockbuster"),
                   builder:
                       (BuildContext context, AsyncSnapshot<String> snapshot) {
                     return Center(
@@ -508,16 +550,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
                         scrollDirection: Axis.horizontal,
                         itemCount: lsAmericanab.length,
                         itemBuilder: (context, index) {
-                          return Container(
-                              width: 140,
-                              margin: const EdgeInsets.fromLTRB(0, 5, 5, 0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: Image.asset(
-                                  urlimgmovies + lsAmericanab[index].img!,
-                                  fit: BoxFit.fill,
-                                ),
-                              ));
+                          return widget_movie_small(lsDramaticmovie[index],context);
                         },
                       ),
                     );
