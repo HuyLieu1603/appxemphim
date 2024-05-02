@@ -1,6 +1,5 @@
 // ignore_for_file: library_private_types_in_public_api, avoid_unnecessary_containers
-
-import 'package:appxemphim/Api/API.dart';
+import 'package:appxemphim/data/API/api.dart';
 import 'package:appxemphim/page/naviFrame.dart';
 import 'package:appxemphim/page/register.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +17,41 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  void showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Thông tin không chính xác'),
+          content: Text('Vui lòng kiểm tra lại tên người dùng và mật khẩu.'),
+          actions: [
+            TextButton(
+              child: Text('Đóng'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  test() async {
+    bool result = await APIResponsitory()
+        .fetchdata(_usernameController.text, _passwordController.text);
+    if (result) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const NaviFrame(),
+        ), // Thay SignUpScreen() bằng màn hình đăng ký người dùng của bạn
+      );
+    } else {
+      showAlertDialog(context);
+    }
+  }
 
   @override
   void dispose() {
@@ -60,42 +94,6 @@ class _LoginState extends State<Login> {
       );
     }
   }
-
-  void showAlertDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Thông tin không chính xác'),
-          content: Text('Vui lòng kiểm tra lại tên người dùng và mật khẩu.'),
-          actions: [
-            TextButton(
-              child: Text('Đóng'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  test() async {
-    bool result =
-        await fetchdata(_usernameController.text, _passwordController.text);
-    if (result) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const NaviFrame(),
-        ), // Thay SignUpScreen() bằng màn hình đăng ký người dùng của bạn
-      );
-    } else {
-      showAlertDialog(context);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
