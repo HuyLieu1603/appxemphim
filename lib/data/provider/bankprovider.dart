@@ -1,4 +1,4 @@
-import '../model/bankmodel.dart';
+import '../model/bank.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 

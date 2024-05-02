@@ -1,6 +1,6 @@
 import 'package:appxemphim/page/payment/paymentwidget.dart';
 import 'package:flutter/material.dart';
-import '../../data/model/bankmodel.dart';
+import '../../data/model/bank.dart';
 import '../../config/const.dart';
 
 // Create sub Widget

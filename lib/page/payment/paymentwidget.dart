@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import '../../data/model/usermodel.dart';
-import '../../data/model/bankmodel.dart';
+import '../../data/model/bank.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../config/const.dart';
 

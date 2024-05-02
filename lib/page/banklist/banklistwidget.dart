@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../data/model/bankmodel.dart';
+import '../../data/model/bank.dart';
 import '../../data/provider/bankprovider.dart';
 import 'banklistbody.dart';
 import '../../config/const.dart';
