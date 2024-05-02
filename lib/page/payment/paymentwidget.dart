@@ -1,3 +1,7 @@
+// ignore_for_file: use_build_context_synchronously, unused_import
+
+import 'package:appxemphim/page/login.dart';
+import 'package:appxemphim/page/naviFrame.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -59,7 +63,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
           color: Colors.black,
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },

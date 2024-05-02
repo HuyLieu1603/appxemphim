@@ -1,5 +1,6 @@
+// ignore_for_file: avoid_unnecessary_containers, sized_box_for_whitespace, unused_import, non_constant_identifier_names, unused_local_variable
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import '../../data/model/movies.dart';
 import '../../data/provider/moviesprovider.dart';
 import '../Detailwidget/searchmoviewidget.dart';
@@ -25,8 +26,7 @@ Widget Searchmoviebody(Movies itemmovie, BuildContext context) {
       width: double.infinity,
       height: 150,
       clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-
+      decoration: const BoxDecoration(
           //chỉnh radius theo mong muốn
           ),
       child: Row(
@@ -35,10 +35,10 @@ Widget Searchmoviebody(Movies itemmovie, BuildContext context) {
           Row(
             children: [
               Container(
-                width: 130, // Điều chỉnh kích thước hình ảnh theo nhu cầu
-                height: 160,
-                child: Image.asset(
-                  urlimgmovies + itemmovie.img!,
+                width: 120, // Điều chỉnh kích thước hình ảnh theo nhu cầu
+                height: 170,
+                child: Image.network(
+                  itemmovie.img!,
                   fit: BoxFit.fill,
                 ),
               ),
@@ -70,7 +70,7 @@ Widget Searchmoviebody(Movies itemmovie, BuildContext context) {
               onPressed: () {
                 // Xử lý sự kiện khi nhấn vào nút play
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.play_circle_outline,
                 color: Colors.white,
                 size: 30,
@@ -97,5 +97,7 @@ Widget Searchmoviebody(Movies itemmovie, BuildContext context) {
         ),
       ),*/
     ),
-  );
+  );  
 }
+
+

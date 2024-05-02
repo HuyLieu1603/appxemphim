@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, unused_field
+import 'package:appxemphim/data/API/api.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/model/movies.dart';
@@ -16,10 +18,31 @@ class Searchmoviewidget extends StatefulWidget {
 
 class _SearchmoviewidgetState extends State<Searchmoviewidget> {
   String _inputValue = '';
-
+   final List<String> items = [
+    'Comedy',
+    'Adventure',
+    'Science Fiction',
+    'Love',
+    'War',
+    'History',
+    'Children',
+    'Music',
+    'Dreamy',
+    'Fantasy horror',
+    'Survival',
+    'Oscar',
+    'Supernatural',
+    'Teenager',
+    'Zombie',
+    'Detective fiction',
+    'Psychological sensation',
+    'Resonant drama',
+    'Far West'
+  ];
+  String? selectedValue;
   List<Movies> lsMovies = [];
   Future<String> loadmovies() async {
-    lsMovies = await ReadDataMovies().loadDataMovies();
+    lsMovies = await APIResponsitory().fetchdataAll();
     return '';
   }
 
@@ -41,7 +64,7 @@ class _SearchmoviewidgetState extends State<Searchmoviewidget> {
                     color: Colors.black,
                     child: Center(
                       child: Padding(
-                        padding: EdgeInsets.all(0),
+                        padding: const EdgeInsets.all(0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -109,4 +132,5 @@ class _SearchmoviewidgetState extends State<Searchmoviewidget> {
           );
         });
   }
+
 }

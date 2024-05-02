@@ -1,4 +1,7 @@
+// ignore_for_file: unused_import, camel_case_types, non_constant_identifier_names, sized_box_for_whitespace, avoid_unnecessary_containers, avoid_types_as_parameter_names
+
 import 'package:appxemphim/page/login.dart';
+import 'package:appxemphim/page/naviFrame.dart';
 import 'package:flutter/material.dart';
 import '../data/model/account.dart';
 import '../data/provider/accountprovider.dart';
@@ -25,10 +28,17 @@ class _settingWidgetState extends State<settingWidget> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {},
-          ),
+          // leading: IconButton(
+          //   icon: const Icon(Icons.arrow_back),
+          //   onPressed: () {
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //         builder: (context) => const NaviFrame(),
+          //       ),
+          //     );
+          //   },
+          // ),
           title: const Text(
             "Profiles & More",
             style: TextStyle(
@@ -52,6 +62,9 @@ class _settingWidgetState extends State<settingWidget> {
                       return accountListView(Accounts[index]);
                     },
                   ),
+                ),
+                const SizedBox(
+                  height: 16,
                 ),
                 Container(
                   child: TextButton(
@@ -335,7 +348,7 @@ class _settingWidgetState extends State<settingWidget> {
                       ),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 25,
                     ),
                     Container(
                       child: TextButton(
@@ -360,6 +373,9 @@ class _settingWidgetState extends State<settingWidget> {
                         ),
                       ),
                     ),
+                    const SizedBox(
+                      height: 17,
+                    )
                   ],
                 ),
               ],
@@ -383,7 +399,7 @@ Widget accountListView(AccountModel accountModel) {
           errorBuilder: (context, error, StackTrace) => const Icon(Icons.image),
         ),
         Text(
-          accountModel.name ?? '',
+          accountModel.userName ?? '',
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontSize: 15,

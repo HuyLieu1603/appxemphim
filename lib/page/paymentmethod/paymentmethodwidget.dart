@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import '../../page/banklist/banklistwidget.dart';
 import '../../page/onlinepayment/onlinepaymentwidget.dart';
@@ -16,7 +18,9 @@ class PaymentMethodWidget extends StatelessWidget {
           ),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
           backgroundColor: Colors.white,
         ),
@@ -50,8 +54,7 @@ class PaymentMethodWidget extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const BankWidget()
-                          ),
+                              builder: (context) => const BankWidget()),
                         );
                       },
                       style: OutlinedButton.styleFrom(
@@ -67,7 +70,8 @@ class PaymentMethodWidget extends StatelessWidget {
                         ),
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween, // Căn các phần tử theo từng cạnh của hàng
+                        mainAxisAlignment: MainAxisAlignment
+                            .spaceBetween, // Căn các phần tử theo từng cạnh của hàng
                         children: [
                           Row(
                             children: [
@@ -87,7 +91,8 @@ class PaymentMethodWidget extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const Icon(Icons.arrow_forward_ios), // Icon ở phía bên phải
+                          const Icon(
+                              Icons.arrow_forward_ios), // Icon ở phía bên phải
                         ],
                       ),
                     ),
@@ -97,8 +102,7 @@ class PaymentMethodWidget extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const BankWidget()
-                          ),
+                              builder: (context) => const BankWidget()),
                         );
                       },
                       style: OutlinedButton.styleFrom(
@@ -114,7 +118,8 @@ class PaymentMethodWidget extends StatelessWidget {
                         ),
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween, // Căn các phần tử theo từng cạnh của hàng
+                        mainAxisAlignment: MainAxisAlignment
+                            .spaceBetween, // Căn các phần tử theo từng cạnh của hàng
                         children: [
                           Row(
                             children: [
@@ -134,7 +139,8 @@ class PaymentMethodWidget extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const Icon(Icons.arrow_forward_ios), // Icon ở phía bên phải
+                          const Icon(
+                              Icons.arrow_forward_ios), // Icon ở phía bên phải
                         ],
                       ),
                     ),

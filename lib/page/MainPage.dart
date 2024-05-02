@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, unnecessary_import, avoid_unnecessary_containers, file_names
+
 import 'package:appxemphim/page/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -29,7 +31,7 @@ class _StateMainPageWidget extends State<MainPage> {
             Colors.transparent.withOpacity(0.1),
             Colors.black.withOpacity(1)
           ],
-          stops: [0, 0.8],
+          stops: const [0, 0.8],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         )),
@@ -38,7 +40,7 @@ class _StateMainPageWidget extends State<MainPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              margin: EdgeInsets.only(top: 500),
+              margin: const EdgeInsets.only(top: 500),
               child: const Text(
                 "Chương trình truyền hình,phim không giới hạn và nhiều nội dung khác",
                 style: TextStyle(

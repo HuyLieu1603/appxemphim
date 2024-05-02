@@ -38,7 +38,9 @@ class _ServiceWidgetState extends State<ServiceWidget> {
             ),
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
             backgroundColor: Colors.white,
           ),
@@ -47,16 +49,16 @@ class _ServiceWidgetState extends State<ServiceWidget> {
             color: Colors.white,
             child: Column(
               children: [
-                // const SizedBox(
-                //   height: 16,
-                // ),
+                const SizedBox(
+                  height: 32,
+                ),
                 const Text(
                   "Chọn gói dịch vụ",
                   style: titleStyle,
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(
-                  height: 16,
+                  height: 32,
                 ),
                 SizedBox(
                   height: 150,
@@ -181,7 +183,7 @@ class _ServiceWidgetState extends State<ServiceWidget> {
                   ],
                 ),
                 const SizedBox(
-                  height: 60,
+                  height: 32,
                 ),
                 const Text(
                   "Khả năng xem ở chế độ HD và Ultra HD tùy thuộc vào dịch vụ Internet và khả năng thiết bị của bạn. Không phải nội dung nào cũng xem được ở chế độ HD hoặc Ultra HD. Xem điều khoản sử dụng để biết thêm chi tiết",

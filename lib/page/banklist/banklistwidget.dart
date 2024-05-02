@@ -40,11 +40,15 @@ class _BankWidgetState extends State<BankWidget> {
                   Navigator.pop(context);
                 },
               ),
+              backgroundColor: Colors.white,
             ),
             body: Container(
               color: const Color.fromARGB(255, 243, 241, 241),
               child: Column(
                 children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Container(
                     padding: const EdgeInsets.fromLTRB(35, 0, 0, 0),
                     child: const Align(
@@ -57,7 +61,7 @@ class _BankWidgetState extends State<BankWidget> {
                     child: TextFormField(
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor:Colors.transparent,
+                        fillColor: Colors.white,
                         contentPadding: const EdgeInsets.symmetric(
                           vertical: 7.0,
                           horizontal: 10.0,
@@ -65,7 +69,7 @@ class _BankWidgetState extends State<BankWidget> {
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(11.0),
                           borderSide: const BorderSide(
-                            color: Colors.black,
+                            color: Colors.grey,
                           ),
                         ),
                         enabledBorder: OutlineInputBorder(

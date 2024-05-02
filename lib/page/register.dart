@@ -18,7 +18,9 @@ class _RegisterWidgetState extends State<RegisterWidget> {
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
         backgroundColor: Colors.white,
       ),
@@ -28,7 +30,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
         child: Column(
           children: [
             const SizedBox(
-              height: 16,
+              height: 150,
             ),
             const Text(
               "Bạn đã sẵn sàng để xem chưa?",

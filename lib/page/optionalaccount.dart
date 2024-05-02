@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_import, duplicate_import, unused_import, use_key_in_widget_constructors
+// ignore_for_file: unnecessary_import, duplicate_import, unused_import, use_key_in_widget_constructors, avoid_unnecessary_containers, non_constant_identifier_names, avoid_types_as_parameter_names
 
 import 'package:flutter/material.dart';
 import 'package:appxemphim/data/model/account.dart';
@@ -106,7 +106,7 @@ class _OptionalAccountState extends State<OptionalAccount> {
                 const Icon(Icons.image),
           ),
           Text(
-            accountModel.name ?? '',
+            accountModel.userName ?? '',
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 15,
