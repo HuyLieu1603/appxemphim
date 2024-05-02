@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:math';
+import 'package:appxemphim/data/model/Favorite/favoriteMovie.dart';
 import 'package:appxemphim/data/model/history/historyPurchase.dart';
 import 'package:appxemphim/data/model/movies.dart';
 import 'package:http/http.dart' as http;
@@ -68,37 +70,38 @@ class APIResponsitory {
   }
 
   Future<List<historyPurchase>> fetchPurchase(String accountID) async {
-  final baseurl = Uri.parse('${API().baseUrl}/historyPurchase'); // Sửa đường dẫn URL
-  List<historyPurchase> lstPurchase = [];
-  try {
-    final res = await http.get(baseurl);
+    final baseurl =
+        Uri.parse('${API().baseUrl}/historyPurchase'); // Sửa đường dẫn URL
+    List<historyPurchase> lstPurchase = [];
+    try {
+      final res = await http.get(baseurl);
 
-    if (res.statusCode == 200) {
-      lstPurchase = lstHistory(res.body);
-      print(lstPurchase[0].idAccount);
-    } else {
-      print("fail: ${res.statusCode}");
+      if (res.statusCode == 200) {
+        lstPurchase = lstHistory(res.body);
+        print(lstPurchase[0].idAccount);
+      } else {
+        print("fail: ${res.statusCode}");
+      }
+    } catch (e) {
+      print("Error: $e"); // Xử lý các lỗi xảy ra trong quá trình gửi yêu cầu
     }
-  } catch (e) {
-    print("Error: $e"); // Xử lý các lỗi xảy ra trong quá trình gửi yêu cầu
+    return lstPurchase;
   }
-  return lstPurchase;
-}
 
-List<historyPurchase> lstHistory(String respondbody) {
-  final parsed = json.decode(respondbody).cast<Map<String, dynamic>>();
-  return parsed
-      .map<historyPurchase>((json) => historyPurchase(
-            nameService: json['nameService'],
-            price: json['price'],
-            date: DateTime.parse(json['date']), // Chuyển đổi sang kiểu DateTime
-            des: json['des'],
-            idAccount: json['idAccount'],
-            id: json['id'],
-          ))
-      .toList();
-}
-
+  List<historyPurchase> lstHistory(String respondbody) {
+    final parsed = json.decode(respondbody).cast<Map<String, dynamic>>();
+    return parsed
+        .map<historyPurchase>((json) => historyPurchase(
+              nameService: json['nameService'],
+              price: json['price'],
+              date:
+                  DateTime.parse(json['date']), // Chuyển đổi sang kiểu DateTime
+              des: json['des'],
+              idAccount: json['idAccount'],
+              id: json['id'],
+            ))
+        .toList();
+  }
 
   Future<List<Movies>> fetchdataAll() async {
     final baseurl =
@@ -162,4 +165,16 @@ List<historyPurchase> lstHistory(String respondbody) {
     }
     return movies;
   }
+
+  // Future<List<Favorite>> addFavorite(Movies mov) async {
+  //   try {
+  //     final baseurl = Uri.parse('${(API().baseUrl)}Favorite');
+  //     Movies mov;
+  //     final res = await http.post(
+  //       baseurl,
+  //       headers: {'content-type': 'application/json'},
+  //       body: jsonEncode(mov),
+  //     );
+  //   } catch (ex) {}
+  // }
 }
