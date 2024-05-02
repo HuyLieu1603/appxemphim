@@ -60,7 +60,8 @@ class APIResponsitory {
           .map<History>((json) => History(
               idMovie: json['idMovie'],
               idAccount: json['idAccount'],
-              date: json['date'],
+              date: DateTime.parse(json['date']),
+              img: json['img'],
               id: json['id']))
           .toList();
     }
@@ -72,37 +73,38 @@ class APIResponsitory {
   }
 
   Future<List<historyPurchase>> fetchPurchase(String accountID) async {
-  final baseurl = Uri.parse('${API().baseUrl}/historyPurchase'); // Sửa đường dẫn URL
-  List<historyPurchase> lstPurchase = [];
-  try {
-    final res = await http.get(baseurl);
+    final baseurl =
+        Uri.parse('${API().baseUrl}/historyPurchase'); // Sửa đường dẫn URL
+    List<historyPurchase> lstPurchase = [];
+    try {
+      final res = await http.get(baseurl);
 
-    if (res.statusCode == 200) {
-      lstPurchase = lstHistory(res.body);
-      print(lstPurchase[0].idAccount);
-    } else {
-      print("fail: ${res.statusCode}");
+      if (res.statusCode == 200) {
+        lstPurchase = lstHistory(res.body);
+        print(lstPurchase[0].idAccount);
+      } else {
+        print("fail: ${res.statusCode}");
+      }
+    } catch (e) {
+      print("Error: $e"); // Xử lý các lỗi xảy ra trong quá trình gửi yêu cầu
     }
-  } catch (e) {
-    print("Error: $e"); // Xử lý các lỗi xảy ra trong quá trình gửi yêu cầu
+    return lstPurchase;
   }
-  return lstPurchase;
-}
 
-List<historyPurchase> lstHistory(String respondbody) {
-  final parsed = json.decode(respondbody).cast<Map<String, dynamic>>();
-  return parsed
-      .map<historyPurchase>((json) => historyPurchase(
-            nameService: json['nameService'],
-            price: json['price'],
-            date: DateTime.parse(json['date']), // Chuyển đổi sang kiểu DateTime
-            des: json['des'],
-            idAccount: json['idAccount'],
-            id: json['id'],
-          ))
-      .toList();
-}
-
+  List<historyPurchase> lstHistory(String respondbody) {
+    final parsed = json.decode(respondbody).cast<Map<String, dynamic>>();
+    return parsed
+        .map<historyPurchase>((json) => historyPurchase(
+              nameService: json['nameService'],
+              price: json['price'],
+              date:
+                  DateTime.parse(json['date']), // Chuyển đổi sang kiểu DateTime
+              des: json['des'],
+              idAccount: json['idAccount'],
+              id: json['id'],
+            ))
+        .toList();
+  }
 
   Future<List<Movies>> fetchdataAll() async {
     final baseurl =
@@ -167,7 +169,6 @@ List<historyPurchase> lstHistory(String respondbody) {
     return movies;
   }
 
-
   ///get data by Type///
   bool isComedyPresent(List<dynamic> types) {
     return types.any((type) => type['nametype'] == 'comedy');
@@ -195,12 +196,10 @@ List<historyPurchase> lstHistory(String respondbody) {
     }
 
     if (reponse.statusCode == 200) {
-     
       for (var item in parseAccounts(reponse.body)) {
         Object? type = item.type;
-        
+
         if (type != null) {
-        
           for (var items in type as List<dynamic>) {
             if (items['nametype'] == name.toLowerCase()) {
               movies.add(item);
@@ -213,9 +212,9 @@ List<historyPurchase> lstHistory(String respondbody) {
     return movies;
   }
 
-    Future<List<String>> fetchdataCategoryAll() async {
-    final baseurl =
-        Uri.parse('https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Category');
+  Future<List<String>> fetchdataCategoryAll() async {
+    final baseurl = Uri.parse(
+        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Category');
     final reponse = await http.get(baseurl);
     List<Categorys> items = [];
     List<String> itemString = [];
@@ -225,7 +224,6 @@ List<historyPurchase> lstHistory(String respondbody) {
           .map<Categorys>((json) => Categorys(
                 nametype: json['nameCate'],
                 id: json['id'],
-
               ))
           .toList();
     }
@@ -233,13 +231,43 @@ List<historyPurchase> lstHistory(String respondbody) {
     if (reponse.statusCode == 200) {
       print("allcategory");
       items = parseAccounts(reponse.body);
-      for(var a in items){
+      for (var a in items) {
         itemString.add(a.nametype.toString());
       }
-    }
-    else{
+    } else {
       print("allcategory fail");
     }
     return itemString;
   }
+
+  // Future<List<Movies>> fetchMoviesByHistoryId(String idMovie) async {
+  //   final baseurl = Uri.parse(
+  //       '${(API().baseUrl)}movie?id=$idMovie'); // Xây dựng URL yêu cầu
+  //   List<Movies> movies = [];
+  //   final res = await http.get(baseurl);
+
+  //   if (res.statusCode == 200) {
+  //     movies = parseMovies(res.body); // Xử lý dữ liệu phản hồi
+  //   }
+  //   return movies;
+  // }
+
+  // List<Movies> parseMovies(String responseBody) {
+  //   final parsed =
+  //       json.decode(responseBody); // Chuyển đổi phản hồi JSON thành Map
+  //   return List<Movies>.from(
+  //     parsed.map(
+  //       (json) => Movies(
+  //         id: json['id'],
+  //         name: json['name'],
+  //         img: json['img'],
+  //         type: json['type'],
+  //         des: json['des'],
+  //         release: json['release'],
+  //         time: json['time'],
+  //         category: json['category'],
+  //       ),
+  //     ),
+  //   );
+  // }
 }

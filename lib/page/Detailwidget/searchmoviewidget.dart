@@ -81,7 +81,7 @@ class _SearchmoviewidgetState extends State<Searchmoviewidget> {
                                       });
                                     },
                                     decoration: const InputDecoration(
-                                      hintText: 'Search game, show...',
+                                      hintText: 'Tìm kiếm...',
                                       hintStyle: TextStyle(
                                           color: Colors.white, fontSize: 20),
                                       alignLabelWithHint: true,
@@ -138,8 +138,7 @@ class _SearchmoviewidgetState extends State<Searchmoviewidget> {
                                 context,
                                 MaterialPageRoute(
                                     builder: ((context) => DetailMovies(
-                                          objMov: searchResults[index]
-                                        ))));
+                                        objMov: searchResults[index]))));
                             // Xử lý khi người dùng chọn một phim từ danh sách
                           },
                         );

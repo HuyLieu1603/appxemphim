@@ -23,14 +23,11 @@ class Menumoviewidget extends StatefulWidget {
 }
 
 class _MenumoviewidgetState extends State<Menumoviewidget> {
-
-
   List<String> CategoryList = [];
   Future<String> loadCategoryList() async {
     CategoryList = await APIResponsitory().fetchdataCategoryAll();
     return '';
   }
-
 
   String? selectedValue;
   List<Movies> lsMovies = [];
@@ -140,7 +137,6 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
               return Center(
                   child: ListView(
                 children: [
-                  
                   menuTopBar(context),
                   OnlyHuflix(context),
                   AnimeSeries(context),
@@ -160,7 +156,6 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
   }
 
   Widget widget_movie(Movies item, BuildContext context) {
-   
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -217,7 +212,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
         children: [
           const Text(
             //chi muc
-            'Only available on Huflix',
+            'Chỉ có ở Huflix',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
@@ -298,93 +293,92 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
           const SizedBox(
             width: 10,
           ),
-          FutureBuilder(future: loadCategoryList(), builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-             
-              return  Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                style: BorderStyle.solid,
-                width: 0.8,
-                color: Colors.white,
-              ),
-              borderRadius: BorderRadius.circular(19),
-            ),
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton2<String>(
-                isExpanded: true,
-                hint: const Text(
-                  'Category',
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-                items: CategoryList
-                    .map((String item) => DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                            overflow: TextOverflow.ellipsis,
+          FutureBuilder(
+              future: loadCategoryList(),
+              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        style: BorderStyle.solid,
+                        width: 0.8,
+                        color: Colors.white,
+                      ),
+                      borderRadius: BorderRadius.circular(19),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton2<String>(
+                        isExpanded: true,
+                        hint: const Text(
+                          'Thể loại',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                        items: CategoryList.map(
+                            (String item) => DropdownMenuItem<String>(
+                                  value: item,
+                                  child: Text(
+                                    item,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                )).toList(),
+                        value: selectedValue,
+                        onChanged: (value) {
+                          print(value);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: ((context) => MovieByCate(
+                                        category_object: value.toString(),
+                                      ))));
+                          //setState(() {});
+                        },
+                        buttonStyleData: const ButtonStyleData(
+                          height: 40,
+                          width: 120,
+                          padding: EdgeInsets.only(left: 14, right: 14),
+                          elevation: 2,
+                        ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(
+                            Icons.arrow_drop_down_outlined,
                           ),
-                        ))
-                    .toList(),
-                value: selectedValue,
-                onChanged: (value) {
-                  print(value);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: ((context) => MovieByCate (
-                                category_object: value.toString(),
-                              ))));
-                  //setState(() {});
-                },
-                buttonStyleData: const ButtonStyleData(
-                  height: 40,
-                  width: 120,
-                  padding: EdgeInsets.only(left: 14, right: 14),
-                  elevation: 2,
-                ),
-                iconStyleData: const IconStyleData(
-                  icon: Icon(
-                    Icons.arrow_drop_down_outlined,
-                  ),
-                  iconSize: 24,
-                  iconEnabledColor: Colors.white,
-                  iconDisabledColor: Colors.grey,
-                ),
-                dropdownStyleData: DropdownStyleData(
-                  maxHeight: 200,
-                  width: 180,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(14),
-                    color: Colors.black,
-                  ),
-                  offset: const Offset(-20, 0),
-                  scrollbarTheme: ScrollbarThemeData(
-                    radius: const Radius.circular(40),
-                    thickness: MaterialStateProperty.all(6),
-                    thumbVisibility: MaterialStateProperty.all(true),
-                  ),
-                ),
-                menuItemStyleData: const MenuItemStyleData(
-                  height: 40,
-                  padding: EdgeInsets.only(left: 14, right: 14),
-                ),
-              ),
-            ),
-          );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          }),
-         
+                          iconSize: 24,
+                          iconEnabledColor: Colors.white,
+                          iconDisabledColor: Colors.grey,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          maxHeight: 200,
+                          width: 180,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(14),
+                            color: Colors.black,
+                          ),
+                          offset: const Offset(-20, 0),
+                          scrollbarTheme: ScrollbarThemeData(
+                            radius: const Radius.circular(40),
+                            thickness: MaterialStateProperty.all(6),
+                            thumbVisibility: MaterialStateProperty.all(true),
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          height: 40,
+                          padding: EdgeInsets.only(left: 14, right: 14),
+                        ),
+                      ),
+                    ),
+                  );
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              }),
         ],
       ),
     );
@@ -400,7 +394,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
         children: [
           const Text(
             //chi muc
-            'Anime Series',
+            'Anime ',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
@@ -436,7 +430,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
         children: [
           const Text(
             //chi muc
-            'New on Huflix',
+            'Phim mới ra mắt',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
@@ -473,7 +467,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
         children: [
           const Text(
             //chi muc
-            'Cartoon',
+            'Phim hoạt hình',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
@@ -512,7 +506,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
         children: [
           const Text(
             //chi muc
-            'Dramatic movie',
+            'Kịch tính',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
@@ -549,7 +543,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
         children: [
           const Text(
             //chi muc
-            'American adventure blockbuster',
+            'Bom tấn, phiêu lưu',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
