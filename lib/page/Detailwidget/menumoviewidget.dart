@@ -212,7 +212,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
         children: [
           const Text(
             //chi muc
-            'Chỉ có ở Huflix',
+            'Chỉ có trên Huflix',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
@@ -394,7 +394,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
         children: [
           const Text(
             //chi muc
-            'Anime ',
+            'Chuyên mục Anime',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
@@ -430,7 +430,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
         children: [
           const Text(
             //chi muc
-            'Phim mới ra mắt',
+            'Mới trên Huflix',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
@@ -506,6 +506,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
         children: [
           const Text(
             //chi muc
+
             'Kịch tính',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
@@ -543,7 +544,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
         children: [
           const Text(
             //chi muc
-            'Bom tấn, phiêu lưu',
+            'Bom tấn phiêu lưu Mỹ',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),

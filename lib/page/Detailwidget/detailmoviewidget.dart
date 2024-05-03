@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings, avoid_unnecessary_containers, non_constant_identifier_names
 
 // import 'package:flutter/cupertino.dart';
+import 'package:appxemphim/data/API/api.dart';
+import 'package:appxemphim/page/viewmovie/viewmovie.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/widgets.dart';
 import '../../config/const.dart';
@@ -25,8 +27,15 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
 
   late Future<String> _loadcurrentMovies;
   Future<String> loadCurrent(String movId) async {
+    loadlink(widget.objMov.id!);
     detailMovies =
         await ReadDataMovies().loadDataMoviesbyId(movId) as List<Movies>;
+    return '';
+  }
+
+  String links = "";
+  Future<String> loadlink(String movId) async {
+    links = await APIResponsitory().fetchdataMoviesLink(movId);
     return '';
   }
 
@@ -178,7 +187,22 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                       height: 50,
                                       padding: const EdgeInsets.all(1),
                                       child: ElevatedButton(
-                                        onPressed: () => {},
+                                        onPressed: () => {
+                                          loadlink(widget.objMov.id!),
+                                          
+                                          print(links),
+
+                                          
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  VideoDetails(
+                                                linkMov: links,
+                                              ),
+                                            ),
+                                          )
+                                        },
                                         style: ElevatedButton.styleFrom(
                                           foregroundColor: Colors.white,
                                           backgroundColor: const Color.fromARGB(
