@@ -4,7 +4,7 @@ import 'package:appxemphim/page/Detailwidget/menumoviewidget.dart';
 import 'package:appxemphim/page/Detailwidget/searchmoviewidget.dart';
 import 'package:appxemphim/page/history/Movie/historyMovie.dart';
 import 'package:appxemphim/page/logo.dart';
-import 'package:appxemphim/page/optionalaccount.dart';
+import 'package:appxemphim/page/user/optionalaccount.dart';
 import 'package:appxemphim/page/setting.dart';
 import 'package:flutter/material.dart';
 import '../config/const.dart';

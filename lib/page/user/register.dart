@@ -1,4 +1,4 @@
-import 'package:appxemphim/page/registers.dart';
+import 'package:appxemphim/page/user/registers.dart';
 import 'package:flutter/material.dart';
 
 class RegisterWidget extends StatefulWidget {
