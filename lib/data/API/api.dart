@@ -1,6 +1,8 @@
 import 'package:appxemphim/data/model/category.dart';
 import 'package:appxemphim/data/model/history/historyPurchase.dart';
 import 'package:appxemphim/data/model/movielinks.dart';
+import 'package:appxemphim/data/model/bank.dart';
+import '../model/history/historyMovie.dart';
 import 'package:appxemphim/data/model/movies.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -269,5 +271,26 @@ class APIResponsitory {
       }
     } else {}
     return results;
+
+  }
+
+  Future<List<Bank>> getBank(String name, String img) async {
+    final uri = Uri.parse('${(api.baseUrl)}Bank');
+    final res = await http.get(uri);
+    List<Bank> banks = [];
+    List<Bank> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<Bank>((json) =>
+              Bank(id: json['id'], name: json['name'], img: json['img']))
+          .toList();
+    }
+
+    if (res.statusCode == 200) {
+      print('ok');
+      banks = parseAccounts(res.body);
+    }
+    return banks;
+
   }
 }

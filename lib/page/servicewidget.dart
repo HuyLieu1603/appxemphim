@@ -219,7 +219,10 @@ class _ServiceWidgetState extends State<ServiceWidget> {
                           minimumSize: (const Size(317, 46))),
                       child: const Text(
                         "Tiếp theo",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                     const SizedBox(
