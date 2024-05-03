@@ -201,7 +201,10 @@ class APIResponsitory {
 
         if (type != null) {
           for (var items in type as List<dynamic>) {
-            if (items['nametype'] == name.toLowerCase()) {
+            final decodedString = utf8.decode(items['nametype'].toString().codeUnits);
+            print(decodedString);
+          
+            if (decodedString == name.toLowerCase().trim()) {
               movies.add(item);
             }
           }
@@ -271,7 +274,6 @@ class APIResponsitory {
       }
     } else {}
     return results;
-
   }
 
   Future<List<Bank>> getBank(String name, String img) async {
@@ -291,6 +293,5 @@ class APIResponsitory {
       banks = parseAccounts(res.body);
     }
     return banks;
-
   }
 }
