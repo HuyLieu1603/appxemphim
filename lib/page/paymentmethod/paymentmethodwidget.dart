@@ -1,12 +1,59 @@
 // ignore_for_file: unused_import
 
+import 'dart:convert';
+import 'package:appxemphim/data/model/register.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import '../../page/banklist/banklistwidget.dart';
 import '../../page/onlinepayment/onlinepaymentwidget.dart';
 import '../../config/const.dart';
 
 class PaymentMethodWidget extends StatelessWidget {
-  const PaymentMethodWidget({super.key});
+  final String selectedServiceIds;
+  final String? email;
+  final String? password;
+  const PaymentMethodWidget({
+    Key? key,
+    required this.selectedServiceIds,
+    this.email,
+    this.password,
+  }) : super(key: key);
+
+  void _onCreateAccountPressed() {
+    if (email != null && password != null) {
+      createAccount(email!, password!, selectedServiceIds);
+    }
+  }
+
+  Future<void> createAccount(
+      String email, String password, String selectedServiceIds) async {
+    var url = Uri.parse(
+        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/account'); // Replace with the actual URL of the mockapi
+
+    var signup = Signup(
+      password: password,
+      serviceid: selectedServiceIds,
+      username: email,
+    );
+
+    var body = json.encode(signup.toJson());
+
+    var response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: body,
+    );
+
+    if (response.statusCode == 200) {
+      // Handle successful account creation
+      print('Account created successfully');
+    } else {
+      // Handle errors
+      print('Error: ${response.statusCode}');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +98,7 @@ class PaymentMethodWidget extends StatelessWidget {
                     ),
                     OutlinedButton(
                       onPressed: () {
+                        createAccount(email!, password!, selectedServiceIds);
                         Navigator.push(
                           context,
                           MaterialPageRoute(

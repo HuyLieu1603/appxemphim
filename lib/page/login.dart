@@ -239,7 +239,7 @@ class _LoginState extends State<Login> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const RegisterWidget(),
+                                builder: (context) => RegisterWidget(),
                               ), // Thay SignUpScreen() bằng màn hình đăng ký người dùng của bạn
                             );
                           },
