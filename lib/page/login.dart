@@ -94,6 +94,7 @@ class _LoginState extends State<Login> {
       );
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -115,7 +116,7 @@ class _LoginState extends State<Login> {
                       color: Colors.white,
                     ),
                     onPressed: () {
-                      // Mốt làm lệnh cho nó truyển trang
+                      Navigator.pop(context);
                     },
                   ),
                 ),
@@ -151,14 +152,14 @@ class _LoginState extends State<Login> {
                       child: TextFormField(
                         controller: _usernameController,
                         decoration: const InputDecoration(
-                          labelText: 'Email or phone number',
+                          labelText: 'Tài khoản',
                           border: InputBorder.none,
                           contentPadding:
                               EdgeInsets.symmetric(horizontal: 30.0),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter a email or phone number';
+                            return 'Mời nhập tài khoản';
                           }
                           return null;
                         },
@@ -174,7 +175,7 @@ class _LoginState extends State<Login> {
                       child: TextFormField(
                         controller: _passwordController,
                         decoration: const InputDecoration(
-                          labelText: 'Password',
+                          labelText: 'Mật khẩu',
                           border: InputBorder.none,
                           contentPadding:
                               EdgeInsets.symmetric(horizontal: 30.0),
@@ -182,7 +183,7 @@ class _LoginState extends State<Login> {
                         obscureText: true,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter a password';
+                            return 'Mời nhập mật khẩu';
                           }
                           return null;
                         },
@@ -254,27 +255,27 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                     const SizedBox(height: 25),
-                    Container(
-                      child: const Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Sign in is protected by Google reCAPTCHA to ensure you’re not a bot.',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Arial',
-                              fontSize: 13),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      child: const Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'learn more',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
+                    // Container(
+                    //   child: const Align(
+                    //     alignment: Alignment.center,
+                    //     child: Text(
+                    //       'Sign in is protected by Google reCAPTCHA to ensure you’re not a bot.',
+                    //       style: TextStyle(
+                    //           color: Colors.white,
+                    //           fontFamily: 'Arial',
+                    //           fontSize: 13),
+                    //     ),
+                    //   ),
+                    // ),
+                    // Container(
+                    //   child: const Align(
+                    //     alignment: Alignment.center,
+                    //     child: Text(
+                    //       'learn more',
+                    //       style: TextStyle(color: Colors.white),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

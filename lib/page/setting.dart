@@ -184,7 +184,7 @@ class _settingWidgetState extends State<settingWidget> {
                                       width:
                                           10), // Khoảng cách giữa icon và text
                                   Text(
-                                    'Danh sách của tôi',
+                                    'Danh sách yêu thích',
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       color: Colors.white,
