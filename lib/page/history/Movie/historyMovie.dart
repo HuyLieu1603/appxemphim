@@ -39,7 +39,10 @@ class _historyMovieState extends State<historyMovie> {
           }
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(
-              child: Text("Không có dữ liệu"),
+              child: Text(
+                "Không có dữ liệu",
+                style: TextStyle(color: Colors.white),
+              ),
             );
           }
           return Padding(
@@ -52,8 +55,8 @@ class _historyMovieState extends State<historyMovie> {
               child: ListView.builder(
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
-                  final itemProduct = snapshot.data![index];
-                  return historyWidget(itemProduct, context);
+                  final history = snapshot.data![index];
+                  return historyWidget(history, context);
                 },
               ),
             ),

@@ -56,13 +56,15 @@ class APIResponsitory {
           .map<History>((json) => History(
               idMovie: json['idMovie'],
               idAccount: json['idAccount'],
-              date: json['date'],
+              date: DateTime.parse(json['date']),
+              img: json['img'],
               id: json['id']))
           .toList();
     }
 
     if (res.statusCode == 200) {
       Histories = lstHistory(res.body);
+      print("ok");
     }
     return Histories;
   }
