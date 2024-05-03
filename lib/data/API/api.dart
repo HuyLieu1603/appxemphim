@@ -3,6 +3,7 @@ import 'package:appxemphim/data/model/category.dart';
 import 'package:appxemphim/data/model/history/historyPurchase.dart';
 import 'package:appxemphim/data/model/movielinks.dart';
 import 'package:appxemphim/data/model/bank.dart';
+import '../model/history/historyMovie.dart';
 import 'package:appxemphim/data/model/movies.dart';
 import 'package:http/http.dart' as http;
 import 'package:appxemphim/data/model/account.dart';
@@ -242,7 +243,7 @@ class APIResponsitory {
             "//Movies_link");
     final reponse = await http.get(baseurl);
     List<MovieLink> take = [];
-    String results = "" ;
+    String results = "";
     List<MovieLink> parseAccounts(String responseBody) {
       final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
       return parsed
@@ -257,15 +258,14 @@ class APIResponsitory {
 
     if (reponse.statusCode == 200) {
       take = parseAccounts(reponse.body);
-      results = take[0].link as String; 
-      if(results == ""){
+      results = take[0].link as String;
+      if (results == "") {
         results = "https://www.youtube.com/watch?v=wr33qdjMV9c";
       }
-      
-    } else {
-      
-    }
+    } else {}
     return results;
+  }
+
   Future<List<Bank>> getBank(String name, String img) async {
     final uri = Uri.parse('${(api.baseUrl)}Bank');
     final res = await http.get(uri);

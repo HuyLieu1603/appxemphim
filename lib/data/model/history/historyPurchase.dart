@@ -2,12 +2,18 @@
 class historyPurchase {
   String? id;
   String? nameService;
-  int? price;
+  String? price;
   DateTime? date;
   String? des;
   String? idAccount;
 
-  historyPurchase({this.id, this.nameService, this.price, this.date, this.des,this.idAccount});
+  historyPurchase(
+      {this.id,
+      this.nameService,
+      this.price,
+      this.date,
+      this.des,
+      this.idAccount});
 
   historyPurchase.fromJson(Map<String, dynamic> json) {
     nameService = json['nameService'];
