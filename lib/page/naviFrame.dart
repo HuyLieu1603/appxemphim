@@ -4,7 +4,7 @@ import 'package:appxemphim/page/Detailwidget/menumoviewidget.dart';
 import 'package:appxemphim/page/Detailwidget/searchmoviewidget.dart';
 import 'package:appxemphim/page/history/Movie/historyMovie.dart';
 import 'package:appxemphim/page/logo.dart';
-import 'package:appxemphim/page/optionalaccount.dart';
+import 'package:appxemphim/page/user/optionalaccount.dart';
 import 'package:appxemphim/page/setting.dart';
 import 'package:flutter/material.dart';
 import '../config/const.dart';
@@ -38,6 +38,7 @@ class _NaviFrameState extends State<NaviFrame> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        //backgroundColor: Colors.black,
         appBar: AppBar(
           title: const Text(
             "Dành cho bạn",
@@ -89,6 +90,12 @@ class _NaviFrameState extends State<NaviFrame> {
           child: _WidgetOptions.elementAt(_selectIndex),
         ),
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.black,
+          currentIndex: _selectIndex,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.grey,
+          type: BottomNavigationBarType.shifting,
+          onTap: _onItemTapped,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               backgroundColor: Colors.black,
@@ -123,11 +130,7 @@ class _NaviFrameState extends State<NaviFrame> {
               label: 'Menu',
             ),
           ],
-          currentIndex: _selectIndex,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.grey,
-          backgroundColor: Colors.black,
-          onTap: _onItemTapped,
+          
         ),
       ),
     );

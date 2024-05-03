@@ -1,16 +1,14 @@
 import 'dart:convert';
-import 'dart:math';
-import 'package:appxemphim/data/model/Favorite/favoriteMovie.dart';
 import 'package:appxemphim/data/model/category.dart';
 import 'package:appxemphim/data/model/history/historyPurchase.dart';
+import 'package:appxemphim/data/model/movielinks.dart';
+import 'package:appxemphim/data/model/bank.dart';
 import 'package:appxemphim/data/model/movies.dart';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:appxemphim/data/model/account.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/user.dart';
-import '../model/history/historyMovie.dart';
 
 class API {
   final Dio _dio = Dio();
@@ -23,7 +21,6 @@ class APIResponsitory {
 
   Future<bool> fetchdata(String name, String pass) async {
     final baseurl = Uri.parse('${(API().baseUrl)}user');
-    //String baseurl = "https://6629a5d367df268010a13cf2.mockapi.io/api/v1";
     bool result = false;
     final reponse = await http.get(baseurl);
     List<Account> parseAccounts(String responseBody) {
@@ -42,8 +39,6 @@ class APIResponsitory {
       for (var item in accounts) {
         if (item.name == name && item.pass == pass) {
           result = true;
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString('name', name);
         }
       }
     }
@@ -60,8 +55,7 @@ class APIResponsitory {
           .map<History>((json) => History(
               idMovie: json['idMovie'],
               idAccount: json['idAccount'],
-              date: DateTime.parse(json['date']),
-              img: json['img'],
+              date: json['date'],
               id: json['id']))
           .toList();
     }
@@ -240,34 +234,54 @@ class APIResponsitory {
     return itemString;
   }
 
-  // Future<List<Movies>> fetchMoviesByHistoryId(String idMovie) async {
-  //   final baseurl = Uri.parse(
-  //       '${(API().baseUrl)}movie?id=$idMovie'); // Xây dựng URL yêu cầu
-  //   List<Movies> movies = [];
-  //   final res = await http.get(baseurl);
+  //get video link
+  Future<String> fetchdataMoviesLink(String id) async {
+    final baseurl = Uri.parse(
+        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies/' +
+            id +
+            "//Movies_link");
+    final reponse = await http.get(baseurl);
+    List<MovieLink> take = [];
+    String results = "" ;
+    List<MovieLink> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<MovieLink>((json) => MovieLink(
+                link: json['link'],
+                idmovie: json['idmovie'],
+                id: json['id'],
+                movieId: json['movieId'],
+              ))
+          .toList();
+    }
 
-  //   if (res.statusCode == 200) {
-  //     movies = parseMovies(res.body); // Xử lý dữ liệu phản hồi
-  //   }
-  //   return movies;
-  // }
+    if (reponse.statusCode == 200) {
+      take = parseAccounts(reponse.body);
+      results = take[0].link as String; 
+      if(results == ""){
+        results = "https://www.youtube.com/watch?v=wr33qdjMV9c";
+      }
+      
+    } else {
+      
+    }
+    return results;
+  Future<List<Bank>> getBank(String name, String img) async {
+    final uri = Uri.parse('${(api.baseUrl)}Bank');
+    final res = await http.get(uri);
+    List<Bank> banks = [];
+    List<Bank> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<Bank>((json) =>
+              Bank(id: json['id'], name: json['name'], img: json['img']))
+          .toList();
+    }
 
-  // List<Movies> parseMovies(String responseBody) {
-  //   final parsed =
-  //       json.decode(responseBody); // Chuyển đổi phản hồi JSON thành Map
-  //   return List<Movies>.from(
-  //     parsed.map(
-  //       (json) => Movies(
-  //         id: json['id'],
-  //         name: json['name'],
-  //         img: json['img'],
-  //         type: json['type'],
-  //         des: json['des'],
-  //         release: json['release'],
-  //         time: json['time'],
-  //         category: json['category'],
-  //       ),
-  //     ),
-  //   );
-  // }
+    if (res.statusCode == 200) {
+      print('ok');
+      banks = parseAccounts(res.body);
+    }
+    return banks;
+  }
 }

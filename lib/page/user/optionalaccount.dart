@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:appxemphim/data/model/account.dart';
 import 'package:appxemphim/data/provider/accountprovider.dart';
 import 'package:intl/intl.dart';
-import '../config/const.dart';
-import '../data/provider/accountprovider.dart';
+import '../../config/const.dart';
+import '../../data/provider/accountprovider.dart';
 import 'package:flutter/widgets.dart';
 
 class OptionalAccount extends StatefulWidget {
