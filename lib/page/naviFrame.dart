@@ -4,7 +4,7 @@ import 'package:appxemphim/page/Detailwidget/menumoviewidget.dart';
 import 'package:appxemphim/page/Detailwidget/searchmoviewidget.dart';
 import 'package:appxemphim/page/history/Movie/historyMovie.dart';
 import 'package:appxemphim/page/logo.dart';
-import 'package:appxemphim/page/optionalaccount.dart';
+import 'package:appxemphim/page/user/optionalaccount.dart';
 import 'package:appxemphim/page/setting.dart';
 import 'package:flutter/material.dart';
 import '../config/const.dart';
@@ -41,8 +41,8 @@ class _NaviFrameState extends State<NaviFrame> {
         //backgroundColor: Colors.black,
         appBar: AppBar(
           title: const Text(
-            "For you",
-            style: TextStyle(color: Colors.white, fontSize: 30),
+            "Dành cho bạn",
+            style: TextStyle(color: Colors.white, fontSize: 23),
           ),
           leading: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -103,7 +103,7 @@ class _NaviFrameState extends State<NaviFrame> {
                 Icons.home,
                 size: 30,
               ),
-              label: 'Home',
+              label: 'Trang chủ',
             ),
             BottomNavigationBarItem(
               backgroundColor: Colors.black,
@@ -111,7 +111,7 @@ class _NaviFrameState extends State<NaviFrame> {
                 Icons.search,
                 size: 30,
               ),
-              label: 'Search',
+              label: 'Tìm kiếm',
             ),
             BottomNavigationBarItem(
               backgroundColor: Colors.black,
@@ -119,15 +119,15 @@ class _NaviFrameState extends State<NaviFrame> {
                 Icons.history,
                 size: 30,
               ),
-              label: 'History',
+              label: 'Lịch sử',
             ),
             BottomNavigationBarItem(
               backgroundColor: Colors.black,
               icon: Icon(
-                Icons.person,
+                Icons.menu,
                 size: 30,
               ),
-              label: 'Profile',
+              label: 'Menu',
             ),
           ],
           

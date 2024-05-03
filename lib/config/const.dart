@@ -5,9 +5,6 @@ import 'package:flutter/material.dart';
 var url_img = "assets/images/";
 const urlimgmovies = "assets/images/MovieList/";
 
-// ảnh ngân hàng
-var url_bank_img = "assets/images/bankimg/";
-
 
 // API Uri name core 
 
