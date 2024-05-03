@@ -3,14 +3,13 @@
 import 'package:appxemphim/page/servicewidget.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(const Registers());
-
 class Registers extends StatefulWidget {
-  const Registers({Key? key}) : super(key: key);
+  final String? Email;
 
+  Registers({Key? key, this.Email = ''})
+      : super(key: key ?? ValueKey('Registers'));
   @override
-  // ignore: library_private_types_in_public_api
-  _RegistersState createState() => _RegistersState();
+  State<Registers> createState() => _RegistersState();
 }
 
 class _RegistersState extends State<Registers> {
@@ -98,6 +97,7 @@ class _RegistersState extends State<Registers> {
                           contentPadding:
                               EdgeInsets.symmetric(horizontal: 30.0),
                         ),
+                        
                         validator: (value) => _validatePassword(value),
                       ),
                     ),
@@ -181,16 +181,18 @@ class _RegistersState extends State<Registers> {
                           alignment: Alignment.center,
                           child: ElevatedButton(
                             onPressed: () {
-                              //if (_formKey.currentState!.validate()) {
-                              // Hành động khi điều kiện thỏa mãn
-                              // Ví dụ: Chuyển đến trang tiếp theo
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const ServiceWidget(),
-                                ),
-                              );
-                              //}
+                              String? email = widget.Email;
+                              String? password = _passwordController.text;
+
+                              if (_formKey.currentState!.validate()) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ServiceWidget(
+                                        email: email, password: password),
+                                  ),
+                                );
+                              }
                             },
                             style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all(
@@ -234,9 +236,9 @@ class _RegistersState extends State<Registers> {
     if (password.isEmpty || passwordConfirmation!.isEmpty) {
       setState(() {
         _isPasswordEmpty = true;
-        _passwordErrorMessage = 'Không được để trống';
+        _passwordErrorMessage = '';
       });
-      return null;
+      return 'Không được để trống';
     }
 
     if (password != passwordConfirmation) {
@@ -244,7 +246,7 @@ class _RegistersState extends State<Registers> {
         _isPasswordEmpty = false;
         _passwordErrorMessage = 'Mật khẩu không trùng';
       });
-      return null;
+      return 'Mật khẩu không trùng';
     }
 
     setState(() {
@@ -257,27 +259,29 @@ class _RegistersState extends State<Registers> {
 
   String? _validateConfirmPassword(String passwordConfirmation) {
     final password = _passwordController.text;
-    final confirmPasssword = _confirmpasswordController.text;
-    if (confirmPasssword.isEmpty || confirmPasssword!.isEmpty) {
+    final confirmPassword = _confirmpasswordController.text;
+
+    if (confirmPassword.isEmpty || confirmPassword.isEmpty) {
       setState(() {
         _isConfirmPasswordEmpty = true;
-        _confirmPasswordMessage = 'Không được để trống ';
+        _confirmPasswordMessage = '';
       });
-      return null;
+      return 'Không được để trống';
     }
 
-    if (confirmPasssword != password) {
+    if (confirmPassword != password) {
       setState(() {
-        _isConfirmPasswordEmpty = true; // Thay đổi tại đây
+        _isConfirmPasswordEmpty = true;
         _confirmPasswordMessage = 'Mật khẩu không trùng';
       });
-      return null;
+      return 'Mật khẩu không trùng';
     }
 
     setState(() {
       _isConfirmPasswordEmpty = false;
       _confirmPasswordMessage = '';
     });
+
     return null;
   }
 }
