@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:appxemphim/data/model/category.dart';
 import 'package:appxemphim/data/model/history/historyPurchase.dart';
-import 'package:appxemphim/data/model/movielinks.dart';
+=========
+import 'package:appxemphim/data/model/category.dart';
+>>>>>>>>> Temporary merge branch 2
 import 'package:appxemphim/data/model/movies.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -49,6 +51,7 @@ class APIResponsitory {
     return result;
   }
 
+<<<<<<<<< Temporary merge branch 1
   Future<List<History>> fetchHistory(String accountID) async {
     final baseurl = Uri.parse('${(API().baseUrl)}History');
     List<History> Histories = [];
@@ -104,6 +107,7 @@ class APIResponsitory {
         .toList();
   }
 
+
   Future<List<Movies>> fetchdataAll() async {
     final baseurl =
         Uri.parse('https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies');
@@ -131,6 +135,35 @@ class APIResponsitory {
     return accounts;
   }
 
+=========
+  Future<List<Movies>> fetchdataAll() async {
+    final baseurl =
+        Uri.parse('https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies');
+    final reponse = await http.get(baseurl);
+    List<Movies> accounts = [];
+    List<Movies> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<Movies>((json) => Movies(
+                name: json['name'],
+                img: json['img'],
+                type: json['type'],
+                des: json['des'],
+                release: json['release'],
+                time: json['time'],
+                category: json['category'],
+                id: json['id'],
+              ))
+          .toList();
+    }
+
+    if (reponse.statusCode == 200) {
+      accounts = parseAccounts(reponse.body);
+    }
+    return accounts;
+  }
+
+>>>>>>>>> Temporary merge branch 2
   ///get data by category///
   Future<List<Movies>> fetchdatabyCategory(
       String nametable, String naneCategory) async {
@@ -166,6 +199,8 @@ class APIResponsitory {
     }
     return movies;
   }
+<<<<<<<<< Temporary merge branch 1
+=========
 
   ///get data by Type///
   bool isComedyPresent(List<dynamic> types) {
@@ -237,38 +272,5 @@ class APIResponsitory {
     }
     return itemString;
   }
-
-  //get video link
-  Future<String> fetchdataMoviesLink(String id) async {
-    final baseurl = Uri.parse(
-        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies/' +
-            id +
-            "//Movies_link");
-    final reponse = await http.get(baseurl);
-    List<MovieLink> take = [];
-    String results = "" ;
-    List<MovieLink> parseAccounts(String responseBody) {
-      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-      return parsed
-          .map<MovieLink>((json) => MovieLink(
-                link: json['link'],
-                idmovie: json['idmovie'],
-                id: json['id'],
-                movieId: json['movieId'],
-              ))
-          .toList();
-    }
-
-    if (reponse.statusCode == 200) {
-      take = parseAccounts(reponse.body);
-      results = take[0].link as String; 
-      if(results == ""){
-        results = "https://www.youtube.com/watch?v=wr33qdjMV9c";
-      }
-      
-    } else {
-      
-    }
-    return results;
-  }
+>>>>>>>>> Temporary merge branch 2
 }
