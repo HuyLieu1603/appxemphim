@@ -4,13 +4,16 @@ class History {
   String? idMovie;
   String? idAccount;
   DateTime? date;
+  String? img;
 
-  History({this.id, this.idMovie, this.idAccount, this.date});
+  History({this.id, this.idMovie, this.idAccount, this.date, this.img});
 
   History.fromJson(Map<String, dynamic> json) {
     idMovie = json['idMovie'];
     idAccount = json['idAccount'];
-    date = json['date'];
+    date = DateTime.tryParse(json['date']);
+    img = json['img'];
+
     id = json['id'];
   }
 
@@ -19,6 +22,7 @@ class History {
     data['idMovie'] = idMovie;
     data['idAccount'] = idAccount;
     data['date'] = date;
+    data['img'] = img;
     data['id'] = id;
     return data;
   }

@@ -1,8 +1,8 @@
 // ignore_for_file: unused_import, camel_case_types, non_constant_identifier_names, sized_box_for_whitespace, avoid_unnecessary_containers, avoid_types_as_parameter_names
 
-import 'package:appxemphim/page/history/purchase/historyPurchase.dart';
-import 'package:appxemphim/page/login.dart';
+import 'package:appxemphim/page/user/login.dart';
 import 'package:appxemphim/page/naviFrame.dart';
+import 'package:appxemphim/page/history/purchase/historyPurchase.dart';
 import 'package:flutter/material.dart';
 import '../data/model/account.dart';
 import '../data/provider/accountprovider.dart';
@@ -41,7 +41,7 @@ class _settingWidgetState extends State<settingWidget> {
           //   },
           // ),
           title: const Text(
-            "Profiles & More",
+            "Cài đặt",
             style: TextStyle(
               color: Colors.white,
               fontSize: 20,
@@ -128,12 +128,12 @@ class _settingWidgetState extends State<settingWidget> {
                               alignment: Alignment.centerLeft,
                               child: Row(
                                 children: [
-                                  Icon(Icons.notifications), // Icon
+                                  Icon(Icons.history), // Icon
                                   SizedBox(
                                       width:
                                           10), // Khoảng cách giữa icon và text
                                   Text(
-                                    'Thông báo',
+                                    'Lịch sử thanh toán',
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       color: Colors.white,
