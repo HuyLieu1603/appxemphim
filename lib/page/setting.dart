@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import, camel_case_types, non_constant_identifier_names, sized_box_for_whitespace, avoid_unnecessary_containers, avoid_types_as_parameter_names
 
+import 'package:appxemphim/page/history/purchase/historyPurchase.dart';
 import 'package:appxemphim/page/login.dart';
 import 'package:appxemphim/page/naviFrame.dart';
 import 'package:flutter/material.dart';
@@ -99,7 +100,15 @@ class _settingWidgetState extends State<settingWidget> {
                       width: 360,
                       height: 46,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const historyPurchaseWidget(),
+                            ),
+                          );
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color.fromRGBO(67, 60, 60, 1),
                           padding: const EdgeInsets.symmetric(
