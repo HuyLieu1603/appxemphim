@@ -5,7 +5,7 @@ createDataList(int amount) {
   for (int i = 1; i <= amount; i++) {
     lstAccount.add(AccountModel(
       id: i,
-      name: "User $i",
+      userName: "User $i",
       img: "img_$i.png",
     ));
   }
