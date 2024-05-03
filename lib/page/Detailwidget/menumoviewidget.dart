@@ -217,7 +217,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
         children: [
           const Text(
             //chi muc
-            'Only available on Huflix',
+            'Chỉ có trên Huflix',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
@@ -400,7 +400,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
         children: [
           const Text(
             //chi muc
-            'Anime Series',
+            'Chuyên mục Anime',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
@@ -436,7 +436,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
         children: [
           const Text(
             //chi muc
-            'New on Huflix',
+            'Mới trên Huflix',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
@@ -473,7 +473,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
         children: [
           const Text(
             //chi muc
-            'Cartoon',
+            'Phim hoạt hình',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
@@ -512,7 +512,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
         children: [
           const Text(
             //chi muc
-            'Dramatic movie',
+            'Phim kịch tính',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
@@ -549,7 +549,7 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
         children: [
           const Text(
             //chi muc
-            'American adventure blockbuster',
+            'Bom tấn phiêu lưu Mỹ',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),

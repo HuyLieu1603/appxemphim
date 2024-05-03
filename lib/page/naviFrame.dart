@@ -38,6 +38,7 @@ class _NaviFrameState extends State<NaviFrame> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        //backgroundColor: Colors.black,
         appBar: AppBar(
           title: const Text(
             "For you",
@@ -89,8 +90,15 @@ class _NaviFrameState extends State<NaviFrame> {
           child: _WidgetOptions.elementAt(_selectIndex),
         ),
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.black,
+          currentIndex: _selectIndex,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.grey,
+          type: BottomNavigationBarType.shifting,
+          onTap: _onItemTapped,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
+              backgroundColor: Colors.black,
               icon: Icon(
                 Icons.home,
                 size: 30,
@@ -98,6 +106,7 @@ class _NaviFrameState extends State<NaviFrame> {
               label: 'Home',
             ),
             BottomNavigationBarItem(
+              backgroundColor: Colors.black,
               icon: Icon(
                 Icons.search,
                 size: 30,
@@ -105,6 +114,7 @@ class _NaviFrameState extends State<NaviFrame> {
               label: 'Search',
             ),
             BottomNavigationBarItem(
+              backgroundColor: Colors.black,
               icon: Icon(
                 Icons.history,
                 size: 30,
@@ -112,6 +122,7 @@ class _NaviFrameState extends State<NaviFrame> {
               label: 'History',
             ),
             BottomNavigationBarItem(
+              backgroundColor: Colors.black,
               icon: Icon(
                 Icons.person,
                 size: 30,
@@ -119,11 +130,7 @@ class _NaviFrameState extends State<NaviFrame> {
               label: 'Profile',
             ),
           ],
-          currentIndex: _selectIndex,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.grey,
-          backgroundColor: Colors.black,
-          onTap: _onItemTapped,
+          
         ),
       ),
     );

@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'package:appxemphim/data/model/category.dart';
+import 'package:appxemphim/data/model/history/historyPurchase.dart';
+import 'package:appxemphim/data/model/movielinks.dart';
 import 'package:appxemphim/data/model/movies.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -68,37 +71,38 @@ class APIResponsitory {
   }
 
   Future<List<historyPurchase>> fetchPurchase(String accountID) async {
-  final baseurl = Uri.parse('${API().baseUrl}/historyPurchase'); // Sửa đường dẫn URL
-  List<historyPurchase> lstPurchase = [];
-  try {
-    final res = await http.get(baseurl);
+    final baseurl =
+        Uri.parse('${API().baseUrl}/historyPurchase'); // Sửa đường dẫn URL
+    List<historyPurchase> lstPurchase = [];
+    try {
+      final res = await http.get(baseurl);
 
-    if (res.statusCode == 200) {
-      lstPurchase = lstHistory(res.body);
-      print(lstPurchase[0].idAccount);
-    } else {
-      print("fail: ${res.statusCode}");
+      if (res.statusCode == 200) {
+        lstPurchase = lstHistory(res.body);
+        print(lstPurchase[0].idAccount);
+      } else {
+        print("fail: ${res.statusCode}");
+      }
+    } catch (e) {
+      print("Error: $e"); // Xử lý các lỗi xảy ra trong quá trình gửi yêu cầu
     }
-  } catch (e) {
-    print("Error: $e"); // Xử lý các lỗi xảy ra trong quá trình gửi yêu cầu
+    return lstPurchase;
   }
-  return lstPurchase;
-}
 
-List<historyPurchase> lstHistory(String respondbody) {
-  final parsed = json.decode(respondbody).cast<Map<String, dynamic>>();
-  return parsed
-      .map<historyPurchase>((json) => historyPurchase(
-            nameService: json['nameService'],
-            price: json['price'],
-            date: DateTime.parse(json['date']), // Chuyển đổi sang kiểu DateTime
-            des: json['des'],
-            idAccount: json['idAccount'],
-            id: json['id'],
-          ))
-      .toList();
-}
-
+  List<historyPurchase> lstHistory(String respondbody) {
+    final parsed = json.decode(respondbody).cast<Map<String, dynamic>>();
+    return parsed
+        .map<historyPurchase>((json) => historyPurchase(
+              nameService: json['nameService'],
+              price: json['price'],
+              date:
+                  DateTime.parse(json['date']), // Chuyển đổi sang kiểu DateTime
+              des: json['des'],
+              idAccount: json['idAccount'],
+              id: json['id'],
+            ))
+        .toList();
+  }
 
   Future<List<Movies>> fetchdataAll() async {
     final baseurl =
@@ -126,41 +130,145 @@ List<historyPurchase> lstHistory(String respondbody) {
     }
     return accounts;
   }
-  return accounts ;
-}
-///get data by category///
-Future<List<Movies>> fetchdatabyCategory(String nametable,String naneCategory) async {
-  final baseurl = Uri.parse(
-      'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/'+nametable);
-  final reponse = await http.get(baseurl);
-  List<Movies> all = [];
-  List<Movies> movies = [];
-  List<Movies> parseAccounts(String responseBody) {
-    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-    return parsed
-        .map<Movies>((json) => Movies(
-              name: json['name'],
-              img: json['img'],
-              type: json['type'],
-              des: json['des'],
-              release: json['release'],
-              time: json['time'],
-              category: json['category'],
-              id: json['id'],
-            ))
-        .toList();
-  }
-  if (reponse.statusCode == 200) {
-    print('ok');
-    all = parseAccounts(reponse.body);
-    for(var item in all){
-      if(item.category == naneCategory.trim()){
-        movies.add(item);
+
+  ///get data by category///
+  Future<List<Movies>> fetchdatabyCategory(
+      String nametable, String naneCategory) async {
+    final baseurl = Uri.parse(
+        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/' + nametable);
+    final reponse = await http.get(baseurl);
+    List<Movies> all = [];
+    List<Movies> movies = [];
+    List<Movies> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<Movies>((json) => Movies(
+                name: json['name'],
+                img: json['img'],
+                type: json['type'],
+                des: json['des'],
+                release: json['release'],
+                time: json['time'],
+                category: json['category'],
+                id: json['id'],
+              ))
+          .toList();
+    }
+
+    if (reponse.statusCode == 200) {
+      print('ok');
+      all = parseAccounts(reponse.body);
+      for (var item in all) {
+        if (item.category == naneCategory.trim()) {
+          movies.add(item);
+        }
       }
     }
+    return movies;
   }
-  return movies ;
-}
 
+  ///get data by Type///
+  bool isComedyPresent(List<dynamic> types) {
+    return types.any((type) => type['nametype'] == 'comedy');
+  }
 
+  Future<List<Movies>> fetchdatabyType(String name) async {
+    final baseurl =
+        Uri.parse('https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies');
+    final reponse = await http.get(baseurl);
+    List<Movies> movies = [];
+    List<Movies> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<Movies>((json) => Movies(
+                name: json['name'],
+                img: json['img'],
+                type: json['type'],
+                des: json['des'],
+                release: json['release'],
+                time: json['time'],
+                category: json['category'],
+                id: json['id'],
+              ))
+          .toList();
+    }
+
+    if (reponse.statusCode == 200) {
+      for (var item in parseAccounts(reponse.body)) {
+        Object? type = item.type;
+
+        if (type != null) {
+          for (var items in type as List<dynamic>) {
+            if (items['nametype'] == name.toLowerCase()) {
+              movies.add(item);
+            }
+          }
+        }
+      }
+    }
+    //print(movies);
+    return movies;
+  }
+
+  Future<List<String>> fetchdataCategoryAll() async {
+    final baseurl = Uri.parse(
+        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Category');
+    final reponse = await http.get(baseurl);
+    List<Categorys> items = [];
+    List<String> itemString = [];
+    List<Categorys> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<Categorys>((json) => Categorys(
+                nametype: json['nameCate'],
+                id: json['id'],
+              ))
+          .toList();
+    }
+
+    if (reponse.statusCode == 200) {
+      print("allcategory");
+      items = parseAccounts(reponse.body);
+      for (var a in items) {
+        itemString.add(a.nametype.toString());
+      }
+    } else {
+      print("allcategory fail");
+    }
+    return itemString;
+  }
+
+  //get video link
+  Future<String> fetchdataMoviesLink(String id) async {
+    final baseurl = Uri.parse(
+        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies/' +
+            id +
+            "//Movies_link");
+    final reponse = await http.get(baseurl);
+    List<MovieLink> take = [];
+    String results = "" ;
+    List<MovieLink> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<MovieLink>((json) => MovieLink(
+                link: json['link'],
+                idmovie: json['idmovie'],
+                id: json['id'],
+                movieId: json['movieId'],
+              ))
+          .toList();
+    }
+
+    if (reponse.statusCode == 200) {
+      take = parseAccounts(reponse.body);
+      results = take[0].link as String; 
+      if(results == ""){
+        results = "https://www.youtube.com/watch?v=wr33qdjMV9c";
+      }
+      
+    } else {
+      
+    }
+    return results;
+  }
 }
