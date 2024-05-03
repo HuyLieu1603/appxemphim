@@ -76,16 +76,16 @@ class _historyMovieState extends State<historyMovie> {
             Container(
               child: Image.network(his.img.toString()),
               width: 100,
-              height: 100,
+              height: 150,
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Container(
               height: 100,
               alignment: Alignment.center,
               child: Text(
-                '${his.idMovie} \n Thời gian xem: \n ${his.date}',
+                'ID: ${his.idMovie}\nNgày xem: ${his.date?.hour ?? 'N/A'}:${his.date?.minute ?? 'N/A'} ${his.date?.day}/${his.date?.month}/${his.date?.year}',
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,

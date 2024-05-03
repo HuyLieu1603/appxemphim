@@ -33,6 +33,10 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
     return '';
   }
 
+  Future<Movies> addMovToHis(String movieID) async {
+    return await APIResponsitory().addMovToHistory(movieID);
+  }
+
   String links = "";
   Future<String> loadlink(String movId) async {
     links = await APIResponsitory().fetchdataMoviesLink(movId);
@@ -189,10 +193,8 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                       child: ElevatedButton(
                                         onPressed: () => {
                                           loadlink(widget.objMov.id!),
-                                          
+                                          addMovToHis(widget.objMov.id!),
                                           print(links),
-
-                                          
                                           Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(

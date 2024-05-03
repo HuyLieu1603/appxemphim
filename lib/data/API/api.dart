@@ -286,4 +286,57 @@ class APIResponsitory {
     }
     return banks;
   }
+
+  Future<Movies> fetchMovieById(String movieID) async {
+    final baseurl = Uri.parse(
+        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies{id}');
+    final reponse = await http.get(baseurl);
+    Movies movies = Movies();
+    Movies parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<Movies>((json) => Movies(
+                name: json['name'],
+                img: json['img'],
+                type: json['type'],
+                des: json['des'],
+                release: json['release'],
+                time: json['time'],
+                category: json['category'],
+                id: json['id'],
+              ))
+          .toList();
+    }
+
+    if (reponse.statusCode == 200) {
+      // for (var item in parseAccounts(reponse.body)) {
+      //   String? id = item.id;
+
+      //   if (id != null) {
+      //     for (var items in id as List<dynamic>) {
+      //       if (items['id'] == movieID.toLowerCase()) {
+      //         movies.add(item);
+      //       }
+      //     }
+      //   }
+      // }
+      String? id = parseAccounts(reponse.body).id;
+      if (id != null) {
+        movies = parseAccounts(reponse.body);
+      }
+    }
+    print(movies);
+    return movies;
+  }
+
+  Future<Movies> addMovToHistory(String movieID) async {
+    final uri = Uri.parse('${(api.baseUrl)}History');
+    final res = await http.post(uri);
+    Movies movies = Movies();
+    if (res.statusCode == 200) {
+      movies = await fetchMovieById(movieID);
+    }
+    print(movies);
+    return movies;
+  }
 }
