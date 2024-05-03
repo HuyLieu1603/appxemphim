@@ -1,14 +1,15 @@
 import 'package:appxemphim/data/model/category.dart';
 import 'package:appxemphim/data/model/history/historyPurchase.dart';
 import 'package:appxemphim/data/model/movielinks.dart';
-import 'package:appxemphim/data/model/bank.dart';
 import 'package:appxemphim/data/model/movies.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:appxemphim/data/model/account.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/user.dart';
 import '../model/history/historyMovie.dart';
+import 'dart:convert' show json, utf8;
 
 class API {
   final Dio _dio = Dio();
@@ -21,6 +22,7 @@ class APIResponsitory {
 
   Future<bool> fetchdata(String name, String pass) async {
     final baseurl = Uri.parse('${(API().baseUrl)}user');
+    //String baseurl = "https://6629a5d367df268010a13cf2.mockapi.io/api/v1";
     bool result = false;
     final reponse = await http.get(baseurl);
     List<Account> parseAccounts(String responseBody) {
@@ -39,6 +41,8 @@ class APIResponsitory {
       for (var item in accounts) {
         if (item.name == name && item.pass == pass) {
           result = true;
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('name', name);
         }
       }
     }
@@ -265,22 +269,5 @@ class APIResponsitory {
       }
     } else {}
     return results;
-  Future<List<Bank>> getBank(String name, String img) async {
-    final uri = Uri.parse('${(api.baseUrl)}Bank');
-    final res = await http.get(uri);
-    List<Bank> banks = [];
-    List<Bank> parseAccounts(String responseBody) {
-      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-      return parsed
-          .map<Bank>((json) =>
-              Bank(id: json['id'], name: json['name'], img: json['img']))
-          .toList();
-    }
-
-    if (res.statusCode == 200) {
-      print('ok');
-      banks = parseAccounts(res.body);
-    }
-    return banks;
   }
 }
