@@ -2,13 +2,15 @@ import 'package:appxemphim/page/user/registers.dart';
 import 'package:flutter/material.dart';
 
 class RegisterWidget extends StatefulWidget {
-  const RegisterWidget({super.key});
+  RegisterWidget({super.key});
 
   @override
   State<RegisterWidget> createState() => _RegisterWidgetState();
 }
 
 class _RegisterWidgetState extends State<RegisterWidget> {
+  String email = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,29 +72,54 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                 ),
                 labelText: "Email",
               ),
+              onChanged: (value) {
+                setState(() {
+                  email = value;
+                });
+              },
             ),
             const SizedBox(
               height: 18,
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Registers(),
-                  ),
-                );
+                if (email.isNotEmpty) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Registers(Email: email),
+                    ),
+                  );
+                } else {
+                  // Hiển thị thông báo lỗi hoặc thực hiện hành động khác khi email trống
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text('Lỗi'),
+                      content: const Text('Vui lòng nhập địa chỉ email.'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('Đóng'),
+                        ),
+                      ],
+                    ),
+                  );
+                }
               },
               style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(198, 198, 10, 10),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 10,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  minimumSize: (const Size(370, 40))),
+                backgroundColor: const Color.fromARGB(198, 198, 10, 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                minimumSize: const Size(370, 40),
+              ),
               child: const Text(
                 "Tiếp theo",
                 style: TextStyle(color: Colors.white, fontSize: 20),
