@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:appxemphim/data/model/category.dart';
 import 'package:appxemphim/data/model/history/historyPurchase.dart';
 import 'package:appxemphim/data/model/movielinks.dart';
@@ -10,6 +9,7 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/user.dart';
 import '../model/history/historyMovie.dart';
+import 'dart:convert' show json, utf8;
 
 class API {
   final Dio _dio = Dio();
@@ -230,7 +230,9 @@ class APIResponsitory {
       print("allcategory");
       items = parseAccounts(reponse.body);
       for (var a in items) {
-        itemString.add(a.nametype.toString());
+        final decodedString = utf8.decode(a.nametype.toString().codeUnits);
+        print(decodedString);
+        itemString.add(decodedString);
       }
     } else {
       print("allcategory fail");
@@ -246,7 +248,7 @@ class APIResponsitory {
             "//Movies_link");
     final reponse = await http.get(baseurl);
     List<MovieLink> take = [];
-    String results = "" ;
+    String results = "";
     List<MovieLink> parseAccounts(String responseBody) {
       final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
       return parsed
@@ -261,14 +263,11 @@ class APIResponsitory {
 
     if (reponse.statusCode == 200) {
       take = parseAccounts(reponse.body);
-      results = take[0].link as String; 
-      if(results == ""){
+      results = take[0].link as String;
+      if (results == "") {
         results = "https://www.youtube.com/watch?v=wr33qdjMV9c";
       }
-      
-    } else {
-      
-    }
+    } else {}
     return results;
   }
 }
