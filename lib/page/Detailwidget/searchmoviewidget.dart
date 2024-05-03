@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import, unused_field
 import 'package:appxemphim/data/API/api.dart';
+import 'package:appxemphim/page/Detailwidget/detailmoviewidget.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/model/movies.dart';
@@ -18,29 +19,10 @@ class Searchmoviewidget extends StatefulWidget {
 
 class _SearchmoviewidgetState extends State<Searchmoviewidget> {
   String _inputValue = '';
-   final List<String> items = [
-    'Comedy',
-    'Adventure',
-    'Science Fiction',
-    'Love',
-    'War',
-    'History',
-    'Children',
-    'Music',
-    'Dreamy',
-    'Fantasy horror',
-    'Survival',
-    'Oscar',
-    'Supernatural',
-    'Teenager',
-    'Zombie',
-    'Detective fiction',
-    'Psychological sensation',
-    'Resonant drama',
-    'Far West'
-  ];
   String? selectedValue;
   List<Movies> lsMovies = [];
+  List<Movies> searchResults = [];
+
   Future<String> loadmovies() async {
     lsMovies = await APIResponsitory().fetchdataAll();
     return '';
@@ -58,7 +40,7 @@ class _SearchmoviewidgetState extends State<Searchmoviewidget> {
         future: loadmovies(),
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
           return Center(
-            child: Column(
+            child: Stack(
               children: [
                 Container(
                     color: Colors.black,
@@ -86,11 +68,20 @@ class _SearchmoviewidgetState extends State<Searchmoviewidget> {
                                   child: TextFormField(
                                     onChanged: (value) {
                                       setState(() {
-                                        _inputValue = value;
+                                        _inputValue = value.trim();
+                                        if (_inputValue == "") {
+                                          searchResults = [];
+                                        } else {
+                                          searchResults = lsMovies
+                                              .where((movie) => movie.name!
+                                                  .contains(_inputValue))
+                                              .toList();
+                                          print(searchResults);
+                                        }
                                       });
                                     },
                                     decoration: const InputDecoration(
-                                      hintText: 'Search game, show...',
+                                      hintText: 'Tìm kiếm...',
                                       hintStyle: TextStyle(
                                           color: Colors.white, fontSize: 20),
                                       alignLabelWithHint: true,
@@ -102,6 +93,7 @@ class _SearchmoviewidgetState extends State<Searchmoviewidget> {
                                         color: Colors.white, fontSize: 20),
                                   ),
                                 ),
+
                                 // se update thanh khi an vao se  thu am giong noi roi sao do truyen vo input
                                 const Icon(
                                   Icons.mic_rounded,
@@ -111,26 +103,66 @@ class _SearchmoviewidgetState extends State<Searchmoviewidget> {
                                 //
                               ]),
                             ),
-                            
                           ],
                         ),
                       ),
                     )),
+                Positioned(
+                  top: 50,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    color: Colors.black,
+                    child: ListView.builder(
+                      itemCount: lsMovies.length,
+                      itemBuilder: (context, index) {
+                        return Searchmoviebody(lsMovies[index], context);
+                      },
+                    ),
+                  ),
+                ),
+                Positioned(
+                  child: Container(
+                    margin: EdgeInsets.only(top: 50),
+                    height: searchResults.length > 5 ? 150 : null,
+                    decoration: BoxDecoration(color: Colors.white),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: searchResults.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text('${searchResults[index].name}'),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: ((context) => DetailMovies(
+                                        objMov: searchResults[index]))));
+                            // Xử lý khi người dùng chọn một phim từ danh sách
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ),
+
+                /*
                 Expanded(
                   child: Container(
                     color: Colors.black, // Thiết lập màu nền thành đen
                     child: ListView.builder(
                       itemCount: lsMovies.length,
                       itemBuilder: (context, index) {
-                        return Searchmoviebody(lsMovies[index],context);
+                        return Searchmoviebody(lsMovies[index], context);
                       },
                     ),
                   ),
                 )
+*/
               ],
             ),
           );
         });
   }
-
 }
