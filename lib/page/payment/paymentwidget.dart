@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously, unused_import
 
-import 'package:appxemphim/page/login.dart';
+import 'package:appxemphim/page/user/login.dart';
 import 'package:appxemphim/page/naviFrame.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -109,8 +109,8 @@ class _PaymentWidgetState extends State<PaymentWidget> {
             const SizedBox(height: 16),
             Row(
               children: [
-                Image.asset(
-                  url_bank_img + widget.objBank.img!,
+                Image.network(
+                  widget.objBank.img,
                   width: 75,
                   height: 75,
                   errorBuilder: (context, error, stackTrace) =>

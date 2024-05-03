@@ -1,26 +1,29 @@
+import 'dart:convert';
+
 class Bank {
-  int? id;
-  String? name;
-  String? img;
+  int id;
+  String name;
+  String img;
   // contructor
   Bank({
-    this.id,
-    this.name,
-    this.img,
+    required this.id,
+    required this.name,
+    required this.img,
   });
 
-  Bank.fromJson(Map<String, dynamic> json){
-    id = json['id'];
-    name = json['name'];
-    img = json['img'];
+  Map<String, dynamic> toMap() {
+    return {'id': id, 'name': name, 'img': img};
   }
 
-  Map<String, dynamic> toJson() {
-    final
-    Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    data['img'] = img;
-    return data;
+  factory Bank.fromMap(Map<String, dynamic> map) {
+    return Bank(
+      id: map['id'] ?? 0,
+      name: map['name'] ?? '',
+      img: map['img'] ?? '',
+    );
   }
+
+  String toJson() => json.encode(toMap());
+
+  factory Bank.fromJson(String source) => Bank.fromMap(json.decode(source));
 }
