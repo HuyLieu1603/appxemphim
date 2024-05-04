@@ -10,6 +10,11 @@ import 'package:appxemphim/data/model/account.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/user.dart';
+import '../model/accounts.dart';
+import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+import '../model/register.dart';
+
 
 class API {
   final Dio _dio = Dio();
