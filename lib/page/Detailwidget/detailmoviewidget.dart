@@ -12,8 +12,6 @@ import '../../data/model/movies.dart';
 import '../../data/provider/moviesprovider.dart';
 
 class DetailMovies extends StatefulWidget {
-
-  
   final Movies objMov;
 
   const DetailMovies({Key? key, required this.objMov}) : super(key: key);
@@ -27,7 +25,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
   bool isExpanded = false;
   bool isExpandedActors = false;
   bool isExpandedCategory = false;
-  String timeplay ="";
+  String timeplay = "";
   var takedata;
   String nameid = "";
   late Future<String> _loadcurrentMovies;
@@ -36,7 +34,8 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     nameid = prefs.getString('name').toString();
     print(nameid);
-    takedata = await APIResponsitory().fectdateMoviescontinues(widget.objMov.id.toString().trim(), nameid.toString().trim());
+    takedata = await APIResponsitory().fectdateMoviescontinues(
+        widget.objMov.id.toString().trim(), nameid.toString().trim());
     timeplay = takedata;
     print(timeplay);
     detailMovies =
@@ -50,6 +49,11 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
     links = await APIResponsitory().fetchdataMoviesLink(movId);
     return '';
   }
+
+  Future<void> addMovToHis(String movieID) async {
+    return await APIResponsitory().addMovToHistory(movieID);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -97,7 +101,6 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                         child: CircularProgressIndicator(),
                       );
                     } else {
-                      
                       return ListView(
                         children: [
                           Stack(
@@ -218,23 +221,24 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                               height: 50,
                                               padding: const EdgeInsets.all(1),
                                               child: ElevatedButton(
-                                                onPressed: () => {   
-                                            //print(links),
-                                            
-                                          
+                                                onPressed: () => {
+                                                  //print(links),
 
-                                                                                
-                                            Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                              
-                                              builder: (context) =>
-                                                
-                                                  VideoDetails(
-                                                linkMov: links.toString(), objMov: widget.objMov, timeplays: timeplay.toString(),
-                                              ),
-                                            ),
-                                          )
+                                                  addMovToHis(
+                                                      widget.objMov.id!),
+                                                  Navigator.pushReplacement(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          VideoDetails(
+                                                        linkMov:
+                                                            links.toString(),
+                                                        objMov: widget.objMov,
+                                                        timeplays:
+                                                            timeplay.toString(),
+                                                      ),
+                                                    ),
+                                                  )
                                                 },
                                                 style: ElevatedButton.styleFrom(
                                                   foregroundColor: Colors.white,
