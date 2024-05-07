@@ -117,11 +117,11 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                       const Icon(Icons.image),
                 ),
                 const SizedBox(width: 16),
-                Text(widget.objBank.name.toString().toUpperCase(), 
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold
-                ),),
+                Text(
+                  widget.objBank.name.toString().toUpperCase(),
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
+                ),
               ],
             ),
             TextFormField(
@@ -223,7 +223,8 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red, // Màu nền của nút
+                  backgroundColor:
+                      const Color.fromARGB(198, 198, 10, 10), // Màu nền của nút
                   foregroundColor: Colors.white, // Màu của text và icon
                   minimumSize:
                       const Size(300, 50), // Kích thước tối thiểu của nút

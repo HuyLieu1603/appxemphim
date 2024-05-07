@@ -15,7 +15,6 @@ import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import '../model/register.dart';
 
-
 class API {
   final Dio _dio = Dio();
   String baseUrl = "https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/";
@@ -61,13 +60,15 @@ class APIResponsitory {
           .map<History>((json) => History(
               idMovie: json['idMovie'],
               idAccount: json['idAccount'],
-              date: json['date'],
+              date: DateTime.parse(json['date']),
+              img: json['img'],
               id: json['id']))
           .toList();
     }
 
     if (res.statusCode == 200) {
       Histories = lstHistory(res.body);
+      print("ok");
     }
     return Histories;
   }
@@ -288,5 +289,35 @@ class APIResponsitory {
       banks = parseAccounts(res.body);
     }
     return banks;
+  }
+
+  Future<Movies> fetchMovieById(String movieID) async {
+    final baseurl = Uri.parse(
+        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies/' + movieID);
+    final reponse = await http.get(baseurl);
+    if (reponse.statusCode == 200) {
+      return Movies.fromJson(jsonDecode(reponse.body));
+    } else
+      throw Exception('Failed to load post');
+  }
+
+  Future<void> addMovToHistory(String movieID) async {
+    final uri = Uri.parse('${(api.baseUrl)}History');
+    var history = History(
+      
+    );
+    final requestBody = await fetchMovieById(movieID);
+
+    final res = await http.post(
+      uri,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(requestBody),
+    );
+    if (res.statusCode == 200) {
+      print("Lưu thành công");
+    }
+    print('Failed');
   }
 }

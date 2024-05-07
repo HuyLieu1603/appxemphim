@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_interpolation_to_compose_strings, avoid_unnecessary_containers, non_constant_identifier_names
+// ignore_for_file: prefer_interpolation_to_compose_strings, avoid_unnecessary_containers, non_constant_identifier_names, unused_import
 
 // import 'package:flutter/cupertino.dart';
 import 'package:appxemphim/data/API/api.dart';
@@ -33,6 +33,10 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
     return '';
   }
 
+  Future<void> addMovToHis(String movieID) async {
+    return await APIResponsitory().addMovToHistory(movieID);
+  }
+
   String links = "";
   Future<String> loadlink(String movId) async {
     links = await APIResponsitory().fetchdataMoviesLink(movId);
@@ -58,7 +62,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Center(
         child: FutureBuilder(
@@ -189,10 +193,8 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                       child: ElevatedButton(
                                         onPressed: () => {
                                           loadlink(widget.objMov.id!),
-                                          
+                                          addMovToHis(widget.objMov.id!),
                                           print(links),
-
-                                          
                                           Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
@@ -240,92 +242,92 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                       ),
                                     ),
                                     Container(
-                                        //des
-                                        margin: const EdgeInsets.only(top: 20),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text(
-                                              isExpanded
-                                                  ? description
-                                                  : description.substring(
-                                                          0, 70) +
-                                                      '...',
-                                              style: const TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                            const SizedBox(height: 8),
-                                            if (description.length > 70)
-                                              GestureDetector(
-                                                onTap: () {
-                                                  setState(() {
-                                                    isExpanded = !isExpanded;
-                                                  });
-                                                },
-                                                child: Text(
-                                                  isExpanded
-                                                      ? 'Thu gọn'
-                                                      : 'Đọc thêm',
-                                                  style: const TextStyle(
-                                                      color: Colors.white54),
-                                                ),
+                                      //des
+                                      margin: const EdgeInsets.only(top: 20),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            isExpanded
+                                                ? description
+                                                : description.substring(0, 70) +
+                                                    '...',
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                          const SizedBox(height: 8),
+                                          if (description.length > 70)
+                                            GestureDetector(
+                                              onTap: () {
+                                                setState(() {
+                                                  isExpanded = !isExpanded;
+                                                });
+                                              },
+                                              child: Text(
+                                                isExpanded
+                                                    ? 'Thu gọn'
+                                                    : 'Đọc thêm',
+                                                style: const TextStyle(
+                                                    color: Colors.white54),
                                               ),
-                                            const SizedBox(height: 10),
-                                            const Row(
-                                              children: [
-                                                Text(
-                                                  'Director : ',
-                                                  style: TextStyle(
-                                                      color: Colors.white54),
-                                                ),
-                                                //ten dao dien
-                                                Text(
-                                                  'Liêu Trương Gia Huy',
-                                                  style: TextStyle(
-                                                      color: Colors.white54),
-                                                ),
-                                              ],
                                             ),
-                                            const SizedBox(height: 10),
-                                            Text(
-                                              isExpandedActors
-                                                  ? Actors
-                                                  : Actors.substring(0, 50) +
-                                                      '...',
-                                              style: const TextStyle(
-                                                  color: Colors.white54),
-                                            ),
-                                            const SizedBox(height: 10),
-                                            Text(
-                                              isExpandedCategory
-                                                  ? Categorys
-                                                  : Categorys.substring(0, 50) +
-                                                      '...',
-                                              style: const TextStyle(
-                                                  color: Colors.white54),
-                                            ),
-                                            const SizedBox(height: 8),
-                                            if (Actors.length > 50)
-                                              GestureDetector(
-                                                onTap: () {
-                                                  setState(() {
-                                                    isExpandedActors =
-                                                        !isExpandedActors;
-                                                    isExpandedCategory =
-                                                        !isExpandedCategory;
-                                                  });
-                                                },
-                                                child: Text(
-                                                  isExpandedActors
-                                                      ? 'Thu gọn'
-                                                      : 'Đọc thêm',
-                                                  style: const TextStyle(
-                                                      color: Colors.white54),
-                                                ),
+                                          const SizedBox(height: 10),
+                                          const Row(
+                                            children: [
+                                              Text(
+                                                'Director : ',
+                                                style: TextStyle(
+                                                    color: Colors.white54),
                                               ),
-                                          ],
-                                        )),
+                                              //ten dao dien
+                                              Text(
+                                                'Liêu Trương Gia Huy',
+                                                style: TextStyle(
+                                                    color: Colors.white54),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 10),
+                                          Text(
+                                            isExpandedActors
+                                                ? Actors
+                                                : Actors.substring(0, 50) +
+                                                    '...',
+                                            style: const TextStyle(
+                                                color: Colors.white54),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          Text(
+                                            isExpandedCategory
+                                                ? Categorys
+                                                : Categorys.substring(0, 50) +
+                                                    '...',
+                                            style: const TextStyle(
+                                                color: Colors.white54),
+                                          ),
+                                          const SizedBox(height: 8),
+                                          if (Actors.length > 50)
+                                            GestureDetector(
+                                              onTap: () {
+                                                setState(() {
+                                                  isExpandedActors =
+                                                      !isExpandedActors;
+                                                  isExpandedCategory =
+                                                      !isExpandedCategory;
+                                                });
+                                              },
+                                              child: Text(
+                                                isExpandedActors
+                                                    ? 'Thu gọn'
+                                                    : 'Đọc thêm',
+                                                style: const TextStyle(
+                                                    color: Colors.white54),
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
