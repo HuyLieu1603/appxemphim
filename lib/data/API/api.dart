@@ -15,7 +15,6 @@ import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import '../model/register.dart';
 
-
 class API {
   final Dio _dio = Dio();
   String baseUrl = "https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/";
@@ -294,54 +293,31 @@ class APIResponsitory {
 
   Future<Movies> fetchMovieById(String movieID) async {
     final baseurl = Uri.parse(
-        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies{id}');
+        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies/' + movieID);
     final reponse = await http.get(baseurl);
-    Movies movies = Movies();
-    Movies parseAccounts(String responseBody) {
-      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-      return parsed
-          .map<Movies>((json) => Movies(
-                name: json['name'],
-                img: json['img'],
-                type: json['type'],
-                des: json['des'],
-                release: json['release'],
-                time: json['time'],
-                category: json['category'],
-                id: json['id'],
-              ))
-          .toList();
-    }
-
     if (reponse.statusCode == 200) {
-      // for (var item in parseAccounts(reponse.body)) {
-      //   String? id = item.id;
-
-      //   if (id != null) {
-      //     for (var items in id as List<dynamic>) {
-      //       if (items['id'] == movieID.toLowerCase()) {
-      //         movies.add(item);
-      //       }
-      //     }
-      //   }
-      // }
-      String? id = parseAccounts(reponse.body).id;
-      if (id != null) {
-        movies = parseAccounts(reponse.body);
-      }
-    }
-    print(movies);
-    return movies;
+      return Movies.fromJson(jsonDecode(reponse.body));
+    } else
+      throw Exception('Failed to load post');
   }
 
-  Future<Movies> addMovToHistory(String movieID) async {
+  Future<void> addMovToHistory(String movieID) async {
     final uri = Uri.parse('${(api.baseUrl)}History');
-    final res = await http.post(uri);
-    Movies movies = Movies();
+    var history = History(
+      
+    );
+    final requestBody = await fetchMovieById(movieID);
+
+    final res = await http.post(
+      uri,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(requestBody),
+    );
     if (res.statusCode == 200) {
-      movies = await fetchMovieById(movieID);
+      print("Lưu thành công");
     }
-    print(movies);
-    return movies;
+    print('Failed');
   }
 }
