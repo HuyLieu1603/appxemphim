@@ -94,7 +94,6 @@ class _VideoDetailsState extends State<VideoDetails> {
         }
       });
   }
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
