@@ -4,6 +4,7 @@
 import 'package:appxemphim/data/API/api.dart';
 import 'package:appxemphim/page/viewmovie/viewmovie.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:flutter/widgets.dart';
 import '../../config/const.dart';
 // import 'package:intl/intl.dart';
@@ -26,10 +27,17 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
   bool isExpanded = false;
   bool isExpandedActors = false;
   bool isExpandedCategory = false;
-
+  String timeplay ="";
+  var takedata;
+  String nameid = "";
   late Future<String> _loadcurrentMovies;
   late Future<String> _loadCurrent;
   Future<String> loadCurrent(String movId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    nameid = prefs.getString('name').toString();
+    print(nameid);
+
+
     detailMovies =
         await ReadDataMovies().loadDataMoviesbyId(movId) as List<Movies>;
     return '';
@@ -39,6 +47,14 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
 
   Future<String> loadlink(String movId) async {
     links = await APIResponsitory().fetchdataMoviesLink(movId);
+    return '';
+  }
+
+  Future<String> takeMovies() async {
+    
+    takedata = await APIResponsitory().fectdateMoviescontinues(widget.objMov.id.toString().trim(), nameid.toString().trim());
+    timeplay = takedata.times;
+    //print(timeplay.toString() + " time ne");
     return '';
   }
 
@@ -211,7 +227,11 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                               padding: const EdgeInsets.all(1),
                                               child: ElevatedButton(
                                                 onPressed: () => {   
-                                            print(links),                                             
+                                            //print(links),
+                                            takeMovies(),
+                                          
+
+                                                                                  
                                             Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(

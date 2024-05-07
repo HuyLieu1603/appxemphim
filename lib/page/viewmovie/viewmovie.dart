@@ -30,12 +30,12 @@ class _VideoDetailsState extends State<VideoDetails> {
   late String times;
   late Future<String> _loadshare;
   late Future<MoviesContinue> demo;
-  var timeplay;
+  int timeplay = 0;
   var takedata;
   Future<String> loadshare() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     nameid = prefs.getString('name').toString();
-    takeMovies();
+    timeplay = int.parse(takeMovies().toString());
     return nameid;
   }
 
@@ -43,7 +43,6 @@ class _VideoDetailsState extends State<VideoDetails> {
     print(widget.objMov.id.toString().trim() + " ne");
     print(nameid.toString().trim() + " ne");
     print(times + " ne");
-
     await APIResponsitory().Moviescontinues(
         widget.objMov.id.toString().trim(), nameid.toString().trim(), times);
 
@@ -70,13 +69,10 @@ class _VideoDetailsState extends State<VideoDetails> {
     SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown],
     );
-   
-
-    
+    print("cai nay truoc");
+    print(timeplay);
+    print("cai nay truoc");
     final videoID = YoutubePlayer.convertUrlToId(widget.linkMov.toString());
-    
-    print(widget.linkMov.toString());
-    print(videoID.toString() + " nef");
     _controller = YoutubePlayerController(
       initialVideoId: videoID!,
       flags: YoutubePlayerFlags(

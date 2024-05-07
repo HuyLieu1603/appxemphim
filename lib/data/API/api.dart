@@ -408,6 +408,7 @@ class APIResponsitory {
         if (item.idmovie == id && item.idname == idname) {
           checkmovies = true ;
           takedata = MoviesContinue(idname: idname, idmovie: id, times: item.times);
+          
           return takedata;
         }
       }
