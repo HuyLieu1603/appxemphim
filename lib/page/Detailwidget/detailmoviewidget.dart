@@ -26,14 +26,15 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
   bool isExpandedCategory = false;
 
   late Future<String> _loadcurrentMovies;
+  late Future<String> _loadCurrent;
   Future<String> loadCurrent(String movId) async {
-    loadlink(widget.objMov.id!);
     detailMovies =
         await ReadDataMovies().loadDataMoviesbyId(movId) as List<Movies>;
     return '';
   }
 
   String links = "";
+
   Future<String> loadlink(String movId) async {
     links = await APIResponsitory().fetchdataMoviesLink(movId);
     return '';
@@ -43,10 +44,13 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
   void initState() {
     super.initState();
     _loadcurrentMovies = loadCurrent(widget.objMov.id!);
+    _loadCurrent = loadlink(widget.objMov.id!);
   }
 
   @override
   Widget build(BuildContext context) {
+    print(widget.objMov.id!);
+
     String description =
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget justo ac turpis volutpat fermentum. ';
 
@@ -69,48 +73,60 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                 child: CircularProgressIndicator(),
               );
             } else if (snapshot.hasError) {
+              loadlink(widget.objMov.id!);
               return Center(
                 child: Text('Error: ${snapshot.error}'),
               );
             } else {
-              return ListView(
-                children: [
-                  Stack(
-                    children: [
-                      Container(
-                        height: screenSize.height,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(widget.objMov.img!),
-                              fit: BoxFit.contain,
-                              colorFilter: ColorFilter.mode(
-                                Colors.black87.withOpacity(0.1),
-                                BlendMode.dstATop,
-                              ),
-                            ),
-                            color: Colors.black),
-                      ),
-                      Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Stack(
-                              children: [
-                                Center(
-                                  child: Container(
-                                    height: 400,
-                                    width: screenSize.width - 100,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image:
-                                              NetworkImage(widget.objMov.img!),
-                                          fit: BoxFit.contain,
-                                          alignment: Alignment.topCenter),
+              return FutureBuilder(
+                  future: _loadCurrent,
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else {
+                      
+                      return ListView(
+                        children: [
+                          Stack(
+                            children: [
+                              Container(
+                                height: screenSize.height,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: NetworkImage(widget.objMov.img!),
+                                      fit: BoxFit.contain,
+                                      colorFilter: ColorFilter.mode(
+                                        Colors.black87.withOpacity(0.1),
+                                        BlendMode.dstATop,
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                /*Positioned(
+                                    color: Colors.black),
+                              ),
+                              Container(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Stack(
+                                      children: [
+                                        Center(
+                                          child: Container(
+                                            height: 400,
+                                            width: screenSize.width - 100,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: NetworkImage(
+                                                      widget.objMov.img!),
+                                                  fit: BoxFit.contain,
+                                                  alignment:
+                                                      Alignment.topCenter),
+                                            ),
+                                          ),
+                                        ),
+                                        /*Positioned(
                                   top: 36,
                                   right: 16,
                                   child: Container(
@@ -132,211 +148,231 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                     ),
                                   ),
                                 ),*/
-                              ],
-                            ),
-                            Container(
-                              //height: screenSize.height - 200,
-                              width: screenSize.width,
-                              decoration: BoxDecoration(
-                                  color: Colors.transparent.withOpacity(1)),
-                              child: Container(
-                                margin: const EdgeInsets.all(20),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    //ten phim
-                                    Container(
-                                      child: Text(
-                                        '${widget.objMov.name?.substring(0, 1).toUpperCase()}${widget.objMov.name?.substring(1)}',
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                    const Row(
-                                      children: [
-                                        Text(
-                                          '2019',
-                                          style:
-                                              TextStyle(color: Colors.white54),
-                                        ),
-                                        Icon(
-                                          Icons.calendar_month,
-                                          color: Colors.white54,
-                                          size: 20,
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          '1g 30p',
-                                          style:
-                                              TextStyle(color: Colors.white54),
-                                        ),
-                                        Icon(
-                                          Icons.access_time_sharp,
-                                          color: Colors.white54,
-                                        ),
                                       ],
                                     ),
                                     Container(
-                                      margin: const EdgeInsets.only(top: 10),
+                                      //height: screenSize.height - 200,
                                       width: screenSize.width,
-                                      height: 50,
-                                      padding: const EdgeInsets.all(1),
-                                      child: ElevatedButton(
-                                        onPressed: () => {
-                                          loadlink(widget.objMov.id!),
-                                          
-                                          print(links),
-
-                                          
-                                          Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  VideoDetails(
-                                                linkMov: links,
-                                              ),
-                                            ),
-                                          )
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          foregroundColor: Colors.white,
-                                          backgroundColor: const Color.fromARGB(
-                                              255, 255, 255, 255),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                          ),
-                                          textStyle: const TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        child: const Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.play_arrow,
-                                              size: 40,
-                                              color: Colors.black,
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Text(
-                                              'Play',
-                                              style: TextStyle(
-                                                  color: Colors.black),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                        //des
-                                        margin: const EdgeInsets.only(top: 20),
+                                      decoration: BoxDecoration(
+                                          color: Colors.transparent
+                                              .withOpacity(1)),
+                                      child: Container(
+                                        margin: const EdgeInsets.all(20),
                                         child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text(
-                                              isExpanded
-                                                  ? description
-                                                  : description.substring(
-                                                          0, 70) +
-                                                      '...',
-                                              style: const TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                            const SizedBox(height: 8),
-                                            if (description.length > 70)
-                                              GestureDetector(
-                                                onTap: () {
-                                                  setState(() {
-                                                    isExpanded = !isExpanded;
-                                                  });
-                                                },
-                                                child: Text(
-                                                  isExpanded
-                                                      ? 'Thu gọn'
-                                                      : 'Đọc thêm',
-                                                  style: const TextStyle(
-                                                      color: Colors.white54),
-                                                ),
+                                          children: [
+                                            //ten phim
+                                            Container(
+                                              child: Text(
+                                                '${widget.objMov.name?.substring(0, 1).toUpperCase()}${widget.objMov.name?.substring(1)}',
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 30,
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               ),
-                                            const SizedBox(height: 10),
+                                            ),
                                             const Row(
                                               children: [
                                                 Text(
-                                                  'Director : ',
+                                                  '2019',
                                                   style: TextStyle(
                                                       color: Colors.white54),
                                                 ),
-                                                //ten dao dien
+                                                Icon(
+                                                  Icons.calendar_month,
+                                                  color: Colors.white54,
+                                                  size: 20,
+                                                ),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
                                                 Text(
-                                                  'Liêu Trương Gia Huy',
+                                                  '1g 30p',
                                                   style: TextStyle(
                                                       color: Colors.white54),
+                                                ),
+                                                Icon(
+                                                  Icons.access_time_sharp,
+                                                  color: Colors.white54,
                                                 ),
                                               ],
                                             ),
-                                            const SizedBox(height: 10),
-                                            Text(
-                                              isExpandedActors
-                                                  ? Actors
-                                                  : Actors.substring(0, 50) +
-                                                      '...',
-                                              style: const TextStyle(
-                                                  color: Colors.white54),
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                  top: 10),
+                                              width: screenSize.width,
+                                              height: 50,
+                                              padding: const EdgeInsets.all(1),
+                                              child: ElevatedButton(
+                                                onPressed: () => {   
+                                            print(links),                                             
+                                            Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                              
+                                              builder: (context) =>
+                                                
+                                                  VideoDetails(
+                                                linkMov: links.toString(),
+                                              ),
                                             ),
-                                            const SizedBox(height: 10),
-                                            Text(
-                                              isExpandedCategory
-                                                  ? Categorys
-                                                  : Categorys.substring(0, 50) +
-                                                      '...',
-                                              style: const TextStyle(
-                                                  color: Colors.white54),
-                                            ),
-                                            const SizedBox(height: 8),
-                                            if (Actors.length > 50)
-                                              GestureDetector(
-                                                onTap: () {
-                                                  setState(() {
-                                                    isExpandedActors =
-                                                        !isExpandedActors;
-                                                    isExpandedCategory =
-                                                        !isExpandedCategory;
-                                                  });
+                                          )
                                                 },
-                                                child: Text(
-                                                  isExpandedActors
-                                                      ? 'Thu gọn'
-                                                      : 'Đọc thêm',
-                                                  style: const TextStyle(
-                                                      color: Colors.white54),
+                                                style: ElevatedButton.styleFrom(
+                                                  foregroundColor: Colors.white,
+                                                  backgroundColor:
+                                                      const Color.fromARGB(
+                                                          255, 255, 255, 255),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                  ),
+                                                  textStyle: const TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                child: const Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.play_arrow,
+                                                      size: 40,
+                                                      color: Colors.black,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Text(
+                                                      'Play',
+                                                      style: TextStyle(
+                                                          color: Colors.black),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
+                                            ),
+                                            Container(
+                                                //des
+                                                margin: const EdgeInsets.only(
+                                                    top: 20),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      isExpanded
+                                                          ? description
+                                                          : description
+                                                                  .substring(
+                                                                      0, 70) +
+                                                              '...',
+                                                      style: const TextStyle(
+                                                          color: Colors.white),
+                                                    ),
+                                                    const SizedBox(height: 8),
+                                                    if (description.length > 70)
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          setState(() {
+                                                            isExpanded =
+                                                                !isExpanded;
+                                                          });
+                                                        },
+                                                        child: Text(
+                                                          isExpanded
+                                                              ? 'Thu gọn'
+                                                              : 'Đọc thêm',
+                                                          style:
+                                                              const TextStyle(
+                                                                  color: Colors
+                                                                      .white54),
+                                                        ),
+                                                      ),
+                                                    const SizedBox(height: 10),
+                                                    const Row(
+                                                      children: [
+                                                        Text(
+                                                          'Director : ',
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .white54),
+                                                        ),
+                                                        //ten dao dien
+                                                        Text(
+                                                          'Liêu Trương Gia Huy',
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .white54),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(height: 10),
+                                                    Text(
+                                                      isExpandedActors
+                                                          ? Actors
+                                                          : Actors.substring(
+                                                                  0, 50) +
+                                                              '...',
+                                                      style: const TextStyle(
+                                                          color:
+                                                              Colors.white54),
+                                                    ),
+                                                    const SizedBox(height: 10),
+                                                    Text(
+                                                      isExpandedCategory
+                                                          ? Categorys
+                                                          : Categorys.substring(
+                                                                  0, 50) +
+                                                              '...',
+                                                      style: const TextStyle(
+                                                          color:
+                                                              Colors.white54),
+                                                    ),
+                                                    const SizedBox(height: 8),
+                                                    if (Actors.length > 50)
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          setState(() {
+                                                            isExpandedActors =
+                                                                !isExpandedActors;
+                                                            isExpandedCategory =
+                                                                !isExpandedCategory;
+                                                          });
+                                                        },
+                                                        child: Text(
+                                                          isExpandedActors
+                                                              ? 'Thu gọn'
+                                                              : 'Đọc thêm',
+                                                          style:
+                                                              const TextStyle(
+                                                                  color: Colors
+                                                                      .white54),
+                                                        ),
+                                                      ),
+                                                  ],
+                                                )),
                                           ],
-                                        )),
+                                        ),
+                                      ),
+                                    ) // Các thành phần giao diện khác ở đây
                                   ],
                                 ),
                               ),
-                            ) // Các thành phần giao diện khác ở đây
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              );
+                            ],
+                          ),
+                        ],
+                      );
+                    }
+                  });
             }
           },
         ),

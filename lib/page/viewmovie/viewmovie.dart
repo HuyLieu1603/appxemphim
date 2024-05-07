@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
@@ -8,30 +7,37 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 class VideoDetails extends StatefulWidget {
   final String linkMov;
 
-  const VideoDetails({Key? key, required this.linkMov}) : super(key: key);
-
+   const VideoDetails({Key? key, required this.linkMov}) : super(key: key);
+  //const VideoDetails({super.key});
   @override
   State<VideoDetails> createState() => _VideoDetailsState();
 }
 
 class _VideoDetailsState extends State<VideoDetails> {
-  late String linkMov;
+  //late String linkMovs;
+
+  _VideoDetailsState(){
+    //linkMovs = widget.linkMov.toString();
+  }
+
   //String videourl = "https://www.youtube.com/watch?v=n9xhJrPXop4";
   late YoutubePlayerController _controller;
   Duration? videoDuration;
   bool isFullscreen = false;
+
+
+
   @override
   void initState() {
     super.initState();
-
-    linkMov = widget.linkMov;
-    if (linkMov == "") {
-      linkMov = "https://www.youtube.com/watch?v=wr33qdjMV9c";
-    }
+    //linkMovs = widget.linkMov;
+   /* if (linkMovs == "") {
+      linkMovs = "https://www.youtube.com/watch?v=wr33qdjMV9c";
+    }*/
     SystemChrome.setPreferredOrientations(
   [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown],
 );
-    final videoID = YoutubePlayer.convertUrlToId(linkMov);
+    final videoID = YoutubePlayer.convertUrlToId(widget.linkMov.toString());
     _controller = YoutubePlayerController(
       initialVideoId: videoID!,
       flags: const YoutubePlayerFlags(
@@ -55,6 +61,7 @@ class _VideoDetailsState extends State<VideoDetails> {
 
   @override
   Widget build(BuildContext context) {
+    //print(widget.linkMov.toString());
     return YoutubePlayerBuilder(
       player: YoutubePlayer(
         controller: _controller,
