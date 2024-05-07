@@ -11,7 +11,8 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 class VideoDetails extends StatefulWidget {
   final String linkMov;
   final Movies objMov;
-  const VideoDetails({Key? key, required this.linkMov, required this.objMov})
+  final String timeplays;
+  const VideoDetails({Key? key, required this.linkMov, required this.objMov, required this.timeplays})
       : super(key: key);
   //const VideoDetails({super.key});
   @override
@@ -20,7 +21,6 @@ class VideoDetails extends StatefulWidget {
 
 class _VideoDetailsState extends State<VideoDetails> {
   //late String linkMovs;
-
   //String videourl = "https://www.youtube.com/watch?v=n9xhJrPXop4";
   late YoutubePlayerController _controller;
   Duration? videoDuration;
@@ -35,7 +35,6 @@ class _VideoDetailsState extends State<VideoDetails> {
   Future<String> loadshare() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     nameid = prefs.getString('name').toString();
-    timeplay = int.parse(takeMovies().toString());
     return nameid;
   }
 
@@ -49,13 +48,7 @@ class _VideoDetailsState extends State<VideoDetails> {
     return '';
   }
 
-  Future<int> takeMovies() async {
-    takedata = await APIResponsitory().fectdateMoviescontinues(
-        widget.objMov.id.toString().trim(), nameid.toString().trim());
-    timeplay = takedata.times;
-    //print(timeplay.toString() + " time ne");
-    return timeplay;
-  }
+
 
   @override
   void initState() {
@@ -70,13 +63,13 @@ class _VideoDetailsState extends State<VideoDetails> {
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown],
     );
     print("cai nay truoc");
-    print(timeplay);
+    print(widget.timeplays.toString());
     print("cai nay truoc");
     final videoID = YoutubePlayer.convertUrlToId(widget.linkMov.toString());
     _controller = YoutubePlayerController(
       initialVideoId: videoID!,
       flags: YoutubePlayerFlags(
-        startAt: 0,
+        startAt: int.parse(widget.timeplays.toString()),
         hideThumbnail: true,
         enableCaption: true,
         captionLanguage: 'en',
