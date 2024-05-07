@@ -12,6 +12,15 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/user.dart';
 
+import '../model/history/historyMovie.dart';
+import 'dart:convert' show json, jsonDecode, jsonEncode, utf8;
+
+import '../model/accounts.dart';
+import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+import '../model/register.dart';
+
+
 class API {
   final Dio _dio = Dio();
   String baseUrl = "https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/";
@@ -337,4 +346,156 @@ class APIResponsitory {
     }
     return banks;
   }
+
+
+  Future<String> Moviescontinues(
+      String id, String idname, String timess) async {
+    var a = MoviesContinue(idname: idname, idmovie: id, times: timess);
+    //UpdateMoviescontinues(a); update dc roi
+    var url = Uri.parse(
+        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies_continue');
+    var body = json.encode(a.toJson());
+
+    /////
+    final baseurl = Uri.parse(
+        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies_continue');
+    final reponse = await http.get(baseurl);
+    int countIDlink = 0;
+    bool checkmovies = false;
+    List<MoviesContinue> lstMoviesContinue = [];
+    List<MoviesContinue> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<MoviesContinue>((json) => MoviesContinue(
+                idname: json['idname'],
+                idmovie: json['idmovie'],
+                times: json['times'],
+              ))
+          .toList();
+    }
+
+    /*
+    var response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: body,
+    );
+    */
+
+    if (reponse.statusCode == 200) {
+      lstMoviesContinue = parseAccounts(reponse.body);
+      for (var item in lstMoviesContinue) {
+        countIDlink += 1;
+        if (item.idmovie == id && item.idname == idname) {
+          UpdateMoviescontinues(a, countIDlink.toString());
+          checkmovies = true;
+        }
+      }
+      if (checkmovies != true) {
+        var responsed = await http.post(
+          url,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: body,
+        );
+         print('Movies Create successfully');
+      }
+    } else {}
+    print(a.idname);
+
+    return '';
+  }
+
+  Future<String> UpdateMoviescontinues(
+      MoviesContinue items, String locate) async {
+    var url = Uri.parse(
+        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies_continue/' +
+            locate.trim());
+    var body = json.encode(items.toJson());
+    var response = await http.put(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: body,
+    );
+    if (response.statusCode == 200) {
+      // Handle successful account creation
+      print('Movies Updated successfully');
+    } else {
+      // Handle errors
+      print('Error: ${response.statusCode}');
+    }
+
+    return '';
+  }
+
+  Future<MoviesContinue> fectdateMoviescontinues(
+    String id, String idname) async {
+    final baseurl = Uri.parse(
+        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies_continue');
+    final reponse = await http.get(baseurl);
+    int countIDlink = 0;
+    bool checkmovies = false;
+    var takedata = MoviesContinue(idname: null, idmovie: null, times: null);
+    List<MoviesContinue> lstMoviesContinue = [];
+    List<MoviesContinue> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<MoviesContinue>((json) => MoviesContinue(
+                idname: json['idname'],
+                idmovie: json['idmovie'],
+                times: json['times'],
+              ))
+          .toList();
+    }
+    if (reponse.statusCode == 200) {
+      lstMoviesContinue = parseAccounts(reponse.body);
+      for (var item in lstMoviesContinue) {
+        countIDlink += 1;
+        if (item.idmovie == id && item.idname == idname) {
+          checkmovies = true ;
+          takedata = MoviesContinue(idname: idname, idmovie: id, times: item.times);
+          
+          return takedata;
+        }
+      }
+    } else {}
+    return takedata;
+  }
+
+
+  Future<Movies> fetchMovieById(String movieID) async {
+    final baseurl = Uri.parse(
+        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies/' + movieID);
+    final reponse = await http.get(baseurl);
+    if (reponse.statusCode == 200) {
+      return Movies.fromJson(jsonDecode(reponse.body));
+    } else
+      throw Exception('Failed to load post');
+  }
+
+  Future<void> addMovToHistory(String movieID) async {
+    final uri = Uri.parse('${(api.baseUrl)}History');
+    var history = History(
+      
+    );
+    final requestBody = await fetchMovieById(movieID);
+
+    final res = await http.post(
+      uri,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(requestBody),
+    );
+    if (res.statusCode == 200) {
+      print("Lưu thành công");
+    }
+    print('Failed');
+  }
+
 }
