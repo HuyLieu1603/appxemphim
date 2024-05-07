@@ -1,14 +1,15 @@
 // ignore_for_file: use_build_context_synchronously, unused_import
 
-import 'package:appxemphim/page/user/login.dart';
+import 'package:appxemphim/data/model/history/historyPurchase.dart';
+import 'package:appxemphim/page/history/purchase/historyPurchase.dart';
 import 'package:appxemphim/page/naviFrame.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import '../../data/model/usermodel.dart';
 import '../../data/model/bank.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../config/const.dart';
+import 'package:appxemphim/data/API/api.dart';
 
 class PaymentWidget extends StatefulWidget {
   final Bank objBank;
@@ -19,6 +20,10 @@ class PaymentWidget extends StatefulWidget {
 }
 
 class _PaymentWidgetState extends State<PaymentWidget> {
+  Future<List<historyPurchase>> _pushPurchases() async {
+    return await APIResponsitory().pushPurchase();
+  }
+
   @override
   void initState() {
     super.initState;
@@ -27,33 +32,6 @@ class _PaymentWidgetState extends State<PaymentWidget> {
   final _sothe = TextEditingController();
   final _tenchuthe = TextEditingController();
   final _ngayphathanh = TextEditingController();
-
-  // get user
-  getUser() {
-    var sothe = _sothe.text;
-    var tenchuthe = _tenchuthe.text;
-    var ngayphathanh = _ngayphathanh.text;
-
-    //create class
-    var objUser =
-        User(sothe: sothe, tenchuthe: tenchuthe, ngayphathanh: ngayphathanh);
-    return objUser;
-  }
-
-  //Save user to shared_preferences
-  Future<bool> saveUser(User objUser) async {
-    try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String strUser = jsonEncode(objUser);
-      prefs.setString('user', strUser);
-      return true;
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-      return false;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +48,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
         ),
         backgroundColor: Colors.white,
       ),
-      body: Container(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -198,29 +176,29 @@ class _PaymentWidgetState extends State<PaymentWidget> {
             const SizedBox(height: 15),
             ElevatedButton(
                 onPressed: () async {
-                  //get value
-                  var objUser = getUser();
-                  //save to Share preferences
-                  if (await saveUser(objUser) == true) {
-                    if (kDebugMode) {
-                      print(objUser.toJson());
-                    }
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return const AlertDialog(
-                          title: Text("Alert"),
-                          content: SingleChildScrollView(
-                            child: ListBody(
-                              children: <Widget>[
-                                Text("Đã lưu thông tin thanh toán"),
-                              ],
-                            ),
+                  // Gọi hàm để lưu lịch sử giao dịch
+                  await _pushPurchases();
+                  // Hiển thị dialog thông báo lưu thành công
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return const AlertDialog(
+                        title: Text("Alert"),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: <Widget>[
+                              Text("Đã lưu thông tin thanh toán"),
+                            ],
                           ),
-                        );
-                      },
-                    );
-                  }
+                        ),
+                      );
+                    },
+                  );
+                  // Chuyển hướng về trang chính sau khi lưu thành công
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const historyPurchaseWidget()));
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor:

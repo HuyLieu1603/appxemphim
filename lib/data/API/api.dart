@@ -92,6 +92,47 @@ class APIResponsitory {
     return lstPurchase;
   }
 
+  Future<List<historyPurchase>> pushPurchase() async {
+    final baseurl =
+        Uri.parse('${API().baseUrl}/historyPurchase'); // Sửa đường dẫn URL
+    List<historyPurchase> lstPurchase = [];
+    DateTime currentDate = DateTime.now();
+    try {
+      // Tạo đối tượng historyPurchase từ dữ liệu bạn có
+      final historyPurchaseData = {
+        "nameService": "gói cơ bản",
+        "price": "180.000 VND",
+        "date": currentDate.toIso8601String(),
+        "des": "Đăng ký gói",
+        "idAccount": "1",
+        "id": "1"
+      };
+
+      // Chuyển đối tượng historyPurchase thành JSON
+      final jsonData = jsonEncode(historyPurchaseData);
+
+      // Gửi yêu cầu POST với dữ liệu JSON đã chuyển
+      final res = await http.post(
+        baseurl,
+        body: jsonData,
+        headers: {
+          "Content-Type": "application/json"
+        }, // Đảm bảo server biết dữ liệu là JSON
+      );
+
+      if (res.statusCode == 201) {
+        print("Thanh toán thành công"); // Print success message
+        // Chỉnh sửa sau này ở đây
+      } else {
+        print("Thanh toán thất bại"); // Print failure message
+      }
+    } catch (e) {
+      print("Error: $e");
+    }
+
+    return lstPurchase;
+  }
+
   List<historyPurchase> lstHistory(String respondbody) {
     final parsed = json.decode(respondbody).cast<Map<String, dynamic>>();
     return parsed
