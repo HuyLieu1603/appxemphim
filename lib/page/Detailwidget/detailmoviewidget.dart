@@ -223,7 +223,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                               child: ElevatedButton(
                                                 onPressed: () => {
                                                   //print(links),
-
+                                                  
                                                   addMovToHis(
                                                       widget.objMov.id!),
                                                   Navigator.pushReplacement(
