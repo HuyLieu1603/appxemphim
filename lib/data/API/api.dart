@@ -20,6 +20,7 @@ import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import '../model/register.dart';
 
+
 class API {
   final Dio _dio = Dio();
   String baseUrl = "https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/";
@@ -34,8 +35,6 @@ class APIResponsitory {
     //String baseurl = "https://6629a5d367df268010a13cf2.mockapi.io/api/v1";
     bool result = false;
     final reponse = await http.get(baseurl);
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('name', name);
     List<Account> parseAccounts(String responseBody) {
       final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
       return parsed
@@ -52,6 +51,7 @@ class APIResponsitory {
       for (var item in accounts) {
         if (item.name == name && item.pass == pass) {
           result = true;
+          SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('name', name);
         }
       }
@@ -60,89 +60,26 @@ class APIResponsitory {
   }
 
   Future<List<History>> fetchHistory(String accountID) async {
-    final baseurl = Uri.parse('${API().baseUrl}History?idAccount=$accountID');
-    final response = await http.get(baseurl);
-
-    if (response.statusCode == 200) {
-      List<dynamic> jsonHistories = json.decode(response.body);
-      Map<String, History> uniqueHistories = {};
-
-      for (var jsonHistory in jsonHistories) {
-        try {
-          History history = History.fromJson(jsonHistory);
-          String idMovie = history.idMovie ?? '';
-          if (!uniqueHistories.containsKey(idMovie) ||
-              uniqueHistories[idMovie]!.date!.isBefore(history.date!)) {
-            uniqueHistories[idMovie] = history;
-          }
-        } catch (e) {
-          print('Error parsing history: $e');
-        }
-      }
-
-      // Chuyển các bản ghi từ Map thành List
-      List<History> histories = uniqueHistories.values.toList();
-
-      print("Load thành công");
-
-      return histories;
-    } else {
-      print('Failed to fetch history: ${response.statusCode}');
-      return [];
+    final baseurl = Uri.parse('${(API().baseUrl)}History');
+    List<History> Histories = [];
+    final res = await http.get(baseurl);
+    List<History> lstHistory(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<History>((json) => History(
+              idMovie: json['idMovie'],
+              idAccount: json['idAccount'],
+              date: DateTime.parse(json['date']),
+              img: json['img'],
+              id: json['id']))
+          .toList();
     }
-  }
 
-  Future<Movies> fetchMovieById(String movieID) async {
-    final baseurl = Uri.parse(
-        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies/$movieID');
-    final reponse = await http.get(baseurl, headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    });
-    if (reponse.statusCode == 200) {
-      return Movies.fromJson(jsonDecode(reponse.body));
-    } else
-      throw Exception('Failed to load post');
-  }
-
-//Lưu phim đã xem vào history
-  Future<void> addMovToHistory(String movieID) async {
-    final requestBody = await fetchMovieById(movieID);
-
-    final uri = Uri.parse('${(API().baseUrl)}History');
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    print(prefs.getString('name').toString());
-    var history = History(
-      idMovie: movieID,
-      idAccount: prefs.getString('name').toString(),
-      date: DateTime.now(),
-      img: requestBody.img,
-      nameMovie: requestBody.name,
-      type: requestBody.type,
-    );
-
-    Map<String, dynamic> historyJson = {
-      'idMovie':
-          history.idMovie, // Sử dụng thể hiện history để truy cập idMovie
-      'idAccount': history.idAccount,
-      'date': history.date!.toIso8601String(),
-      'nameMovie': history.nameMovie,
-      'type': history.type,
-      'img': history.img,
-    };
-
-    String historyJsonString = jsonEncode(historyJson);
-    print(history);
-    final res = await http.post(
-      uri,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: historyJsonString,
-    );
     if (res.statusCode == 200) {
-      print("Lưu thành công");
+      Histories = lstHistory(res.body);
+      print("ok");
     }
-    print('Failed');
+    return Histories;
   }
 
   Future<List<historyPurchase>> fetchPurchase(String accountID) async {
@@ -360,7 +297,7 @@ class APIResponsitory {
     return itemString;
   }
 
-//get video link
+  //get video link
   Future<String> fetchdataMoviesLink(String id) async {
     final baseurl = Uri.parse(
         'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies/' +
@@ -392,7 +329,7 @@ class APIResponsitory {
   }
 
   Future<List<Bank>> getBank(String name, String img) async {
-    final uri = Uri.parse('${(API().baseUrl)}Bank');
+    final uri = Uri.parse('${(api.baseUrl)}Bank');
     final res = await http.get(uri);
     List<Bank> banks = [];
     List<Bank> parseAccounts(String responseBody) {
@@ -409,6 +346,7 @@ class APIResponsitory {
     }
     return banks;
   }
+
 
   Future<String> Moviescontinues(
       String id, String idname, String timess) async {
@@ -463,7 +401,7 @@ class APIResponsitory {
           },
           body: body,
         );
-        print('Movies Create successfully');
+         print('Movies Create successfully');
       }
     } else {}
     print(a.idname);
@@ -495,14 +433,14 @@ class APIResponsitory {
     return '';
   }
 
-  Future<MoviesContinue> fectdateMoviescontinues(
-      String id, String idname) async {
+  Future<String> fectdateMoviescontinues(
+    String id, String idname) async {
     final baseurl = Uri.parse(
         'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies_continue');
     final reponse = await http.get(baseurl);
     int countIDlink = 0;
     bool checkmovies = false;
-    var takedata = MoviesContinue(idname: null, idmovie: null, times: null);
+    var takedata = MoviesContinue(idname: null, idmovie: null, times: "0");
     List<MoviesContinue> lstMoviesContinue = [];
     List<MoviesContinue> parseAccounts(String responseBody) {
       final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
@@ -514,20 +452,49 @@ class APIResponsitory {
               ))
           .toList();
     }
-
     if (reponse.statusCode == 200) {
       lstMoviesContinue = parseAccounts(reponse.body);
       for (var item in lstMoviesContinue) {
         countIDlink += 1;
         if (item.idmovie == id && item.idname == idname) {
-          checkmovies = true;
-          takedata =
-              MoviesContinue(idname: idname, idmovie: id, times: item.times);
-
-          return takedata;
+          checkmovies = true ;
+          takedata = MoviesContinue(idname: idname, idmovie: id, times: item.times);
         }
       }
     } else {}
-    return takedata;
+    
+    return takedata.times.toString();
   }
+
+
+  Future<Movies> fetchMovieById(String movieID) async {
+    final baseurl = Uri.parse(
+        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies/' + movieID);
+    final reponse = await http.get(baseurl);
+    if (reponse.statusCode == 200) {
+      return Movies.fromJson(jsonDecode(reponse.body));
+    } else
+      throw Exception('Failed to load post');
+  }
+
+  Future<void> addMovToHistory(String movieID) async {
+    final uri = Uri.parse('${(api.baseUrl)}History');
+    var history = History(
+      
+    );
+    final requestBody = await fetchMovieById(movieID);
+
+    final res = await http.post(
+      uri,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(requestBody),
+    );
+    if (res.statusCode == 200) {
+      print("Lưu thành công");
+    }
+    print('Failed');
+  }
+
 }
