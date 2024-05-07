@@ -13,7 +13,6 @@ class History {
     idAccount = json['idAccount'];
     date = DateTime.tryParse(json['date']);
     img = json['img'];
-
     id = json['id'];
   }
 

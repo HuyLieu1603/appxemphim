@@ -13,6 +13,7 @@ import 'page/MainPage.dart';
 import 'page/NaviFrame.dart';
 import 'page/user/register.dart';
 import 'page/banklist/banklistwidget.dart';
+
 void main() {
   runApp(const MainApp());
 }

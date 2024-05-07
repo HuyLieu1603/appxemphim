@@ -23,8 +23,8 @@ class _LoginState extends State<Login> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Thông tin không chính xác'),
-          content: Text('Vui lòng kiểm tra lại tên người dùng và mật khẩu.'),
+          title: const Text('Thông tin không chính xác'),
+          content: const Text('Vui lòng kiểm tra lại tên người dùng và mật khẩu.'),
           actions: [
             TextButton(
               child: Text('Đóng'),
@@ -239,7 +239,7 @@ class _LoginState extends State<Login> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const RegisterWidget(),
+                                builder: (context) => RegisterWidget(),
                               ), // Thay SignUpScreen() bằng màn hình đăng ký người dùng của bạn
                             );
                           },
