@@ -6,6 +6,7 @@ class AccountsModel {
   String? userName;
   String? password;
   String? serviceid;
+  DateTime duration;
   bool? status;
 
   AccountsModel({
@@ -13,6 +14,7 @@ class AccountsModel {
     required this.password,
     required this.serviceid,
     required this.userName,
+    required this.duration,
     required this.status,
   });
   static AccountsModel accountEmpty() {
@@ -21,6 +23,7 @@ class AccountsModel {
         password: '',
         serviceid: '',
         userName: '',
+        duration: DateTime.now(),
         status: false);
   }
 
@@ -30,7 +33,8 @@ class AccountsModel {
       userName: json['userName'],
       password: json['password'],
       serviceid: json['serviceid'],
-      status: json['status'],
+      status: json['status'], 
+      duration: json['duration'],
     );
   }
   Map<String, dynamic> toJson() {
@@ -40,7 +44,7 @@ class AccountsModel {
     data['password'] = password;
     data['serviceid'] = serviceid;
     data['status'] = status;
-
+    data['duration'] = duration;
     return data;
   }
 }

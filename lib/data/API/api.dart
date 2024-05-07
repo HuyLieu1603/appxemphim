@@ -6,14 +6,14 @@ import 'package:appxemphim/data/model/bank.dart';
 import '../model/history/historyMovie.dart';
 import 'package:appxemphim/data/model/movies.dart';
 import 'package:http/http.dart' as http;
-import 'package:appxemphim/data/model/account.dart';
+import 'package:appxemphim/data/model/accounts.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../model/user.dart';
 import '../model/accounts.dart';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import '../model/register.dart';
+import '../../data/model/service.dart';
 
 class API {
   final Dio _dio = Dio();
@@ -24,25 +24,28 @@ class API {
 class APIResponsitory {
   API api = API();
 
-  Future<bool> fetchdata(String name, String pass) async {
-    final baseurl = Uri.parse('${(API().baseUrl)}user');
+  Future<bool> fetchdata(String userName, String password) async {
+    final baseurl = Uri.parse('${(API().baseUrl)}account');
     bool result = false;
     final reponse = await http.get(baseurl);
-    List<Account> parseAccounts(String responseBody) {
+    List<AccountsModel> parseAccounts(String responseBody) {
       final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
       return parsed
-          .map<Account>((json) => Account(
-                name: json['name'],
-                pass: json['pass'],
-                id: json['id'],
+          .map<AccountsModel>((json) => AccountsModel(
+                userName: json['username'],
+                password: json['password'],
+                idaccount: json['id'],
+                serviceid: json['serviceid'],
+                duration: json['duration'], 
+                status: json['status'],
               ))
           .toList();
     }
 
     if (reponse.statusCode == 200) {
-      List<Account> accounts = parseAccounts(reponse.body);
+      List<AccountsModel> accounts = parseAccounts(reponse.body);
       for (var item in accounts) {
-        if (item.name == name && item.pass == pass) {
+        if (item.userName == userName && item.password == password) {
           result = true;
         }
       }
@@ -93,12 +96,10 @@ class APIResponsitory {
   }
 
   Future<List<historyPurchase>> pushPurchase() async {
-    final baseurl =
-        Uri.parse('${API().baseUrl}/historyPurchase'); // Sửa đường dẫn URL
+    final baseurl = Uri.parse('${API().baseUrl}/historyPurchase');
     List<historyPurchase> lstPurchase = [];
     DateTime currentDate = DateTime.now();
     try {
-      // Tạo đối tượng historyPurchase từ dữ liệu bạn có
       final historyPurchaseData = {
         "nameService": "gói cơ bản",
         "price": "180.000 VND",
@@ -107,24 +108,20 @@ class APIResponsitory {
         "idAccount": "1",
         "id": "1"
       };
-
-      // Chuyển đối tượng historyPurchase thành JSON
       final jsonData = jsonEncode(historyPurchaseData);
-
-      // Gửi yêu cầu POST với dữ liệu JSON đã chuyển
       final res = await http.post(
         baseurl,
         body: jsonData,
         headers: {
           "Content-Type": "application/json"
-        }, // Đảm bảo server biết dữ liệu là JSON
+        },
       );
 
       if (res.statusCode == 201) {
-        print("Thanh toán thành công"); // Print success message
+        print("Thanh toán thành công");
         // Chỉnh sửa sau này ở đây
       } else {
-        print("Thanh toán thất bại"); // Print failure message
+        print("Thanh toán thất bại");
       }
     } catch (e) {
       print("Error: $e");
@@ -360,5 +357,67 @@ class APIResponsitory {
       print("Lưu thành công");
     }
     print('Failed');
+  }
+
+  Future<Service?> getServiceByUser(String accountId) async {
+    try {
+      // Lấy thông tin tài khoản từ accountId
+      final accountUrl = Uri.parse('${api.baseUrl}account/$accountId');
+      final accountResponse = await http.get(accountUrl);
+      
+      if (accountResponse.statusCode == 200) {
+        // Chuyển đổi dữ liệu từ JSON sang đối tượng AccountsModel
+        final accountJson = json.decode(accountResponse.body);
+        final account = AccountsModel.fromJson(accountJson);
+        
+        // Lấy service id từ thông tin tài khoản
+        final serviceId = account.serviceid;
+        if (serviceId == null) return null;
+
+        // Lấy thông tin dịch vụ từ service id
+        final serviceUrl = Uri.parse('${api.baseUrl}Service/$serviceId');
+        final serviceResponse = await http.get(serviceUrl);
+
+        if (serviceResponse.statusCode == 200) {
+          final serviceJson = json.decode(serviceResponse.body);
+          final service = Service.fromJson(serviceJson);
+          return service;
+        } else {
+          throw Exception('Failed to load service');
+        }
+      } else {
+        throw Exception('Failed to load account');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
+
+  Future<bool> ExtendService(String userName, String password) async {
+    final baseurl = Uri.parse('${(API().baseUrl)}account');
+    bool result = false;
+    final reponse = await http.get(baseurl);
+    List<AccountsModel> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed.map<AccountsModel>((json) => AccountsModel(
+                userName: json['username'],
+                password: json['password'],
+                idaccount: json['id'],
+                serviceid: json['serviceid'],
+                duration: json['duration'], 
+                status: true,
+              ))
+          .toList();
+    }
+
+    if (reponse.statusCode == 200) {
+      List<AccountsModel> accounts = parseAccounts(reponse.body);
+      for (var item in accounts) {
+        if (item.userName == userName && item.password == password) {
+          result = true;
+        }
+      }
+    }
+    return result;
   }
 }
