@@ -6,6 +6,7 @@ import 'package:appxemphim/page/movieCategory/movieCategory.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/model/movies.dart';
 import '../../data/provider/moviesprovider.dart';
 import '../../config/const.dart';
@@ -17,13 +18,17 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 
 class Menumoviewidget extends StatefulWidget {
   const Menumoviewidget({super.key});
-
   @override
   State<Menumoviewidget> createState() => _MenumoviewidgetState();
 }
 
 class _MenumoviewidgetState extends State<Menumoviewidget> {
   List<String> CategoryList = [];
+  //share reperence
+ 
+
+
+
   Future<String> loadCategoryList() async {
     CategoryList = await APIResponsitory().fetchdataCategoryAll();
     return '';
@@ -32,6 +37,11 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
   String? selectedValue;
   List<Movies> lsMovies = [];
   Future<String> loadmovies() async {
+    
+     SharedPreferences prefs = await SharedPreferences.getInstance();
+     print(prefs.getString('name').toString());
+     
+
     lsMovies = await ReadDataMovies().loadDataMovies();
     return '';
   }

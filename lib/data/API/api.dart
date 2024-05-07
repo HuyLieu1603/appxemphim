@@ -2,6 +2,7 @@ import 'package:appxemphim/data/model/category.dart';
 import 'package:appxemphim/data/model/history/historyPurchase.dart';
 import 'package:appxemphim/data/model/movielinks.dart';
 import 'package:appxemphim/data/model/bank.dart';
+import 'package:appxemphim/data/model/movies_continue/movies_continue.dart';
 import '../model/history/historyMovie.dart';
 import 'package:appxemphim/data/model/movies.dart';
 import 'package:flutter/foundation.dart';
@@ -201,9 +202,10 @@ class APIResponsitory {
 
         if (type != null) {
           for (var items in type as List<dynamic>) {
-            final decodedString = utf8.decode(items['nametype'].toString().codeUnits);
+            final decodedString =
+                utf8.decode(items['nametype'].toString().codeUnits);
             print(decodedString);
-          
+
             if (decodedString == name.toLowerCase().trim()) {
               movies.add(item);
             }
@@ -294,4 +296,127 @@ class APIResponsitory {
     }
     return banks;
   }
+
+  Future<String> Moviescontinues(
+      String id, String idname, String timess) async {
+    var a = MoviesContinue(idname: idname, idmovie: id, times: timess);
+    //UpdateMoviescontinues(a); update dc roi
+    var url = Uri.parse(
+        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies_continue');
+    var body = json.encode(a.toJson());
+
+    /////
+    final baseurl = Uri.parse(
+        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies_continue');
+    final reponse = await http.get(baseurl);
+    int countIDlink = 0;
+    bool checkmovies = false;
+    List<MoviesContinue> lstMoviesContinue = [];
+    List<MoviesContinue> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<MoviesContinue>((json) => MoviesContinue(
+                idname: json['idname'],
+                idmovie: json['idmovie'],
+                times: json['times'],
+              ))
+          .toList();
+    }
+
+    /*
+    var response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: body,
+    );
+    */
+
+    if (reponse.statusCode == 200) {
+      lstMoviesContinue = parseAccounts(reponse.body);
+      for (var item in lstMoviesContinue) {
+        countIDlink += 1;
+        if (item.idmovie == id && item.idname == idname) {
+          UpdateMoviescontinues(a, countIDlink.toString());
+          checkmovies = true;
+        }
+      }
+      if (checkmovies != true) {
+        var responsed = await http.post(
+          url,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: body,
+        );
+         print('Movies Create successfully');
+      }
+    } else {}
+    print(a.idname);
+
+    return '';
+  }
+
+  Future<String> UpdateMoviescontinues(
+      MoviesContinue items, String locate) async {
+    var url = Uri.parse(
+        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies_continue/' +
+            locate.trim());
+    var body = json.encode(items.toJson());
+    var response = await http.put(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: body,
+    );
+    if (response.statusCode == 200) {
+      // Handle successful account creation
+      print('Movies Updated successfully');
+    } else {
+      // Handle errors
+      print('Error: ${response.statusCode}');
+    }
+
+    return '';
+  }
+
+  Future<MoviesContinue> fectdateMoviescontinues(
+    String id, String idname) async {
+    final baseurl = Uri.parse(
+        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies_continue');
+    final reponse = await http.get(baseurl);
+    int countIDlink = 0;
+    bool checkmovies = false;
+    var takedata = MoviesContinue(idname: null, idmovie: null, times: null);
+    List<MoviesContinue> lstMoviesContinue = [];
+    List<MoviesContinue> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<MoviesContinue>((json) => MoviesContinue(
+                idname: json['idname'],
+                idmovie: json['idmovie'],
+                times: json['times'],
+              ))
+          .toList();
+    }
+    if (reponse.statusCode == 200) {
+      lstMoviesContinue = parseAccounts(reponse.body);
+      for (var item in lstMoviesContinue) {
+        countIDlink += 1;
+        if (item.idmovie == id && item.idname == idname) {
+          checkmovies = true ;
+          takedata = MoviesContinue(idname: idname, idmovie: id, times: item.times);
+          return takedata;
+        }
+      }
+    } else {}
+    return takedata;
+  }
+
+
+
+
+
 }

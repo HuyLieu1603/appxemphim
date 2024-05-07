@@ -11,6 +11,8 @@ import '../../data/model/movies.dart';
 import '../../data/provider/moviesprovider.dart';
 
 class DetailMovies extends StatefulWidget {
+
+  
   final Movies objMov;
 
   const DetailMovies({Key? key, required this.objMov}) : super(key: key);
@@ -217,7 +219,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                               builder: (context) =>
                                                 
                                                   VideoDetails(
-                                                linkMov: links.toString(),
+                                                linkMov: links.toString(), objMov: widget.objMov,
                                               ),
                                             ),
                                           )
