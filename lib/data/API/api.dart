@@ -926,4 +926,45 @@ class APIResponsitory {
     }
     return check;
   }
+   Future<String> fecttotalidMoviesRating(
+      String idmovies) async {
+    int total = 0 ;
+    int count = 0 ;
+    double result = 0.0;
+    String check = "0";
+    //kiem tra co trong danh sach phim hya khong voi idname va id movies
+    final baseurl =
+        Uri.parse('${(API().baseUrl)}Movies/' + idmovies + "/Movies_rating");
+    final reponse = await http.get(baseurl);
+    List<MoviesRating> lstRating = [];
+    List<MoviesRating> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<MoviesRating>((json) => MoviesRating(
+                idname: json['idname'],
+                idmovies: json['idmovies'],
+                rating: json['rating'],
+                id: json['id'],
+                MovieId: json['MovieId'],
+              ))
+          .toList();
+    }
+
+    if (reponse.statusCode == 200) {
+      lstRating = parseAccounts(reponse.body);
+        for (var rating in lstRating) {
+        if (rating.idmovies == idmovies) {
+          total += int.parse(rating.rating.toString().trim());
+          count +=1;
+        }
+      }
+     result = (total/count) + (total%count);
+     check = result.toString();
+
+    } else {
+
+      return check;
+    }
+    return check;
+  }
 }

@@ -84,12 +84,14 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
     }
 
     _rating = int.parse(await APIResponsitory().fectdataMoviesRating(nameid, widget.objMov.id!));
-
+    _rankRating = await APIResponsitory().fecttotalidMoviesRating(widget.objMov.id!);
+    
     return '';
   }
 
   /////Rating
   int _rating = 0;
+  String _rankRating = "0";
   void rate(int rating) {
     //Other actions based on rating such as api calls.
     showDialog(
@@ -321,7 +323,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                   color: Colors.white54,
                                                 ),
                                                 SizedBox(
-                                                  width: 10,
+                                                  width: 0,
                                                 ),
                                                 Container(
                                                   child: new Row(
@@ -376,6 +378,15 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                       )
                                                     ],
                                                   ),
+                                                ),
+                                                 SizedBox(
+                                                  width: 0,
+                                                ),
+                                                 Text(
+                                                  _rankRating + "/5.0",
+                                                  style: TextStyle(
+                                                      color: Colors.white54,),
+                                                      
                                                 ),
                                                 Spacer(),
                                                 IconButton(
