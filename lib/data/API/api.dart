@@ -4,6 +4,7 @@ import 'package:appxemphim/data/model/history/historyPurchase.dart';
 import 'package:appxemphim/data/model/movielinks.dart';
 import 'package:appxemphim/data/model/bank.dart';
 import 'package:appxemphim/data/model/movies_continue/movies_continue.dart';
+import 'package:appxemphim/data/model/movies_rating/movies_rating.dart';
 import 'package:intl/intl.dart';
 import 'package:appxemphim/data/model/movies_directors/movies_directors.dart';
 import '../model/history/historyMovie.dart';
@@ -774,4 +775,122 @@ class APIResponsitory {
     }
     return lstMoviesDirector[0];
   }
+  Future<bool> fectMoviesRating(
+      String idname, String idmovies, String ratings) async {
+    bool check = false;
+    //kiem tra co trong danh sach phim hya khong voi idname va id movies
+    final baseurl =
+        Uri.parse('${(API().baseUrl)}Movies/' + idmovies + "/Movies_rating");
+    print(baseurl);
+    final reponse = await http.get(baseurl);
+    List<MoviesRating> lstRating = [];
+    List<MoviesRating> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<MoviesRating>((json) => MoviesRating(
+                idname: json['idname'],
+                idmovies: json['idmovies'],
+                rating: json['rating'],
+                id: json['id'],
+                MovieId: json['MovieId'],
+              ))
+          .toList();
+    }
+
+    if (reponse.statusCode == 200) {
+      print("ok");
+      lstRating = parseAccounts(reponse.body);
+      MoviesRating items = MoviesRating();
+      int index = lstRating.indexWhere(
+          (rating) => rating.idname == idname && rating.idmovies == idmovies);
+
+      for (var rating in lstRating) {
+        if (rating.idname == idname && rating.idmovies == idmovies) {
+          items = rating;
+          items.rating = ratings;
+          break;
+        }
+      }
+
+      if (index != -1) {
+        print(items);
+        print(
+            'Rating exists at index $index for idname: $idname and idmovies: $idmovies');
+        var url = Uri.parse('${(API().baseUrl)}Movies/' +
+            items.id.toString() +
+            "/Movies_rating/" +
+            items.id.toString());
+        print(url);
+        var body = json.encode(items.toJson());
+
+        var response = await http.put(
+          url,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: body,
+        );
+        if (response.statusCode == 200) {
+          // Handle successful account creation
+          print('Rating Updated successfully');
+        } else {
+          // Handle errors
+          print('Error: ${response.statusCode}');
+        }
+      } else {
+        print(
+            'Rating does not exist for idname: $idname and idmovies: $idmovies');
+        var urlpost = Uri.parse('${(API().baseUrl)}Movies_rating');
+        Map<String, dynamic> rateJson = {
+          'idname': idname.toString(),
+          'idmovies': idmovies.toString(),
+          'rating': ratings,
+          'MovieId': idmovies.toString(),
+        };
+        String rateJsonString = jsonEncode(rateJson);
+        final response = await http.post(
+          urlpost,
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: rateJsonString,
+        );
+        if (response.statusCode == 201) {
+          print('Thêm thành công rating');
+        } else {
+         
+          print('Failed: ${response.statusCode}');
+        }
+      }
+    } else {
+      
+      print(
+            'Rating does not exist for idname: $idname and idmovies: $idmovies');
+        var urlpost = Uri.parse('${(API().baseUrl)}Movies_rating');
+        Map<String, dynamic> rateJson = {
+          'idname': idname.toString(),
+          'idmovies': idmovies.toString(),
+          'rating': ratings,
+          'MovieId': idmovies.toString(),
+        };
+        String rateJsonString = jsonEncode(rateJson);
+        final response = await http.post(
+          urlpost,
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: rateJsonString,
+        );
+        if (response.statusCode == 201) {
+          print('Thêm thành công rating');
+        } else {
+         
+          print('Failed: ${response.statusCode}');
+        }
+      //print('Lỗi: ${reponse.statusCode}');
+    }
+
+    return check;
+  }
+
 }
