@@ -5,7 +5,7 @@ import 'package:appxemphim/data/model/register.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import '../../page/banklist/banklistwidget.dart';
-import '../../page/onlinepayment/onlinepaymentwidget.dart';
+import 'momopaymentsandbox.dart';
 import '../../config/const.dart';
 
 class PaymentMethodWidget extends StatelessWidget {

@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 
-import 'package:appxemphim/page/paymentmethod/paymentmethodwidget.dart';
+import 'package:appxemphim/page/payment/paymentmethodwidget.dart';
 import 'package:flutter/material.dart';
 import '../data/model/service.dart';
 import '../config/const.dart';
