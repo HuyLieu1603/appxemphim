@@ -12,7 +12,11 @@ class VideoDetails extends StatefulWidget {
   final String linkMov;
   final Movies objMov;
   final String timeplays;
-  const VideoDetails({Key? key, required this.linkMov, required this.objMov, required this.timeplays})
+  const VideoDetails(
+      {Key? key,
+      required this.linkMov,
+      required this.objMov,
+      required this.timeplays})
       : super(key: key);
   //const VideoDetails({super.key});
   @override
@@ -48,8 +52,6 @@ class _VideoDetailsState extends State<VideoDetails> {
     return '';
   }
 
-
-
   @override
   void initState() {
     super.initState();
@@ -66,6 +68,7 @@ class _VideoDetailsState extends State<VideoDetails> {
     print(widget.timeplays.toString());
     print("cai nay truoc");
     final videoID = YoutubePlayer.convertUrlToId(widget.linkMov.toString());
+    bool controlVisible = true;
     _controller = YoutubePlayerController(
       initialVideoId: videoID!,
       flags: YoutubePlayerFlags(
@@ -74,6 +77,11 @@ class _VideoDetailsState extends State<VideoDetails> {
         enableCaption: true,
         captionLanguage: 'en',
         autoPlay: true,
+        disableDragSeek: true,
+        loop: true,
+        forceHD: true,
+        useHybridComposition: true,
+        showLiveFullscreenButton: true,
       ),
     )..addListener(() {
         if (_controller.value.isReady) {
@@ -87,6 +95,7 @@ class _VideoDetailsState extends State<VideoDetails> {
         }
       });
   }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -101,6 +110,7 @@ class _VideoDetailsState extends State<VideoDetails> {
               player: YoutubePlayer(
                 controller: _controller,
                 showVideoProgressIndicator: true,
+                aspectRatio: 12 / 6,
               ),
               builder: (context, player) {
                 return Scaffold(
@@ -144,6 +154,19 @@ class _VideoDetailsState extends State<VideoDetails> {
                               'Video Duration: ${videoDuration?.toString() ?? "Unknown"}',
                               style: TextStyle(color: Colors.white),
                             ),
+                            /*
+                            FloatingActionButton(
+                              onPressed: () {
+                                Duration currentPosition =
+                                    _controller.value.position;
+                                Duration targetPosition = currentPosition +
+                                    const Duration(seconds: 10);
+                                _controller.seekTo(targetPosition);
+                              },
+                              child: const Icon(
+                                Icons.arrow_forward,
+                              ),
+                            ),*/
                           ],
                         ),
                       ),

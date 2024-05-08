@@ -111,7 +111,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                   future: _loadCurrent,
                   builder:
                       (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(
                         child: CircularProgressIndicator(),
                       );
