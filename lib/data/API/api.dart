@@ -662,6 +662,7 @@ class APIResponsitory {
       if (reponse.statusCode == 200) {
         // print("ok");
         lstFavorite = parseAccounts(reponse.body);
+
         //vong lap lay locate
         for (var item in lstFavorite) {
           if (item.idMovie == idMovie && item.idAccount == idAccount) {
@@ -676,9 +677,6 @@ class APIResponsitory {
       } else {
         print('Lỗi: ${reponse.statusCode}');
       }
-      if (findlocate == true) {
-        final baseurls =
-            Uri.parse('${(API().baseUrl)}Favorite/' + locate.toString().trim());
       if (findlocate == true) {
         final baseurls =
             Uri.parse('${(API().baseUrl)}Favorite/' + locate.toString().trim());
@@ -697,20 +695,8 @@ class APIResponsitory {
         }
       } else {
         print('đéo có gì để xóa');
-          baseurls,
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-        );
-
-        if (response.statusCode == 200) {
-          print('Xóa yêu thích thành công');
-        } else {
-          print('Lỗi: ${response.statusCode}');
-        }
-      } else {
-        print('đéo có gì để xóa');
       }
+
       /*
       final response = await http.delete(
         baseurl,
