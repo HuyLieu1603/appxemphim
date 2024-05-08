@@ -775,6 +775,7 @@ class APIResponsitory {
     }
     return lstMoviesDirector[0];
   }
+
   Future<bool> fectMoviesRating(
       String idname, String idmovies, String ratings) async {
     bool check = false;
@@ -858,39 +859,71 @@ class APIResponsitory {
         if (response.statusCode == 201) {
           print('Thêm thành công rating');
         } else {
-         
           print('Failed: ${response.statusCode}');
         }
       }
     } else {
-      
       print(
-            'Rating does not exist for idname: $idname and idmovies: $idmovies');
-        var urlpost = Uri.parse('${(API().baseUrl)}Movies_rating');
-        Map<String, dynamic> rateJson = {
-          'idname': idname.toString(),
-          'idmovies': idmovies.toString(),
-          'rating': ratings,
-          'MovieId': idmovies.toString(),
-        };
-        String rateJsonString = jsonEncode(rateJson);
-        final response = await http.post(
-          urlpost,
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: rateJsonString,
-        );
-        if (response.statusCode == 201) {
-          print('Thêm thành công rating');
-        } else {
-         
-          print('Failed: ${response.statusCode}');
-        }
+          'Rating does not exist for idname: $idname and idmovies: $idmovies');
+      var urlpost = Uri.parse('${(API().baseUrl)}Movies_rating');
+      Map<String, dynamic> rateJson = {
+        'idname': idname.toString(),
+        'idmovies': idmovies.toString(),
+        'rating': ratings,
+        'MovieId': idmovies.toString(),
+      };
+      String rateJsonString = jsonEncode(rateJson);
+      final response = await http.post(
+        urlpost,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: rateJsonString,
+      );
+      if (response.statusCode == 201) {
+        print('Thêm thành công rating');
+      } else {
+        print('Failed: ${response.statusCode}');
+      }
       //print('Lỗi: ${reponse.statusCode}');
     }
 
     return check;
   }
 
+  Future<String> fectdataMoviesRating(
+      String idname, String idmovies) async {
+    String check = "0";
+    //kiem tra co trong danh sach phim hya khong voi idname va id movies
+    final baseurl =
+        Uri.parse('${(API().baseUrl)}Movies/' + idmovies + "/Movies_rating");
+    final reponse = await http.get(baseurl);
+    List<MoviesRating> lstRating = [];
+    List<MoviesRating> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<MoviesRating>((json) => MoviesRating(
+                idname: json['idname'],
+                idmovies: json['idmovies'],
+                rating: json['rating'],
+                id: json['id'],
+                MovieId: json['MovieId'],
+              ))
+          .toList();
+    }
+
+    if (reponse.statusCode == 200) {
+      lstRating = parseAccounts(reponse.body);
+        for (var rating in lstRating) {
+        if (rating.idname == idname && rating.idmovies == idmovies) {
+          check = rating.rating.toString().trim();
+
+          break;
+        }
+      }
+    } else {
+      return check;
+    }
+    return check;
+  }
 }
