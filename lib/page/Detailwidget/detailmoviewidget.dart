@@ -83,6 +83,8 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
       print(Actorss);
     }
 
+    _rating = int.parse(await APIResponsitory().fectdataMoviesRating(nameid, widget.objMov.id!));
+
     return '';
   }
 
