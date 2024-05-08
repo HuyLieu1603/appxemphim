@@ -4,6 +4,7 @@ import 'package:appxemphim/data/model/history/historyPurchase.dart';
 import 'package:appxemphim/data/model/movielinks.dart';
 import 'package:appxemphim/data/model/bank.dart';
 import 'package:appxemphim/data/model/movies_continue/movies_continue.dart';
+import 'package:appxemphim/data/model/movies_directors/movies_directors.dart';
 import '../model/history/historyMovie.dart';
 import 'package:appxemphim/data/model/movies.dart';
 import 'package:flutter/foundation.dart';
@@ -602,4 +603,37 @@ class APIResponsitory {
     }
     return check;
   }
+
+   Future<MoviesDirector> fectchMoviesDirector(String id) async {
+    final baseurl = Uri.parse(
+        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies/'+id.toString().trim() +'/Movies_Director');
+    print(baseurl);
+    final reponse = await http.get(baseurl);
+    List<MoviesDirector> lstMoviesDirector = [];
+    List<MoviesDirector> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<MoviesDirector>((json) => MoviesDirector(
+                Director: json['Director'],
+                Actor: json['Actor'],
+                id: json['id'],
+                MovieId: json['MovieId'],
+              ))
+          .toList();
+    }
+
+    if (reponse.statusCode == 200) {
+     // print("ok");
+      lstMoviesDirector = parseAccounts(reponse.body);
+      
+      return lstMoviesDirector[0];
+    } else {
+
+      print("false");
+
+    }
+    return lstMoviesDirector[0];
+  }
+
+
 }
