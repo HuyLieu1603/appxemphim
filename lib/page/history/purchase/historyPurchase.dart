@@ -28,9 +28,13 @@ class _historyPurchaseWidgetState extends State<historyPurchaseWidget> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text('Lịch sử thanh toán'),
+        title: Text(
+          'Lịch sử thanh toán',
+          style: TextStyle(color: Colors.white),
+        ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
+          color: Colors.white,
           onPressed: () {
             Navigator.pop(context);
           },

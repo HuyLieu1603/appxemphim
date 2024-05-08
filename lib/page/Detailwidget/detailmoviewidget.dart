@@ -1,7 +1,10 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings, avoid_unnecessary_containers, non_constant_identifier_names
 
 // import 'package:flutter/cupertino.dart';
+import 'dart:convert';
+
 import 'package:appxemphim/data/API/api.dart';
+import 'package:appxemphim/data/model/movies_directors/movies_directors.dart';
 import 'package:appxemphim/page/viewmovie/viewmovie.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,8 +15,6 @@ import '../../data/model/movies.dart';
 import '../../data/provider/moviesprovider.dart';
 
 class DetailMovies extends StatefulWidget {
-
-  
   final Movies objMov;
 
   const DetailMovies({Key? key, required this.objMov}) : super(key: key);
@@ -27,20 +28,39 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
   bool isExpanded = false;
   bool isExpandedActors = false;
   bool isExpandedCategory = false;
-  String timeplay ="";
+  String timeplay = "";
   var takedata;
+  late MoviesDirector moviesDirector;
   String nameid = "";
+  String Categoryss = "";
+  String Actorss = "";
   late Future<String> _loadcurrentMovies;
   late Future<String> _loadCurrent;
   Future<String> loadCurrent(String movId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     nameid = prefs.getString('name').toString();
     print(nameid);
-    takedata = await APIResponsitory().fectdateMoviescontinues(widget.objMov.id.toString().trim(), nameid.toString().trim());
+    takedata = await APIResponsitory().fectdateMoviescontinues(
+        widget.objMov.id.toString().trim(), nameid.toString().trim());
     timeplay = takedata;
     print(timeplay);
     detailMovies =
         await ReadDataMovies().loadDataMoviesbyId(movId) as List<Movies>;
+
+    moviesDirector =
+        await APIResponsitory().fectchMoviesDirector(widget.objMov.id!);
+
+    if (moviesDirector.Actor is Iterable) {
+      var allActors = moviesDirector.Actor as Iterable;
+      allActors.forEach((element) {
+        Actorss += utf8.decode(element['nameActors'].toString().codeUnits);
+        if (element != allActors.last) {
+          Actorss += ', ';
+        }
+      });
+      print(Actorss);
+    }
+
     return '';
   }
 
@@ -50,24 +70,41 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
     links = await APIResponsitory().fetchdataMoviesLink(movId);
     return '';
   }
+
+  Future<void> addMovToHis(String movieID) async {
+    return await APIResponsitory().addMovToHistory(movieID);
+  }
+
   @override
   void initState() {
     super.initState();
     _loadcurrentMovies = loadCurrent(widget.objMov.id!);
     _loadCurrent = loadlink(widget.objMov.id!);
+    if (widget.objMov.type is Iterable) {
+      var allCategorys = widget.objMov.type as Iterable;
+      allCategorys.forEach((item) {
+        Categoryss += utf8.decode(item['nametype'].toString().codeUnits);
+        if (item != allCategorys.last) {
+          Categoryss += ', ';
+        }
+      });
+    } else {}
+
+    //print(Actorss);
   }
 
   @override
   Widget build(BuildContext context) {
     print(widget.objMov.id!);
 
-    String description =
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget justo ac turpis volutpat fermentum. ';
+    //String description ='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget justo ac turpis volutpat fermentum. ';
 
-    String Actors =
-        'Actors : diễn viên A ,diễn viên B ,diễn viên C ,diễn viên D ,diễn viên Ediễn viên D ,diễn viên E ';
-    String Categorys =
-        "Category : Thể loại A ,Thể loại B ,Thể loại C ,Thể loại D  ";
+    String description = utf8.decode(widget.objMov.des.toString().codeUnits);
+
+    //String Categorys ="Category : Thể loại A ,Thể loại B ,Thể loại C ,Thể loại D  ";
+    //String Categorys = "Category : Thể loại A ,Thể loại B ,Thể loại C ,Thể loại D  ";
+    String Categorys = "Category : " + Categoryss;
+
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -97,7 +134,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                         child: CircularProgressIndicator(),
                       );
                     } else {
-                      
+                      String Actors = 'Actors : ' + Actorss;
                       return ListView(
                         children: [
                           Stack(
@@ -185,10 +222,10 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                         FontWeight.bold),
                                               ),
                                             ),
-                                            const Row(
+                                            Row(
                                               children: [
                                                 Text(
-                                                  '2019',
+                                                  '${widget.objMov.release}',
                                                   style: TextStyle(
                                                       color: Colors.white54),
                                                 ),
@@ -201,7 +238,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                   width: 10,
                                                 ),
                                                 Text(
-                                                  '1g 30p',
+                                                  '${widget.objMov.time}',
                                                   style: TextStyle(
                                                       color: Colors.white54),
                                                 ),
@@ -218,23 +255,24 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                               height: 50,
                                               padding: const EdgeInsets.all(1),
                                               child: ElevatedButton(
-                                                onPressed: () => {   
-                                            //print(links),
-                                            
-                                          
+                                                onPressed: () => {
+                                                  //print(links),
 
-                                                                                
-                                            Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                              
-                                              builder: (context) =>
-                                                
-                                                  VideoDetails(
-                                                linkMov: links.toString(), objMov: widget.objMov, timeplays: timeplay.toString(),
-                                              ),
-                                            ),
-                                          )
+                                                  addMovToHis(
+                                                      widget.objMov.id!),
+                                                  Navigator.pushReplacement(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          VideoDetails(
+                                                        linkMov:
+                                                            links.toString(),
+                                                        objMov: widget.objMov,
+                                                        timeplays:
+                                                            timeplay.toString(),
+                                                      ),
+                                                    ),
+                                                  )
                                                 },
                                                 style: ElevatedButton.styleFrom(
                                                   foregroundColor: Colors.white,
@@ -266,7 +304,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                       width: 5,
                                                     ),
                                                     Text(
-                                                      'Play',
+                                                      'Xem',
                                                       style: TextStyle(
                                                           color: Colors.black),
                                                     ),
@@ -312,7 +350,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                         ),
                                                       ),
                                                     const SizedBox(height: 10),
-                                                    const Row(
+                                                    Row(
                                                       children: [
                                                         Text(
                                                           'Director : ',
@@ -322,7 +360,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                         ),
                                                         //ten dao dien
                                                         Text(
-                                                          'Liêu Trương Gia Huy',
+                                                          '${moviesDirector.Director}',
                                                           style: TextStyle(
                                                               color: Colors
                                                                   .white54),
@@ -334,7 +372,9 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                       isExpandedActors
                                                           ? Actors
                                                           : Actors.substring(
-                                                                  0, 50) +
+                                                                  0,
+                                                                  Actors
+                                                                      .length) +
                                                               '...',
                                                       style: const TextStyle(
                                                           color:
@@ -345,14 +385,17 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                       isExpandedCategory
                                                           ? Categorys
                                                           : Categorys.substring(
-                                                                  0, 50) +
+                                                                  0,
+                                                                  Categorys
+                                                                      .length) +
                                                               '...',
                                                       style: const TextStyle(
                                                           color:
                                                               Colors.white54),
                                                     ),
                                                     const SizedBox(height: 8),
-                                                    if (Actors.length > 50)
+                                                    if (Actors.length >
+                                                        Actors.length - 1)
                                                       GestureDetector(
                                                         onTap: () {
                                                           setState(() {

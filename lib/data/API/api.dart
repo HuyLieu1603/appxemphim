@@ -1,9 +1,11 @@
+import 'package:appxemphim/data/model/Favorite/favoriteMovie.dart';
 import 'package:appxemphim/data/model/category.dart';
 import 'package:appxemphim/data/model/history/historyPurchase.dart';
 import 'package:appxemphim/data/model/movielinks.dart';
 import 'package:appxemphim/data/model/bank.dart';
 import 'package:appxemphim/data/model/movies_continue/movies_continue.dart';
 import 'package:intl/intl.dart';
+import 'package:appxemphim/data/model/movies_directors/movies_directors.dart';
 import '../model/history/historyMovie.dart';
 import 'package:appxemphim/data/model/movies.dart';
 import 'package:flutter/foundation.dart';
@@ -63,32 +65,112 @@ class APIResponsitory {
   }
 
   Future<List<History>> fetchHistory(String accountID) async {
-    final baseurl = Uri.parse('${(API().baseUrl)}History');
-    List<History> Histories = [];
-    final res = await http.get(baseurl);
-    List<History> lstHistory(String responseBody) {
-      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-      return parsed
-          .map<History>((json) => History(
-              idMovie: json['idMovie'],
-              idAccount: json['idAccount'],
-              date: DateTime.parse(json['date']),
-              img: json['img'],
-              id: json['id']))
-          .toList();
-    }
+    final baseurl = Uri.parse('${API().baseUrl}History?idAccount=$accountID');
+    final response = await http.get(baseurl);
 
+    if (response.statusCode == 200) {
+      List<dynamic> jsonHistories = json.decode(response.body);
+      Map<String, History> uniqueHistories = {};
+
+      for (var jsonHistory in jsonHistories) {
+        try {
+          History history = History.fromJson(jsonHistory);
+          String idMovie = history.idMovie ?? '';
+          if (!uniqueHistories.containsKey(idMovie) ||
+              uniqueHistories[idMovie]!.date!.isBefore(history.date!)) {
+            uniqueHistories[idMovie] = history;
+          }
+        } catch (e) {
+          print('Error parsing history: $e');
+        }
+      }
+
+      // Chuyển các bản ghi từ Map thành List
+      List<History> histories = uniqueHistories.values.toList();
+
+      print("Load thành công");
+
+      return histories;
+    } else {
+      print('Failed to fetch history: ${response.statusCode}');
+      return [];
+    }
+  }
+
+  Future<Movies> fetchMovieById(String movieID) async {
+    final baseurl = Uri.parse(
+        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies/$movieID');
+    final reponse = await http.get(baseurl, headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    });
+    if (reponse.statusCode == 200) {
+      return Movies.fromJson(jsonDecode(reponse.body));
+    } else
+      throw Exception('Failed to load post');
+  }
+
+//Lưu phim đã xem vào history
+  Future<void> addMovToHistory(String movieID) async {
+    final requestBody = await fetchMovieById(movieID);
+
+    final uri = Uri.parse('${(API().baseUrl)}History');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(prefs.getString('name').toString());
+    var history = History(
+      idMovie: movieID,
+      idAccount: prefs.getString('name').toString(),
+      date: DateTime.now(),
+      img: requestBody.img,
+      nameMovie: requestBody.name,
+      type: requestBody.type,
+    );
+
+    Map<String, dynamic> historyJson = {
+      'idMovie':
+          history.idMovie, // Sử dụng thể hiện history để truy cập idMovie
+      'idAccount': history.idAccount,
+      'date': history.date!.toIso8601String(),
+      'nameMovie': history.nameMovie,
+      'type': history.type,
+      'img': history.img,
+    };
+
+    String historyJsonString = jsonEncode(historyJson);
+    print(history);
+    final res = await http.post(
+      uri,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: historyJsonString,
+    );
     if (res.statusCode == 200) {
       Histories = lstHistory(res.body);
       print("đã lấy dữ liệu lịch sử xem phim!");
+      print("Lưu thành công");
     }
-    return Histories;
+    print('Failed');
   }
 
   Future<List<historyPurchase>> fetchPurchase(String accountID) async {
     final baseurl =
         Uri.parse('${API().baseUrl}/historyPurchase'); // Sửa đường dẫn URL
     List<historyPurchase> lstPurchase = [];
+    List<historyPurchase> lstHistory(String respondbody) {
+      final parsed = json.decode(respondbody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<historyPurchase>((json) => historyPurchase(
+                nameService: json['nameService'],
+                price: json['price'],
+                date: DateTime.parse(
+                    json['date']), // Chuyển đổi sang kiểu DateTime
+                des: json['des'],
+                idAccount: json['idAccount'],
+                id: json['id'],
+              ))
+          .toList();
+    }
+
     try {
       final res = await http.get(baseurl);
 
@@ -135,21 +217,6 @@ class APIResponsitory {
     }
 
     return lstPurchase;
-  }
-
-  List<historyPurchase> lstHistory(String respondbody) {
-    final parsed = json.decode(respondbody).cast<Map<String, dynamic>>();
-    return parsed
-        .map<historyPurchase>((json) => historyPurchase(
-              nameService: json['nameService'],
-              price: json['price'],
-              date:
-                  DateTime.parse(json['date']), // Chuyển đổi sang kiểu DateTime
-              des: json['des'],
-              idAccount: json['idAccount'],
-              id: json['id'],
-            ))
-        .toList();
   }
 
   Future<List<Movies>> fetchdataAll() async {
@@ -323,6 +390,25 @@ class APIResponsitory {
     return results;
   }
 
+  Future<List<Bank>> getBank(String name, String img) async {
+    final uri = Uri.parse('${(api.baseUrl)}Bank');
+    final res = await http.get(uri);
+    List<Bank> banks = [];
+    List<Bank> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<Bank>((json) =>
+              Bank(id: json['id'], name: json['name'], img: json['img']))
+          .toList();
+    }
+
+    if (res.statusCode == 200) {
+      print('ok');
+      banks = parseAccounts(res.body);
+    }
+    return banks;
+  }
+
   Future<String> Moviescontinues(
       String id, String idname, String timess) async {
     var a = MoviesContinue(idname: idname, idmovie: id, times: timess);
@@ -427,6 +513,7 @@ class APIResponsitory {
           .toList();
     }
 
+
     if (reponse.statusCode == 200) {
       lstMoviesContinue = parseAccounts(reponse.body);
       for (var item in lstMoviesContinue) {
@@ -439,102 +526,173 @@ class APIResponsitory {
       }
     } else {}
 
+
     return takedata.times.toString();
   }
 
-  Future<Movies> fetchMovieById(String movieID) async {
-    final baseurl = Uri.parse(
-        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies/' + movieID);
-    final reponse = await http.get(baseurl);
-    if (reponse.statusCode == 200) {
-      return Movies.fromJson(jsonDecode(reponse.body));
-    } else
-      throw Exception('Failed to load post');
-  }
 
   Future<void> addMovToHistory(String movieID) async {
     final uri = Uri.parse('${(api.baseUrl)}History');
-    var history = History();
+    var history = History(
+      
+    );
     final requestBody = await fetchMovieById(movieID);
+    final baseurl = Uri.parse('${(API().baseUrl)}Favorite');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(prefs.getString('name').toString());
+    var fav = Favorite(
+      idMovie: movieID,
+      idAccount: prefs.getString('name').toString(),
+      nameMovie: requestBody.name,
+      img: requestBody.img,
+    );
 
-    final res = await http.post(
-      uri,
+    Map<String, dynamic> favJson = {
+      'idMovie': fav.idMovie,
+      'idAccount': fav.idAccount,
+      'nameMovie': fav.nameMovie,
+      'img': fav.img,
+    };
+
+    String favJsonString = jsonEncode(favJson);
+    final response = await http.post(
+      baseurl,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(requestBody),
+      body: favJsonString,
     );
-    if (res.statusCode == 200) {
-      print("Lưu thành công");
+    if (response.statusCode == 201) {
+      print('Thêm thành công yêu thích');
+    } else {
+      print('Failed: ${response.statusCode}');
     }
-    print('Failed');
   }
 
-  Future<List<Bank>> getBank(String name, String img) async {
-    final uri = Uri.parse('${(api.baseUrl)}Bank');
-    final res = await http.get(uri);
-    List<Bank> banks = [];
-    List<Bank> parseAccounts(String responseBody) {
+  Future<void> deleteFavorite(String idMovie, String idAccount) async {
+    int locate = 1 ;
+    bool findlocate = false;
+    try {
+      final baseurl = Uri.parse('${(API().baseUrl)}Favorite');
+      print(baseurl);
+      final reponse = await http.get(baseurl);
+      List<Favorite> lstFavorite = [];
+      List<Favorite> parseAccounts(String responseBody) {
+        final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+        return parsed
+            .map<Favorite>((json) => Favorite(
+                  idMovie: json['idMovie'],
+                  idAccount: json['idAccount'],
+                  nameMovie: json['nameMovie'],
+                  img: json['img'],
+                  id: json['id'],
+                ))
+            .toList();
+      }
+
+      if (reponse.statusCode == 200) {
+      // print("ok");
+      lstFavorite = parseAccounts(reponse.body);
+     
+      
+      //vong lap lay locate
+      for(var item in lstFavorite){
+        if(item.idMovie == idMovie && item.idAccount == idAccount){
+          findlocate = true;
+          break;
+        }
+        else{
+          if(lstFavorite.length > locate){
+            locate += 1;
+          }
+        }
+      }
+
+
+      } else {
+        print('Lỗi: ${reponse.statusCode}');
+      }
+      if(findlocate == true){
+        final baseurls = Uri.parse('${(API().baseUrl)}Favorite/'+locate.toString().trim());
+        print(baseurls);
+        final response = await http.delete(
+        baseurls,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      
+      if (response.statusCode == 200) {
+        print('Xóa yêu thích thành công');
+      } else {
+        print('Lỗi: ${response.statusCode}');
+      }
+      }else{
+         print('đéo có gì để xóa');
+      }
+      
+
+      /*
+      final response = await http.delete(
+        baseurl,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      
+      if (response.statusCode == 200) {
+        print('Xóa yêu thích thành công');
+      } else {
+        print('Lỗi: ${response.statusCode}');
+      }*/
+    } catch (error) {
+      print('Lỗi khi thực hiện yêu cầu DELETE: $error');
+    }
+  }
+
+  Future<bool> checkFav(String idMovie) async {
+    bool check = false;
+    final baseurl = Uri.parse('${(API().baseUrl)}Favorite?idMovie=$idMovie');
+    final res = await http.get(baseurl);
+    if (res.statusCode == 200) {
+      List<dynamic> jsonFav = jsonDecode(res.body);
+      List<Favorite> lstFav =
+          jsonFav.map((json) => Favorite.fromJson(json)).toList();
+      if (lstFav.isNotEmpty) {
+        check = true;
+      }
+    }
+    return check;
+  }
+
+  Future<MoviesDirector> fectchMoviesDirector(String id) async {
+    final baseurl = Uri.parse(
+        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies/' +
+            id.toString().trim() +
+            '/Movies_Director');
+    print(baseurl);
+    final reponse = await http.get(baseurl);
+    List<MoviesDirector> lstMoviesDirector = [];
+    List<MoviesDirector> parseAccounts(String responseBody) {
       final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
       return parsed
-          .map<Bank>((json) =>
-              Bank(id: json['id'], name: json['name'], img: json['img']))
+          .map<MoviesDirector>((json) => MoviesDirector(
+                Director: json['Director'],
+                Actor: json['Actor'],
+                id: json['id'],
+                MovieId: json['MovieId'],
+              ))
           .toList();
     }
 
-    if (res.statusCode == 200) {
-      print('Đã lấy dữ liệu ngân hàng!');
-      banks = parseAccounts(res.body);
+    if (reponse.statusCode == 200) {
+      // print("ok");
+      lstMoviesDirector = parseAccounts(reponse.body);
+
+      return lstMoviesDirector[0];
+    } else {
+      print("false");
     }
-    return banks;
-  }
-
-  Future<Service?> getServiceByUser(
-      String accountId, String name, String price) async {
-    try {
-      // Lấy thông tin tài khoản từ accountId
-      final accountUrl = Uri.parse('${api.baseUrl}account/$accountId');
-      final accountResponse = await http.get(accountUrl);
-
-      if (accountResponse.statusCode == 200) {
-        // Chuyển đổi dữ liệu từ JSON sang đối tượng AccountsModel
-        final accountJson = json.decode(accountResponse.body);
-        final account = AccountsModel.fromJson(accountJson);
-
-        // Lấy service id từ thông tin tài khoản
-        final serviceId = account.serviceid;
-        if (serviceId == null) return null;
-
-        // Lấy thông tin dịch vụ từ service id
-        final serviceUrl = Uri.parse('${api.baseUrl}Service/$serviceId');
-        final serviceResponse = await http.get(serviceUrl);
-
-        Service service = Service();
-        Service ServiceItem(String responseBody) {
-          final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-          return parsed
-              .map<Service>((json) => Service(
-                  id: json['id'],
-                  name: json['name'],
-                  price: json['price'],
-                  img: json['img'],
-                  numberDevice: json['numberDevice'],
-                  resolution: json['resolution']))
-              .toList();
-        }
-
-        if (serviceResponse.statusCode == 200) {
-          // Chuyển đổi dữ liệu từ JSON sang đối tượng Service
-          service = ServiceItem(serviceResponse.body);
-          print("giao dịch thành công");
-          return service;
-        }
-      } else {
-        throw Exception('Failed to load account');
-      }
-    } catch (e) {
-      throw Exception('Error: $e');
-    }
-    return null;
+    return lstMoviesDirector[0];
   }
 }
