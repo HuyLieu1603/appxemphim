@@ -145,8 +145,6 @@ class APIResponsitory {
       body: historyJsonString,
     );
     if (res.statusCode == 200) {
-      Histories = lstHistory(res.body);
-      print("đã lấy dữ liệu lịch sử xem phim!");
       print("Lưu thành công");
     }
     print('Failed');
@@ -409,6 +407,84 @@ class APIResponsitory {
     return banks;
   }
 
+  Future<Service?> getServiceByUser(
+      String accountId, String name, String price) async {
+    try {
+      // Lấy thông tin tài khoản từ accountId
+      final accountUrl = Uri.parse('${api.baseUrl}account/$accountId');
+      final accountResponse = await http.get(accountUrl);
+
+      if (accountResponse.statusCode == 200) {
+        // Chuyển đổi dữ liệu từ JSON sang đối tượng AccountsModel
+        final accountJson = json.decode(accountResponse.body);
+        final account = AccountsModel.fromJson(accountJson);
+
+        // Lấy service id từ thông tin tài khoản
+        final serviceId = account.serviceid;
+        if (serviceId == null) return null;
+        final serviceUrl = Uri.parse('${api.baseUrl}Service/$serviceId');
+        final serviceResponse = await http.get(serviceUrl);
+
+        Service service = Service();
+        Service ServiceItem(String responseBody) {
+          final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+          return parsed
+              .map<Service>((json) => Service(
+                  id: json['id'],
+                  name: json['name'],
+                  price: json['price'],
+                  img: json['img'],
+                  numberDevice: json['numberDevice'],
+                  resolution: json['resolution']))
+              .toList();
+        }
+
+        if (serviceResponse.statusCode == 200) {
+          final serviceJson = json.decode(serviceResponse.body);
+          var service = Service.fromJson(serviceJson);
+          // Chuyển đổi dữ liệu từ JSON sang đối tượng Service
+          service = ServiceItem(serviceResponse.body);
+          print("giao dịch thành công");
+          return service;
+        } else {
+          throw Exception('Failed to load service');
+        }
+      } else {
+        throw Exception('Failed to load account');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
+
+  Future<bool> ExtendService(String userName, String password) async {
+    final baseurl = Uri.parse('${(API().baseUrl)}account');
+    bool result = false;
+    final reponse = await http.get(baseurl);
+    List<AccountsModel> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<AccountsModel>((json) => AccountsModel(
+                userName: json['username'],
+                password: json['password'],
+                idaccount: json['id'],
+                serviceid: json['serviceid'],
+                duration: json['duration'],
+              ))
+          .toList();
+    }
+
+    if (reponse.statusCode == 200) {
+      List<AccountsModel> accounts = parseAccounts(reponse.body);
+      for (var item in accounts) {
+        if (item.userName == userName && item.password == password) {
+          result = true;
+        }
+      }
+    }
+    return result;
+  }
+
   Future<String> Moviescontinues(
       String id, String idname, String timess) async {
     var a = MoviesContinue(idname: idname, idmovie: id, times: timess);
@@ -513,7 +589,6 @@ class APIResponsitory {
           .toList();
     }
 
-
     if (reponse.statusCode == 200) {
       lstMoviesContinue = parseAccounts(reponse.body);
       for (var item in lstMoviesContinue) {
@@ -526,16 +601,11 @@ class APIResponsitory {
       }
     } else {}
 
-
     return takedata.times.toString();
   }
 
-
-  Future<void> addMovToHistory(String movieID) async {
-    final uri = Uri.parse('${(api.baseUrl)}History');
-    var history = History(
-      
-    );
+  //add
+  Future<void> insertFavorite(String movieID) async {
     final requestBody = await fetchMovieById(movieID);
     final baseurl = Uri.parse('${(API().baseUrl)}Favorite');
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -570,7 +640,7 @@ class APIResponsitory {
   }
 
   Future<void> deleteFavorite(String idMovie, String idAccount) async {
-    int locate = 1 ;
+    int locate = 1;
     bool findlocate = false;
     try {
       final baseurl = Uri.parse('${(API().baseUrl)}Favorite');
@@ -591,46 +661,42 @@ class APIResponsitory {
       }
 
       if (reponse.statusCode == 200) {
-      // print("ok");
-      lstFavorite = parseAccounts(reponse.body);
-     
-      
-      //vong lap lay locate
-      for(var item in lstFavorite){
-        if(item.idMovie == idMovie && item.idAccount == idAccount){
-          findlocate = true;
-          break;
-        }
-        else{
-          if(lstFavorite.length > locate){
-            locate += 1;
+        // print("ok");
+        lstFavorite = parseAccounts(reponse.body);
+
+        //vong lap lay locate
+        for (var item in lstFavorite) {
+          if (item.idMovie == idMovie && item.idAccount == idAccount) {
+            findlocate = true;
+            break;
+          } else {
+            if (lstFavorite.length > locate) {
+              locate += 1;
+            }
           }
         }
-      }
-
-
       } else {
         print('Lỗi: ${reponse.statusCode}');
       }
-      if(findlocate == true){
-        final baseurls = Uri.parse('${(API().baseUrl)}Favorite/'+locate.toString().trim());
+      if (findlocate == true) {
+        final baseurls =
+            Uri.parse('${(API().baseUrl)}Favorite/' + locate.toString().trim());
         print(baseurls);
         final response = await http.delete(
-        baseurls,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      );
-      
-      if (response.statusCode == 200) {
-        print('Xóa yêu thích thành công');
+          baseurls,
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+        );
+
+        if (response.statusCode == 200) {
+          print('Xóa yêu thích thành công');
+        } else {
+          print('Lỗi: ${response.statusCode}');
+        }
       } else {
-        print('Lỗi: ${response.statusCode}');
+        print('đéo có gì để xóa');
       }
-      }else{
-         print('đéo có gì để xóa');
-      }
-      
 
       /*
       final response = await http.delete(
