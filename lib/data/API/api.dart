@@ -1,3 +1,4 @@
+import 'package:appxemphim/data/model/Favorite/favoriteMovie.dart';
 import 'package:appxemphim/data/model/category.dart';
 import 'package:appxemphim/data/model/history/historyPurchase.dart';
 import 'package:appxemphim/data/model/movielinks.dart';
@@ -148,6 +149,21 @@ class APIResponsitory {
     final baseurl =
         Uri.parse('${API().baseUrl}/historyPurchase'); // Sửa đường dẫn URL
     List<historyPurchase> lstPurchase = [];
+    List<historyPurchase> lstHistory(String respondbody) {
+      final parsed = json.decode(respondbody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<historyPurchase>((json) => historyPurchase(
+                nameService: json['nameService'],
+                price: json['price'],
+                date: DateTime.parse(
+                    json['date']), // Chuyển đổi sang kiểu DateTime
+                des: json['des'],
+                idAccount: json['idAccount'],
+                id: json['id'],
+              ))
+          .toList();
+    }
+
     try {
       final res = await http.get(baseurl);
 
@@ -202,21 +218,6 @@ class APIResponsitory {
     }
 
     return lstPurchase;
-  }
-
-  List<historyPurchase> lstHistory(String respondbody) {
-    final parsed = json.decode(respondbody).cast<Map<String, dynamic>>();
-    return parsed
-        .map<historyPurchase>((json) => historyPurchase(
-              nameService: json['nameService'],
-              price: json['price'],
-              date:
-                  DateTime.parse(json['date']), // Chuyển đổi sang kiểu DateTime
-              des: json['des'],
-              idAccount: json['idAccount'],
-              id: json['id'],
-            ))
-        .toList();
   }
 
   Future<List<Movies>> fetchdataAll() async {
@@ -526,5 +527,79 @@ class APIResponsitory {
     } else {}
 
     return takedata.times.toString();
+  }
+
+  //Favorite
+
+  //add
+  Future<void> insertFavorite(String movieID) async {
+    final requestBody = await fetchMovieById(movieID);
+    final baseurl = Uri.parse('${(API().baseUrl)}Favorite');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(prefs.getString('name').toString());
+    var fav = Favorite(
+      idMovie: movieID,
+      idAccount: prefs.getString('name').toString(),
+      nameMovie: requestBody.name,
+      img: requestBody.img,
+    );
+
+    Map<String, dynamic> favJson = {
+      'idMovie': fav.idMovie,
+      'idAccount': fav.idAccount,
+      'nameMovie': fav.nameMovie,
+      'img': fav.img,
+    };
+
+    String favJsonString = jsonEncode(favJson);
+    final response = await http.post(
+      baseurl,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: favJsonString,
+    );
+    if (response.statusCode == 201) {
+      print('Thêm thành công yêu thích');
+    } else {
+      print('Failed: ${response.statusCode}');
+    }
+  }
+
+  Future<void> deleteFavorite(String idMovie, String idAccount) async {
+    try {
+      final baseurl = Uri.parse(
+          '${(API().baseUrl)}Favorite?idMovie=$idMovie&idAccount=$idAccount');
+
+      final response = await http.delete(
+        baseurl,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print('Xóa yêu thích thành công');
+      } else {
+        print('Lỗi: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Lỗi khi thực hiện yêu cầu DELETE: $error');
+    }
+  }
+
+  Future<bool> checkFav(String idMovie) async {
+    bool check = false;
+    final baseurl = Uri.parse('${(API().baseUrl)}Favorite?idMovie=$idMovie');
+    final res = await http.get(baseurl);
+    if (res.statusCode == 200) {
+      List<dynamic> jsonFav = jsonDecode(res.body);
+      List<Favorite> lstFav =
+          jsonFav.map((json) => Favorite.fromJson(json)).toList();
+      if (lstFav.isNotEmpty) {
+        check = true;
+      }
+    }
+    return check;
   }
 }
