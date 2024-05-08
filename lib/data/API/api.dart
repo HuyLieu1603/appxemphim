@@ -169,8 +169,11 @@ class APIResponsitory {
       final res = await http.get(baseurl);
 
       if (res.statusCode == 200) {
-        lstPurchase = lstHistory(res.body);
-        print(lstPurchase[0].idAccount);
+        List<historyPurchase> item = lstHistory(res.body);
+        for (var a in item) {
+          final decodedString = utf8.decode(a.toString().codeUnits);
+          // lstPurchase.add(decodedString);
+        }
       } else {
         print("fail: ${res.statusCode}");
       }
@@ -568,7 +571,7 @@ class APIResponsitory {
   }
 
   Future<void> deleteFavorite(String idMovie, String idAccount) async {
-    int locate = 1 ;
+    int locate = 1;
     bool findlocate = false;
     try {
       final baseurl = Uri.parse('${(API().baseUrl)}Favorite');
@@ -589,47 +592,41 @@ class APIResponsitory {
       }
 
       if (reponse.statusCode == 200) {
-      // print("ok");
-      lstFavorite = parseAccounts(reponse.body);
-     
-      
-      //vong lap lay locate
-      for(var item in lstFavorite){
-        if(item.idMovie == idMovie && item.idAccount == idAccount){
-          findlocate = true;
-          break;
-        }
-        else{
-          if(lstFavorite.length > locate){
-            locate += 1;
+        // print("ok");
+        lstFavorite = parseAccounts(reponse.body);
+        //vong lap lay locate
+        for (var item in lstFavorite) {
+          if (item.idMovie == idMovie && item.idAccount == idAccount) {
+            findlocate = true;
+            break;
+          } else {
+            if (lstFavorite.length > locate) {
+              locate += 1;
+            }
           }
         }
-      }
-
-
       } else {
         print('Lỗi: ${reponse.statusCode}');
       }
-      if(findlocate == true){
-        final baseurls = Uri.parse('${(API().baseUrl)}Favorite/'+locate.toString().trim());
+      if (findlocate == true) {
+        final baseurls =
+            Uri.parse('${(API().baseUrl)}Favorite/' + locate.toString().trim());
         print(baseurls);
         final response = await http.delete(
-        baseurls,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      );
-      
-      if (response.statusCode == 200) {
-        print('Xóa yêu thích thành công');
-      } else {
-        print('Lỗi: ${response.statusCode}');
-      }
-      }else{
-         print('đéo có gì để xóa');
-      }
-      
+          baseurls,
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+        );
 
+        if (response.statusCode == 200) {
+          print('Xóa yêu thích thành công');
+        } else {
+          print('Lỗi: ${response.statusCode}');
+        }
+      } else {
+        print('đéo có gì để xóa');
+      }
       /*
       final response = await http.delete(
         baseurl,

@@ -25,20 +25,6 @@ class Menumoviewidget extends StatefulWidget {
 
 class _MenumoviewidgetState extends State<Menumoviewidget> {
   List<String> CategoryList = [];
-
-  Future<bool> isFavorite() async {
-    return false;
-  }
-
-  Future<void> addFav(String movieID) async {
-    await APIResponsitory().insertFavorite(movieID);
-  }
-
-  Future<void> delFav(String movieID) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await APIResponsitory()
-        .deleteFavorite(movieID, prefs.getString('name').toString());
-  }
   //share reperence
 
   Future<String> loadCategoryList() async {
@@ -197,19 +183,6 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
               child: Image.network(
                 item.img!,
                 fit: BoxFit.fill,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 0,
-            right: 0,
-            child: IconButton(
-              onPressed: () {
-                delFav(item.id!);
-              },
-              icon: const Icon(
-                Icons.bookmark,
-                color: Colors.white,
               ),
             ),
           ),

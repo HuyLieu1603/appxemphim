@@ -114,14 +114,13 @@ Widget historyWidget(historyPurchase his, BuildContext context) {
             ],
           ),
           Container(
-            height: 50,
+            height: 30,
             alignment: Alignment.center,
             child: Text(
-              'Ngày thanh toán: \n ${his.date}',
+              '${his.date?.hour.toString().padLeft(2, '0') ?? 'N/A'} Giờ ${his.date?.minute.toString().padLeft(2, '0') ?? 'N/A'} Phút | Ngày: ${his.date?.day.toString().padLeft(2, '0')}/${his.date?.month.toString().padLeft(2, '0')}/${his.date?.year}',
               style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 195, 192, 192),
+                fontSize: 14,
               ),
             ),
           ),
