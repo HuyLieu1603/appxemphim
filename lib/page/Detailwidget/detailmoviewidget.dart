@@ -86,6 +86,56 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
     return '';
   }
 
+  /////Rating
+  int _rating = 0;
+  void rate(int rating) {
+    //Other actions based on rating such as api calls.
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Thông báo', textAlign: TextAlign.center),
+          content: const Text(
+            'Bạn có muốn đánh giá phim',
+            textAlign: TextAlign.center,
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Có'),
+              onPressed: () async {
+                // funtion code rating o day
+                setState(() {
+                  _rating = rating;
+                });
+                await APIResponsitory().fectMoviesRating(
+                    nameid, widget.objMov.id!, _rating.toString());
+                Navigator.of(context).pop(true);
+                noticfav();
+              },
+            ),
+            TextButton(
+              child: const Text('Không'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void noticfav() {
+    final snackBar;
+
+    snackBar = SnackBar(
+      content: Text("đánh giá thành công"),
+      duration: Duration(seconds: 2),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   String links = "";
 
   Future<String> loadlink(String movId) async {
@@ -267,6 +317,63 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                 Icon(
                                                   Icons.access_time_sharp,
                                                   color: Colors.white54,
+                                                ),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Container(
+                                                  child: new Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      new GestureDetector(
+                                                        child: new Icon(
+                                                          Icons.star,
+                                                          color: _rating >= 1
+                                                              ? Colors.orange
+                                                              : Colors.grey,
+                                                        ),
+                                                        onTap: () => rate(1),
+                                                      ),
+                                                      new GestureDetector(
+                                                        child: new Icon(
+                                                          Icons.star,
+                                                          color: _rating >= 2
+                                                              ? Colors.orange
+                                                              : Colors.grey,
+                                                        ),
+                                                        onTap: () => rate(2),
+                                                      ),
+                                                      new GestureDetector(
+                                                        child: new Icon(
+                                                          Icons.star,
+                                                          color: _rating >= 3
+                                                              ? Colors.orange
+                                                              : Colors.grey,
+                                                        ),
+                                                        onTap: () => rate(3),
+                                                      ),
+                                                      new GestureDetector(
+                                                        child: new Icon(
+                                                          Icons.star,
+                                                          color: _rating >= 4
+                                                              ? Colors.orange
+                                                              : Colors.grey,
+                                                        ),
+                                                        onTap: () => rate(4),
+                                                      ),
+                                                      new GestureDetector(
+                                                        child: new Icon(
+                                                          Icons.star,
+                                                          color: _rating >= 5
+                                                              ? Colors.orange
+                                                              : Colors.grey,
+                                                        ),
+                                                        onTap: () => rate(5),
+                                                      )
+                                                    ],
+                                                  ),
                                                 ),
                                                 Spacer(),
                                                 IconButton(
