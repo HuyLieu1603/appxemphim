@@ -568,22 +568,81 @@ class APIResponsitory {
   }
 
   Future<void> deleteFavorite(String idMovie, String idAccount) async {
+    int locate = 1 ;
+    bool findlocate = false;
     try {
-      final baseurl = Uri.parse(
-          '${(API().baseUrl)}Favorite?idMovie=$idMovie&idAccount=$idAccount');
+      final baseurl = Uri.parse('${(API().baseUrl)}Favorite');
+      print(baseurl);
+      final reponse = await http.get(baseurl);
+      List<Favorite> lstFavorite = [];
+      List<Favorite> parseAccounts(String responseBody) {
+        final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+        return parsed
+            .map<Favorite>((json) => Favorite(
+                  idMovie: json['idMovie'],
+                  idAccount: json['idAccount'],
+                  nameMovie: json['nameMovie'],
+                  img: json['img'],
+                  id: json['id'],
+                ))
+            .toList();
+      }
 
+      if (reponse.statusCode == 200) {
+      // print("ok");
+      lstFavorite = parseAccounts(reponse.body);
+     
+      
+      //vong lap lay locate
+      for(var item in lstFavorite){
+        if(item.idMovie == idMovie && item.idAccount == idAccount){
+          findlocate = true;
+          break;
+        }
+        else{
+          if(lstFavorite.length > locate){
+            locate += 1;
+          }
+        }
+      }
+
+
+      } else {
+        print('Lỗi: ${reponse.statusCode}');
+      }
+      if(findlocate == true){
+        final baseurls = Uri.parse('${(API().baseUrl)}Favorite/'+locate.toString().trim());
+        print(baseurls);
+        final response = await http.delete(
+        baseurls,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      
+      if (response.statusCode == 200) {
+        print('Xóa yêu thích thành công');
+      } else {
+        print('Lỗi: ${response.statusCode}');
+      }
+      }else{
+         print('đéo có gì để xóa');
+      }
+      
+
+      /*
       final response = await http.delete(
         baseurl,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
-
+      
       if (response.statusCode == 200) {
         print('Xóa yêu thích thành công');
       } else {
         print('Lỗi: ${response.statusCode}');
-      }
+      }*/
     } catch (error) {
       print('Lỗi khi thực hiện yêu cầu DELETE: $error');
     }
@@ -604,9 +663,11 @@ class APIResponsitory {
     return check;
   }
 
-   Future<MoviesDirector> fectchMoviesDirector(String id) async {
+  Future<MoviesDirector> fectchMoviesDirector(String id) async {
     final baseurl = Uri.parse(
-        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies/'+id.toString().trim() +'/Movies_Director');
+        'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies/' +
+            id.toString().trim() +
+            '/Movies_Director');
     print(baseurl);
     final reponse = await http.get(baseurl);
     List<MoviesDirector> lstMoviesDirector = [];
@@ -623,17 +684,13 @@ class APIResponsitory {
     }
 
     if (reponse.statusCode == 200) {
-     // print("ok");
+      // print("ok");
       lstMoviesDirector = parseAccounts(reponse.body);
-      
+
       return lstMoviesDirector[0];
     } else {
-
       print("false");
-
     }
     return lstMoviesDirector[0];
   }
-
-
 }
