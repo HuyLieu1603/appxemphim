@@ -50,7 +50,7 @@ class _historyMovieState extends State<historyMovie> {
       appBar: AppBar(
         title: Text(
           'Lịch sử xem phim',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.black,
       ),
@@ -93,7 +93,7 @@ class _historyMovieState extends State<historyMovie> {
 
   Widget historyWidget(History his, BuildContext context) {
     return Card(
-      color: Color.fromARGB(255, 42, 42, 42),
+      color: Color.fromARGB(255, 32, 32, 32),
       child: InkWell(
         onTap: () async {
           Movies mov = await fetchMovie(his.idMovie!);
@@ -145,9 +145,9 @@ class _historyMovieState extends State<historyMovie> {
                       ),
                     ),
                     Text(
-                      'Ngày xem: ${his.date?.hour.toString().padLeft(2, '0') ?? 'N/A'}:${his.date?.minute.toString().padLeft(2, '0') ?? 'N/A'} -- ${his.date?.day.toString().padLeft(2, '0')}/${his.date?.month.toString().padLeft(2, '0')}/${his.date?.year}',
+                      'Đã xem lúc: ${his.date?.hour.toString().padLeft(2, '0') ?? 'N/A'}:${his.date?.minute.toString().padLeft(2, '0') ?? 'N/A'} | Ngày: ${his.date?.day.toString().padLeft(2, '0')}/${his.date?.month.toString().padLeft(2, '0')}/${his.date?.year}',
                       style: const TextStyle(
-                        color: Colors.white,
+                        color: Color.fromARGB(255, 178, 178, 178), fontSize: 13,
                         // fontWeight: FontWeight.bold,
                       ),
                     ),
