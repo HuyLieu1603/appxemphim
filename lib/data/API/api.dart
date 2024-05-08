@@ -730,6 +730,20 @@ class APIResponsitory {
     return check;
   }
 
+  Future<List<Favorite>> fetchFav(String idAccount) async {
+    final baseurl = Uri.parse('${(API().baseUrl)}Favorite');
+    final res = await http.get(baseurl);
+    if (res.statusCode == 200) {
+      Iterable jsonResponse = jsonDecode(res.body);
+      print(jsonResponse);
+      return jsonResponse
+          .map((favorite) => Favorite.fromJson(favorite))
+          .toList();
+    } else {
+      throw Exception('Failed to load favorites');
+    }
+  }
+
   Future<MoviesDirector> fectchMoviesDirector(String id) async {
     final baseurl = Uri.parse(
         'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies/' +
