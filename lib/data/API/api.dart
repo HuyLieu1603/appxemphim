@@ -169,11 +169,7 @@ class APIResponsitory {
       final res = await http.get(baseurl);
 
       if (res.statusCode == 200) {
-        List<historyPurchase> item = lstHistory(res.body);
-        for (var a in item) {
-          final decodedString = utf8.decode(a.toString().codeUnits);
-          // lstPurchase.add(decodedString);
-        }
+        lstPurchase = lstHistory(res.body);
       } else {
         print("fail: ${res.statusCode}");
       }
