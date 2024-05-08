@@ -174,7 +174,6 @@ class APIResponsitory {
 
       if (res.statusCode == 200) {
         lstPurchase = lstHistory(res.body);
-        print(lstPurchase[0].idAccount);
       } else {
         print("fail: ${res.statusCode}");
       }

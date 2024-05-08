@@ -6,18 +6,20 @@ class Movies {
   String? release;
   String? time;
   String? category;
+  bool isFavorite = false;
   String? id;
-  Movies(
-      {
-      this.name,
-      this.img,
-      this.type,
-      this.des,
-      this.release,
-      this.time,this.category,this.id,});
+  Movies({
+    this.name,
+    this.img,
+    this.type,
+    this.des,
+    this.release,
+    this.time,
+    this.category,
+    this.id,
+  });
 
   Movies.fromJson(Map<String, dynamic> json) {
-   
     name = json['name'];
     img = json['img'];
     type = json['type'];
@@ -29,7 +31,7 @@ class Movies {
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    
+
     data['name'] = name;
     data['img'] = img;
     data['type'] = type;

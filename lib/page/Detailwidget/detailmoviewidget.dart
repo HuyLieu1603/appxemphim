@@ -28,6 +28,8 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
   bool isExpanded = false;
   bool isExpandedActors = false;
   bool isExpandedCategory = false;
+  Movies mov = Movies();
+
   String timeplay = "";
   var takedata;
   late MoviesDirector moviesDirector;
@@ -36,6 +38,26 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
   String Actorss = "";
   late Future<String> _loadcurrentMovies;
   late Future<String> _loadCurrent;
+  Future<void> isFav(String idMovie) async {
+    if (await (APIResponsitory().checkFav(idMovie))) {
+      await delFav(idMovie);
+      mov.isFavorite = false;
+    } else {
+      await addFav(idMovie);
+      mov.isFavorite = true;
+    }
+  }
+
+  Future<void> addFav(String movieID) async {
+    await APIResponsitory().insertFavorite(movieID);
+  }
+
+  Future<void> delFav(String movieID) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await APIResponsitory()
+        .deleteFavorite(movieID, prefs.getString('name').toString());
+  }
+
   Future<String> loadCurrent(String movId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     nameid = prefs.getString('name').toString();
@@ -245,6 +267,22 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                 Icon(
                                                   Icons.access_time_sharp,
                                                   color: Colors.white54,
+                                                ),
+                                                Spacer(),
+                                                IconButton(
+                                                  onPressed: () {
+                                                    isFav(widget.objMov.id!);
+                                                    setState(() {
+                                                      mov.isFavorite =
+                                                          !mov.isFavorite;
+                                                    });
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.bookmark,
+                                                    color: mov.isFavorite
+                                                        ? Colors.red
+                                                        : Colors.white,
+                                                  ),
                                                 ),
                                               ],
                                             ),
