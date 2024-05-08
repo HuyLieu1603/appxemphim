@@ -3,7 +3,6 @@
 import 'package:appxemphim/data/model/service.dart';
 import 'package:appxemphim/page/user/login.dart';
 import 'package:appxemphim/page/user/optionalaccount.dart';
-import 'package:appxemphim/page/paymentmethod/paymentmethodwidget.dart';
 import 'package:appxemphim/page/user/registers.dart';
 import 'package:appxemphim/page/setting.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +12,7 @@ import 'page/MainPage.dart';
 import 'page/NaviFrame.dart';
 import 'page/user/register.dart';
 import 'page/banklist/banklistwidget.dart';
+import 'page/payment/extendservice.dart';
 
 void main() {
   runApp(const MainApp());
@@ -25,7 +25,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LogoPage(),
+      home: ExtendServiceWidget(),
     );
   }
 }

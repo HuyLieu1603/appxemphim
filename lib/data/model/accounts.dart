@@ -2,26 +2,27 @@
 import 'dart:convert';
 //account đã đăng ký
 class AccountsModel {
-  String? idaccount;
-  String? userName;
-  String? password;
-  String? serviceid;
-  bool? status;
+  String idaccount;
+  String userName;
+  String password;
+  int serviceid;
+  DateTime duration;
 
   AccountsModel({
     required this.idaccount,
     required this.password,
     required this.serviceid,
     required this.userName,
-    required this.status,
+    required this.duration,
   });
   static AccountsModel accountEmpty() {
     return AccountsModel(
         idaccount: '',
         password: '',
-        serviceid: '',
+        serviceid: 0,
         userName: '',
-        status: false);
+        duration: DateTime.now()
+      );
   }
 
   factory AccountsModel.fromJson(Map<String, dynamic> json) {
@@ -30,7 +31,7 @@ class AccountsModel {
       userName: json['userName'],
       password: json['password'],
       serviceid: json['serviceid'],
-      status: json['status'],
+      duration: json['duration'],
     );
   }
   Map<String, dynamic> toJson() {
@@ -39,8 +40,7 @@ class AccountsModel {
     data['userName'] = userName;
     data['password'] = password;
     data['serviceid'] = serviceid;
-    data['status'] = status;
-
+    data['duration'] = duration;
     return data;
   }
 }
