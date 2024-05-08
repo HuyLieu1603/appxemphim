@@ -3,6 +3,7 @@ import 'package:appxemphim/data/model/history/historyPurchase.dart';
 import 'package:appxemphim/data/model/movielinks.dart';
 import 'package:appxemphim/data/model/bank.dart';
 import 'package:appxemphim/data/model/movies_continue/movies_continue.dart';
+import 'package:intl/intl.dart';
 import '../model/history/historyMovie.dart';
 import 'package:appxemphim/data/model/movies.dart';
 import 'package:flutter/foundation.dart';
@@ -17,7 +18,7 @@ import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import '../model/register.dart';
 import '../../data/model/service.dart';
-
+import '../../page/payment/extendservice.dart';
 
 class API {
   final Dio _dio = Dio();
@@ -34,25 +35,27 @@ class APIResponsitory {
     final reponse = await http.get(baseurl);
     List<AccountsModel> parseAccounts(String responseBody) {
       final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-      return parsed
-          .map<AccountsModel>((json) => AccountsModel(
-                userName: json['username'],
-                password: json['password'],
-                idaccount: json['id'],
-                serviceid: json['serviceid'],
-                duration: json['duration'], 
-                status: json['status'],
-              ))
-          .toList();
+      return parsed.map<AccountsModel>((json) {
+        return AccountsModel(
+          userName: json['username'],
+          password: json['password'],
+          idaccount: json['id'],
+          serviceid: json['serviceid'],
+          // Chuyển đổi số nguyên thành DateTime
+          duration:
+              DateTime.fromMillisecondsSinceEpoch(json['duration'] * 1000),
+        );
+      }).toList();
     }
 
     if (reponse.statusCode == 200) {
       List<AccountsModel> accounts = parseAccounts(reponse.body);
       for (var item in accounts) {
         if (item.userName == userName && item.password == password) {
+          print(item.duration);
           result = true;
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString('name', name);
+          prefs.setString('name', userName);
         }
       }
     }
@@ -77,7 +80,7 @@ class APIResponsitory {
 
     if (res.statusCode == 200) {
       Histories = lstHistory(res.body);
-      print("ok");
+      print("đã lấy dữ liệu lịch sử xem phim!");
     }
     return Histories;
   }
@@ -118,9 +121,7 @@ class APIResponsitory {
       final res = await http.post(
         baseurl,
         body: jsonData,
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: {"Content-Type": "application/json"},
       );
 
       if (res.statusCode == 201) {
@@ -203,7 +204,7 @@ class APIResponsitory {
     }
 
     if (reponse.statusCode == 200) {
-      print('ok');
+      print('Đã lấy dữ liệu danh sách');
       all = parseAccounts(reponse.body);
       for (var item in all) {
         if (item.category == naneCategory.trim()) {
@@ -322,26 +323,6 @@ class APIResponsitory {
     return results;
   }
 
-  Future<List<Bank>> getBank(String name, String img) async {
-    final uri = Uri.parse('${(api.baseUrl)}Bank');
-    final res = await http.get(uri);
-    List<Bank> banks = [];
-    List<Bank> parseAccounts(String responseBody) {
-      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-      return parsed
-          .map<Bank>((json) =>
-              Bank(id: json['id'], name: json['name'], img: json['img']))
-          .toList();
-    }
-
-    if (res.statusCode == 200) {
-      print('ok');
-      banks = parseAccounts(res.body);
-    }
-    return banks;
-  }
-
-
   Future<String> Moviescontinues(
       String id, String idname, String timess) async {
     var a = MoviesContinue(idname: idname, idmovie: id, times: timess);
@@ -395,7 +376,7 @@ class APIResponsitory {
           },
           body: body,
         );
-         print('Movies Create successfully');
+        print('Movies Create successfully');
       }
     } else {}
     print(a.idname);
@@ -427,8 +408,7 @@ class APIResponsitory {
     return '';
   }
 
-  Future<String> fectdateMoviescontinues(
-    String id, String idname) async {
+  Future<String> fectdateMoviescontinues(String id, String idname) async {
     final baseurl = Uri.parse(
         'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies_continue');
     final reponse = await http.get(baseurl);
@@ -446,20 +426,21 @@ class APIResponsitory {
               ))
           .toList();
     }
+
     if (reponse.statusCode == 200) {
       lstMoviesContinue = parseAccounts(reponse.body);
       for (var item in lstMoviesContinue) {
         countIDlink += 1;
         if (item.idmovie == id && item.idname == idname) {
-          checkmovies = true ;
-          takedata = MoviesContinue(idname: idname, idmovie: id, times: item.times);
+          checkmovies = true;
+          takedata =
+              MoviesContinue(idname: idname, idmovie: id, times: item.times);
         }
       }
     } else {}
-    
+
     return takedata.times.toString();
   }
-
 
   Future<Movies> fetchMovieById(String movieID) async {
     final baseurl = Uri.parse(
@@ -473,9 +454,7 @@ class APIResponsitory {
 
   Future<void> addMovToHistory(String movieID) async {
     final uri = Uri.parse('${(api.baseUrl)}History');
-    var history = History(
-      
-    );
+    var history = History();
     final requestBody = await fetchMovieById(movieID);
 
     final res = await http.post(
@@ -491,17 +470,37 @@ class APIResponsitory {
     print('Failed');
   }
 
-  Future<Service?> getServiceByUser(String accountId) async {
+  Future<List<Bank>> getBank(String name, String img) async {
+    final uri = Uri.parse('${(api.baseUrl)}Bank');
+    final res = await http.get(uri);
+    List<Bank> banks = [];
+    List<Bank> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<Bank>((json) =>
+              Bank(id: json['id'], name: json['name'], img: json['img']))
+          .toList();
+    }
+
+    if (res.statusCode == 200) {
+      print('Đã lấy dữ liệu ngân hàng!');
+      banks = parseAccounts(res.body);
+    }
+    return banks;
+  }
+
+  Future<Service?> getServiceByUser(
+      String accountId, String name, String price) async {
     try {
       // Lấy thông tin tài khoản từ accountId
       final accountUrl = Uri.parse('${api.baseUrl}account/$accountId');
       final accountResponse = await http.get(accountUrl);
-      
+
       if (accountResponse.statusCode == 200) {
         // Chuyển đổi dữ liệu từ JSON sang đối tượng AccountsModel
         final accountJson = json.decode(accountResponse.body);
         final account = AccountsModel.fromJson(accountJson);
-        
+
         // Lấy service id từ thông tin tài khoản
         final serviceId = account.serviceid;
         if (serviceId == null) return null;
@@ -510,12 +509,25 @@ class APIResponsitory {
         final serviceUrl = Uri.parse('${api.baseUrl}Service/$serviceId');
         final serviceResponse = await http.get(serviceUrl);
 
+        Service service = Service();
+        Service ServiceItem(String responseBody) {
+          final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+          return parsed
+              .map<Service>((json) => Service(
+                  id: json['id'],
+                  name: json['name'],
+                  price: json['price'],
+                  img: json['img'],
+                  numberDevice: json['numberDevice'],
+                  resolution: json['resolution']))
+              .toList();
+        }
+
         if (serviceResponse.statusCode == 200) {
-          final serviceJson = json.decode(serviceResponse.body);
-          final service = Service.fromJson(serviceJson);
+          // Chuyển đổi dữ liệu từ JSON sang đối tượng Service
+          service = ServiceItem(serviceResponse.body);
+          print("giao dịch thành công");
           return service;
-        } else {
-          throw Exception('Failed to load service');
         }
       } else {
         throw Exception('Failed to load account');
@@ -523,33 +535,6 @@ class APIResponsitory {
     } catch (e) {
       throw Exception('Error: $e');
     }
-  }
-
-  Future<bool> ExtendService(String userName, String password) async {
-    final baseurl = Uri.parse('${(API().baseUrl)}account');
-    bool result = false;
-    final reponse = await http.get(baseurl);
-    List<AccountsModel> parseAccounts(String responseBody) {
-      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-      return parsed.map<AccountsModel>((json) => AccountsModel(
-                userName: json['username'],
-                password: json['password'],
-                idaccount: json['id'],
-                serviceid: json['serviceid'],
-                duration: json['duration'], 
-                status: true,
-              ))
-          .toList();
-    }
-
-    if (reponse.statusCode == 200) {
-      List<AccountsModel> accounts = parseAccounts(reponse.body);
-      for (var item in accounts) {
-        if (item.userName == userName && item.password == password) {
-          result = true;
-        }
-      }
-    }
-    return result;
+    return null;
   }
 }
