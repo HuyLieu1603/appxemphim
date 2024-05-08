@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings, avoid_unnecessary_containers, non_constant_identifier_names
 
 // import 'package:flutter/cupertino.dart';
+import 'dart:convert';
+
 import 'package:appxemphim/data/API/api.dart';
 import 'package:appxemphim/page/viewmovie/viewmovie.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +30,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
   String timeplay = "";
   var takedata;
   String nameid = "";
+  String Categoryss = "";
   late Future<String> _loadcurrentMovies;
   late Future<String> _loadCurrent;
   Future<String> loadCurrent(String movId) async {
@@ -59,19 +62,31 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
     super.initState();
     _loadcurrentMovies = loadCurrent(widget.objMov.id!);
     _loadCurrent = loadlink(widget.objMov.id!);
+    if (widget.objMov.type is Iterable) {
+      var allCategorys = widget.objMov.type as Iterable;
+      allCategorys.forEach((item) {
+        Categoryss += utf8.decode(item['nametype'].toString().codeUnits);
+        if (item != allCategorys.last) {
+          Categoryss += ', ';
+        }
+      });
+    } else {}
+    print(Categoryss);
   }
 
   @override
   Widget build(BuildContext context) {
     print(widget.objMov.id!);
 
-    String description =
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget justo ac turpis volutpat fermentum. ';
+    //String description ='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget justo ac turpis volutpat fermentum. ';
 
+    String description = utf8.decode(widget.objMov.des.toString().codeUnits);
     String Actors =
         'Actors : diễn viên A ,diễn viên B ,diễn viên C ,diễn viên D ,diễn viên Ediễn viên D ,diễn viên E ';
-    String Categorys =
-        "Category : Thể loại A ,Thể loại B ,Thể loại C ,Thể loại D  ";
+    //String Categorys ="Category : Thể loại A ,Thể loại B ,Thể loại C ,Thể loại D  ";
+    //String Categorys = "Category : Thể loại A ,Thể loại B ,Thể loại C ,Thể loại D  ";
+    String Categorys = "Category : " + Categoryss;
+    
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -96,7 +111,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                   future: _loadCurrent,
                   builder:
                       (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
+                    if (snapshot.connectionState == ConnectionState.done) {
                       return const Center(
                         child: CircularProgressIndicator(),
                       );
@@ -188,10 +203,10 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                         FontWeight.bold),
                                               ),
                                             ),
-                                            const Row(
+                                            Row(
                                               children: [
                                                 Text(
-                                                  '2019',
+                                                  '${widget.objMov.release}',
                                                   style: TextStyle(
                                                       color: Colors.white54),
                                                 ),
@@ -204,7 +219,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                   width: 10,
                                                 ),
                                                 Text(
-                                                  '1g 30p',
+                                                  '${widget.objMov.time}',
                                                   style: TextStyle(
                                                       color: Colors.white54),
                                                 ),
@@ -223,7 +238,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                               child: ElevatedButton(
                                                 onPressed: () => {
                                                   //print(links),
-                                                  
+
                                                   addMovToHis(
                                                       widget.objMov.id!),
                                                   Navigator.pushReplacement(
@@ -270,7 +285,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                       width: 5,
                                                     ),
                                                     Text(
-                                                      'Play',
+                                                      'Xem',
                                                       style: TextStyle(
                                                           color: Colors.black),
                                                     ),
@@ -349,7 +364,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                       isExpandedCategory
                                                           ? Categorys
                                                           : Categorys.substring(
-                                                                  0, 50) +
+                                                                  0, Categorys.length-2) +
                                                               '...',
                                                       style: const TextStyle(
                                                           color:
