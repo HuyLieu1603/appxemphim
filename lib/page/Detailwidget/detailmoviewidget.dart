@@ -4,6 +4,7 @@
 import 'dart:convert';
 
 import 'package:appxemphim/data/API/api.dart';
+import 'package:appxemphim/data/model/movies_directors/movies_directors.dart';
 import 'package:appxemphim/page/viewmovie/viewmovie.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,8 +30,10 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
   bool isExpandedCategory = false;
   String timeplay = "";
   var takedata;
+  late MoviesDirector moviesDirector;
   String nameid = "";
   String Categoryss = "";
+  String Actorss = "";
   late Future<String> _loadcurrentMovies;
   late Future<String> _loadCurrent;
   Future<String> loadCurrent(String movId) async {
@@ -43,6 +46,21 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
     print(timeplay);
     detailMovies =
         await ReadDataMovies().loadDataMoviesbyId(movId) as List<Movies>;
+
+    moviesDirector =
+        await APIResponsitory().fectchMoviesDirector(widget.objMov.id!);
+
+    if (moviesDirector.Actor is Iterable) {
+      var allActors = moviesDirector.Actor as Iterable;
+      allActors.forEach((element) {
+        Actorss += utf8.decode(element['nameActors'].toString().codeUnits);
+        if (element != allActors.last) {
+          Actorss += ', ';
+        }
+      });
+      print(Actorss);
+    }
+
     return '';
   }
 
@@ -71,7 +89,8 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
         }
       });
     } else {}
-    print(Categoryss);
+
+    //print(Actorss);
   }
 
   @override
@@ -81,12 +100,11 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
     //String description ='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget justo ac turpis volutpat fermentum. ';
 
     String description = utf8.decode(widget.objMov.des.toString().codeUnits);
-    String Actors =
-        'Actors : diễn viên A ,diễn viên B ,diễn viên C ,diễn viên D ,diễn viên Ediễn viên D ,diễn viên E ';
+
     //String Categorys ="Category : Thể loại A ,Thể loại B ,Thể loại C ,Thể loại D  ";
     //String Categorys = "Category : Thể loại A ,Thể loại B ,Thể loại C ,Thể loại D  ";
     String Categorys = "Category : " + Categoryss;
-    
+
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -116,6 +134,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                         child: CircularProgressIndicator(),
                       );
                     } else {
+                      String Actors = 'Actors : ' + Actorss;
                       return ListView(
                         children: [
                           Stack(
@@ -331,7 +350,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                         ),
                                                       ),
                                                     const SizedBox(height: 10),
-                                                    const Row(
+                                                    Row(
                                                       children: [
                                                         Text(
                                                           'Director : ',
@@ -341,7 +360,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                         ),
                                                         //ten dao dien
                                                         Text(
-                                                          'Liêu Trương Gia Huy',
+                                                          '${moviesDirector.Director}',
                                                           style: TextStyle(
                                                               color: Colors
                                                                   .white54),
@@ -353,7 +372,9 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                       isExpandedActors
                                                           ? Actors
                                                           : Actors.substring(
-                                                                  0, 50) +
+                                                                  0,
+                                                                  Actors
+                                                                      .length) +
                                                               '...',
                                                       style: const TextStyle(
                                                           color:
@@ -364,14 +385,17 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                       isExpandedCategory
                                                           ? Categorys
                                                           : Categorys.substring(
-                                                                  0, Categorys.length-2) +
+                                                                  0,
+                                                                  Categorys
+                                                                      .length) +
                                                               '...',
                                                       style: const TextStyle(
                                                           color:
                                                               Colors.white54),
                                                     ),
                                                     const SizedBox(height: 8),
-                                                    if (Actors.length > 50)
+                                                    if (Actors.length >
+                                                        Actors.length - 1)
                                                       GestureDetector(
                                                         onTap: () {
                                                           setState(() {
