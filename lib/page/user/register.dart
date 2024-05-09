@@ -26,7 +26,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
         ),
         backgroundColor: Colors.white,
       ),
-      body: Container(
+      body: SingleChildScrollView(
+        child: Container(
         color: Colors.white,
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -128,6 +129,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
           ],
         ),
       ),
+      )
     );
   }
 }
