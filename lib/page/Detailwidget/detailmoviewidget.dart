@@ -113,16 +113,15 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
 
                 await APIResponsitory().fectMoviesRating(
                     nameid, widget.objMov.id!, rating.toString());
-               
+
                 _rankRating = await APIResponsitory()
                     .fecttotalidMoviesRating(widget.objMov.id!);
-              
+
                 //print(newrankRating);
 
                 Navigator.of(context).pop(true);
 
                 setState(() {
-                  
                   _rating = rating;
                 });
 
@@ -191,7 +190,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
 
     //String Categorys ="Category : Thể loại A ,Thể loại B ,Thể loại C ,Thể loại D  ";
     //String Categorys = "Category : Thể loại A ,Thể loại B ,Thể loại C ,Thể loại D  ";
-    String Categorys = "Category : " + Categoryss;
+    String Categorys = "Thể loại : " + Categoryss;
 
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
@@ -222,7 +221,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                         child: CircularProgressIndicator(),
                       );
                     } else {
-                      String Actors = 'Actors : ' + Actorss;
+                      String Actors = 'Diễn viên : ' + Actorss;
                       return ListView(
                         children: [
                           Stack(
@@ -313,63 +312,88 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                             FontWeight.bold),
                                                   ),
                                                 ),
-                                                Spacer(),
-                                                IconButton(
-                                                  onPressed: () {
-                                                    isFav(widget.objMov.id!);
-                                                    setState(() {
-                                                      mov.isFavorite =
-                                                          !mov.isFavorite;
-                                                    });
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.bookmark,
-                                                    color: mov.isFavorite
-                                                        ? Colors.red
-                                                        : Colors.white,
-                                                  ),
-                                                ),
                                               ],
                                             ),
                                             Container(
-                                              height: 50,
+                                              height: 40,
                                               child: ListView(
                                                 scrollDirection:
                                                     Axis.horizontal,
                                                 children: <Widget>[
-                                                  Align(
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                      '${widget.objMov.release}',
-                                                      style: TextStyle(
-                                                        color: Colors.white54,
+                                                  Container(
+                                                      
+                                                      padding: EdgeInsets.all(5),
+                                                      decoration: BoxDecoration(
+                                                        color: Color.fromARGB(255, 47, 47, 47),
+                                                        borderRadius: BorderRadius.all(Radius.circular(10))
                                                       ),
-                                                    ),
-                                                  ),
-                                                  Icon(
-                                                    Icons.calendar_month,
-                                                    color: Colors.white54,
-                                                    size: 20,
-                                                  ),
+                                                      child: Row(
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                          Align(
+                                                            alignment: Alignment
+                                                                .center,
+                                                            child: Text(
+                                                              '${widget.objMov.release}',
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(width: 5,),
+                                                          Icon(
+                                                            Icons
+                                                                .calendar_month,
+                                                            color:
+                                                                Colors.white,
+                                                            size: 20,
+                                                          ),
+                                                        ],
+                                                  )),
                                                   SizedBox(
                                                     width: 10,
                                                   ),
-                                                  Align(
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                      '${widget.objMov.time}',
-                                                      style: TextStyle(
-                                                        color: Colors.white54,
+                                                  Container(
+                                                      padding: EdgeInsets.all(5),
+                                                      decoration: BoxDecoration(
+                                                        color: Color.fromARGB(255, 47, 47, 47),
+                                                        borderRadius: BorderRadius.all(Radius.circular(10))
                                                       ),
-                                                    ),
-                                                  ),
-                                                  Icon(
-                                                    Icons.access_time_sharp,
-                                                    color: Colors.white54,
-                                                  ),
+                                                      child: Row(
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                      Align(
+                                                        alignment: Alignment.center,
+                                                        child: Text(
+                                                          '${widget.objMov.time}',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(width: 5,),
+                                                      Icon(
+                                                        Icons.access_time_sharp,
+                                                        color: Colors.white,
+                                                        ),
+                                                        ],
+                                                  )),
                                                   SizedBox(
                                                     width: 10,
                                                   ),
+                                                  Container(
+                                                      padding: EdgeInsets.all(5),
+                                                      decoration: BoxDecoration(
+                                                        color: Color.fromARGB(255, 47, 47, 47),
+                                                        borderRadius: BorderRadius.all(Radius.circular(10))
+                                                      ),
+                                                      child: Row(
+                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
                                                   Container(
                                                     child: Row(
                                                       mainAxisAlignment:
@@ -432,10 +456,43 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                     child: Text(
                                                       _rankRating + "/5.0",
                                                       style: TextStyle(
-                                                        color: Colors.white54,
+                                                        color: Colors.white,
                                                       ),
                                                     ),
                                                   ),
+                                                  ],
+                                                  )),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Container(
+                                                      padding: EdgeInsets.all(0),
+                                                      decoration: BoxDecoration(
+                                                        color: Color.fromARGB(255, 47, 47, 47),
+                                                        borderRadius: BorderRadius.all(Radius.circular(10))
+                                                      ),
+                                                      child: Row(
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                    IconButton(
+                                                    onPressed: () {
+                                                      isFav(widget.objMov.id!);
+                                                      setState(() {
+                                                        mov.isFavorite =
+                                                            !mov.isFavorite;
+                                                      });
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.bookmark,
+                                                      color: mov.isFavorite
+                                                          ? Colors.red
+                                                          : Colors.white,
+                                                    ),
+                                                  ),
+                                                  ],
+                                                  )),
+                                                 
                                                 ],
                                               ),
                                             ),
@@ -545,7 +602,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                     Row(
                                                       children: [
                                                         Text(
-                                                          'Director : ',
+                                                          'Đạo diễn : ',
                                                           style: TextStyle(
                                                               color: Colors
                                                                   .white54),
