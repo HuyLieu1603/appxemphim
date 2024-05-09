@@ -28,6 +28,9 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
   bool isExpanded = false;
   bool isExpandedActors = false;
   bool isExpandedCategory = false;
+  bool isFavorite = false;
+  late Future<bool> Check;
+
   Movies mov = Movies();
 
   String timeplay = "";
@@ -38,14 +41,17 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
   String Actorss = "";
   late Future<String> _loadcurrentMovies;
   late Future<String> _loadCurrent;
+  
 
   Future<void> isFav(String idMovie) async {
-    if (await (APIResponsitory().checkFav(idMovie))) {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (await (APIResponsitory()
+        .checkFav(idMovie, prefs.getString('name').toString()))) {
       await delFav(idMovie);
-      mov.isFavorite = false;
+      isFavorite = false;
     } else {
       await addFav(idMovie);
-      mov.isFavorite = true;
+      isFavorite = true;
     }
   }
 
@@ -867,6 +873,34 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                   });
             }
           },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProduct(
+      Movies mov, BuildContext context, AsyncSnapshot<bool> test) {
+    final bool isFavorite = test.data ?? false;
+    return Card(
+      child: ElevatedButton(
+        onPressed: () {
+          isFav(mov.id!);
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color.fromARGB(255, 4, 76, 136),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0), // Đặt góc bo tròn
+          ),
+          // Đặt khoảng cách đệm
+          // Các thuộc tính khác nếu cần thiết
+        ),
+        child: Container(
+          width: 25.0, // Đặt kích thước rộng
+          height: 25.0, // Đặt kích thước cao
+          child: Icon(
+            Icons.favorite,
+            color: isFavorite ? Colors.amber[800] : Colors.white,
+          ),
         ),
       ),
     );

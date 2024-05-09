@@ -54,7 +54,7 @@ class APIResponsitory {
       List<AccountsModel> accounts = parseAccounts(reponse.body);
       for (var item in accounts) {
         if (item.userName == userName && item.password == password) {
-          print(item.duration);
+          // print(item.duration);
           result = true;
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('name', userName);
@@ -729,9 +729,10 @@ class APIResponsitory {
     }
   }
 
-  Future<bool> checkFav(String idMovie) async {
+  Future<bool> checkFav(String idMovie, String idAccount) async {
     bool check = false;
-    final baseurl = Uri.parse('${(API().baseUrl)}Favorite?idMovie=$idMovie');
+    final baseurl = Uri.parse(
+        '${(API().baseUrl)}Favorite?idMovie=$idMovie&idAccount=$idAccount');
     final res = await http.get(baseurl);
     if (res.statusCode == 200) {
       List<dynamic> jsonFav = jsonDecode(res.body);
@@ -745,7 +746,8 @@ class APIResponsitory {
   }
 
   Future<List<Favorite>> fetchFav(String idAccount) async {
-    final baseurl = Uri.parse('${(API().baseUrl)}Favorite');
+    final baseurl =
+        Uri.parse('${(API().baseUrl)}Favorite?idAccount=$idAccount');
     final res = await http.get(baseurl);
     if (res.statusCode == 200) {
       Iterable jsonResponse = jsonDecode(res.body);
@@ -1035,24 +1037,22 @@ class APIResponsitory {
               ))
           .toList();
     }
-     if (reponse.statusCode == 200) {
+
+    if (reponse.statusCode == 200) {
       lstfav = parseAccounts(reponse.body);
       for (var fav in lstfav) {
-        if (fav.idMovie == idmovie.toString().trim() && fav.idAccount == idname.toString().trim()) {
+        if (fav.idMovie == idmovie.toString().trim() &&
+            fav.idAccount == idname.toString().trim()) {
           check = true;
         }
       }
       return check;
-     
     } else {
-     
       return check;
     }
-
-   
   }
-   Future<List<Favorite>> takefavall(String idname) async {
-  
+
+  Future<List<Favorite>> takefavall(String idname) async {
     final baseurl = Uri.parse('${(API().baseUrl)}Favorite');
     final reponse = await http.get(baseurl);
     List<Favorite> lstfav = [];
@@ -1069,7 +1069,8 @@ class APIResponsitory {
               ))
           .toList();
     }
-     if (reponse.statusCode == 200) {
+
+    if (reponse.statusCode == 200) {
       lstfav = parseAccounts(reponse.body);
       for (var fav in lstfav) {
         if (fav.idAccount == idname) {
@@ -1077,13 +1078,9 @@ class APIResponsitory {
         }
       }
       return takeall;
-     
     } else {
-     
       return takeall;
     }
-
-   
   }
 }
 

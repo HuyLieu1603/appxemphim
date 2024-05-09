@@ -49,6 +49,7 @@ class _settingWidgetState extends State<settingWidget> {
             "Cài đặt",
             style: TextStyle(
               color: Colors.white,
+              fontWeight: FontWeight.bold,
               fontSize: 20,
             ),
           ),
