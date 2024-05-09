@@ -20,9 +20,7 @@ class _favoriteMovieState extends State<favoriteMovie> {
   }
 
   Future<Movies> fetchMovie(String id) async {
-    Movies mov = await APIResponsitory().fetchMovieById(id);
-    print(mov);
-    return mov;
+    return await APIResponsitory().fetchMovieById(id);
   }
 
   String capslock(String s) {
@@ -102,12 +100,12 @@ class _favoriteMovieState extends State<favoriteMovie> {
       color: Colors.black,
       child: InkWell(
         onTap: () async {
-          Movies movs = await fetchMovie(fav.idMovie!);
+          Movies mov = await fetchMovie(fav.idMovie!);
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: ((context) => DetailMovies(
-                        objMov: movs,
+                        objMov: mov,
                       ))));
         },
         child: Padding(

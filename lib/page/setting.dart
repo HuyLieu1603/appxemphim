@@ -48,6 +48,7 @@ class _settingWidgetState extends State<settingWidget> {
             "Cài đặt",
             style: TextStyle(
               color: Colors.white,
+              fontWeight: FontWeight.bold,
               fontSize: 20,
             ),
           ),
@@ -109,7 +110,7 @@ class _settingWidgetState extends State<settingWidget> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                const historyPurchaseWidget(),
+                                  const historyPurchaseWidget(),
                             ),
                           );
                         },
@@ -167,8 +168,7 @@ class _settingWidgetState extends State<settingWidget> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  const favoriteMovie(),
+                              builder: (context) => const favoriteMovie(),
                             ),
                           );
                         },
@@ -379,8 +379,7 @@ class _settingWidgetState extends State<settingWidget> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  const ExtendServiceWidget(),
+                              builder: (context) => const ExtendServiceWidget(),
                             ),
                           );
                         },
