@@ -84,49 +84,20 @@ class _LoginState extends State<Login> {
     );
   }
 
-   test() async {
-   final apiUrl = 'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/account';
-
-   final response = await http.get(Uri.parse(apiUrl));
-   if (response.statusCode == 200) {
-     final users = jsonDecode(response.body) as List<dynamic>;
-
-     final matchingUser = users.firstWhere(
-       (user) =>
-           user['username'] == _usernameController.text &&
-           user['password'] == _passwordController.text,
-      orElse: () => null,
-     );
-
-    if (matchingUser != null) {
-     DateTime currentTime = DateTime.now();
-      String durationString = matchingUser['duration'];
-
-       String originalFormat = "yyyy-MM-dd HH:mm:ss.S";
-       String desiredFormat = "yyyy-MM-dd HH:mm:ss.S";
-      
-       DateTime accountDuration = DateFormat(originalFormat).parse(durationString);
-      
-       if (accountDuration.isAfter(currentTime)) {
-         // Thời hạn còn hiệu lực
-         Navigator.push(
-           context,
-           MaterialPageRoute(
-            builder: (context) => const NaviFrame(),
-          ),
-        );
-      } else {
-        //Thời hạn hết hạn hoặc đã qua
-        showAlertDialogouttime(context);
-      }
-     } else {
-     showAlertDialog(context);
+  test() async {
+    bool result = await APIResponsitory()
+        .fetchdata(_usernameController.text, _passwordController.text);
+    if (result) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const NaviFrame(),
+        ), // Thay SignUpScreen() bằng màn hình đăng ký người dùng của bạn
+      );
+    } else {
+      showAlertDialog(context);
     }
-   } else {
-     // Xử lý khi gọi API không thành công
-     showAlertDialogDisSV(context);
-   }
- }
+  }
  
 
   @override

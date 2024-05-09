@@ -2,6 +2,7 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'dart:convert';
 import '../../data/model/bank.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,6 +21,9 @@ class ExtendServiceWidget extends StatefulWidget {
 }
 
 class _ExtendServiceWidgetState extends State<ExtendServiceWidget> {
+  List<String> extendOptions = ['1 tháng', '3 tháng', '6 tháng', '12 tháng'];
+  int selectedOption = 1; // Lựa chọn mặc định
+
   Future<AccountsModel> getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     DateTime duration = DateTime.parse(prefs.getString('duration') ?? '0');
@@ -38,7 +42,7 @@ class _ExtendServiceWidgetState extends State<ExtendServiceWidget> {
         serviceId,
         prefs.getString('servicename').toString(),
         prefs.getString('serviceprice').toString(),
-        prefs.getString('img').toString());
+        prefs.getString('serviceimg').toString());
   }
 
   Future<void> _getUserInfoAndService() async {
@@ -48,29 +52,11 @@ class _ExtendServiceWidgetState extends State<ExtendServiceWidget> {
 
 // Hàm để tính toán ngày hết hạn mới dựa trên lựa chọn
   DateTime calculateNewExpiryDate(int option, DateTime currentExpiry) {
-    int monthsToAdd;
-    switch (option) {
-      case 1:
-        monthsToAdd = 1;
-        break;
-      case 3:
-        monthsToAdd = 3;
-        break;
-      case 6:
-        monthsToAdd = 6;
-        break;
-      case 12:
-        monthsToAdd = 12;
-        break;
-      default:
-        monthsToAdd = 0;
-    }
-    return DateTime(currentExpiry.year, currentExpiry.month + monthsToAdd,
-        currentExpiry.day);
+    return currentExpiry.add(Duration(days: option * 30));
   }
 
-  Future<AccountsModel> _ExtendedService(String idAccount) async {
-    return await APIResponsitory().ExtendedService(idAccount);
+  Future<void> _ExtendedService(String idAccount, DateTime duration) async {
+    return await APIResponsitory().extendService(idAccount, duration);
   }
 
   @override
@@ -93,14 +79,19 @@ class _ExtendServiceWidgetState extends State<ExtendServiceWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // Danh sách các lựa chọn gia hạn
-    List<String> extendOptions = ['1 tháng', '3 tháng', '6 tháng', '12 tháng'];
-    int selectedOption = 1; // Lựa chọn mặc định
+     final screenSize = MediaQuery.of(context).size;
     return FutureBuilder<AccountsModel?>(
       future: getUserInfo(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator(); // Hiển thị loading indicator khi đang chờ
+         return Container(
+                height: screenSize.height,
+                width: screenSize.width,
+                decoration: BoxDecoration(color: Colors.black),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ); // Hiển thị loading indicator khi đang chờ
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}'); // Hiển thị lỗi nếu có
         } else if (snapshot.hasData) {
@@ -109,7 +100,14 @@ class _ExtendServiceWidgetState extends State<ExtendServiceWidget> {
             future: _getServiceByUser(user!),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
+               return Container(
+                height: screenSize.height,
+                width: screenSize.width,
+                decoration: BoxDecoration(color: Colors.black),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ); 
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else if (snapshot.hasData) {
@@ -145,22 +143,30 @@ class _ExtendServiceWidgetState extends State<ExtendServiceWidget> {
                         const SizedBox(height: 20),
                         Container(
                           decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.black, // Màu của đường viền
-                              width: 2, // Độ rộng của đường viền
-                            ),
                             borderRadius: BorderRadius.circular(
                                 16), // Bo góc của hình ảnh
                           ),
+                          clipBehavior: Clip.antiAlias,
                           child: Container(
-                            padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
-                            child: Image.asset('assets/images/HUFLIX.png',
-                                width: 200, height: 150),
+                            // padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+                            child: Image.network(
+                              serv!.img,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const Icon(Icons.image),
+                              fit: BoxFit.fitWidth,
+                            ),
                           ),
                         ),
                         const SizedBox(height: 20),
-                        Text(serv!.name, style: secondtitleStyle),
-                        Text(serv.price.toString()),
+                        Text(utf8.decode(serv.name.toString().codeUnits),
+                            style: secondtitleStyle),
+                        Text(
+                            "Đơn giá: ${NumberFormat('###,###.### VNĐ').format(serv.price)}"),
+                        Text(
+                          "Tổng tiền: ${NumberFormat('###,###.### VNĐ').format(serv.price * selectedOption)}",
+                          style:
+                              const TextStyle(fontSize: 20, color: Colors.red),
+                        ),
                         // Widget DropdownButton để chọn lựa chọn gia hạn
                         DropdownButton<int>(
                           value: selectedOption,
@@ -182,14 +188,16 @@ class _ExtendServiceWidgetState extends State<ExtendServiceWidget> {
                         const SizedBox(height: 16),
                         ElevatedButton(
                           onPressed: () async {
-                            await _ExtendedService(user.idaccount);
+                            await _ExtendedService(user.idaccount,
+                                user.duration); // Đợi cho phương thức hoàn thành
                             // Hiển thị dialog thông báo lưu thành công
                             // Tính toán và cập nhật duration
                             DateTime newDuration = calculateNewExpiryDate(
                                 selectedOption, user.duration);
                             SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
-                            prefs.setString('duration', newDuration.toIso8601String());
+                            prefs.setString(
+                                'duration', newDuration.toIso8601String());
                             user.duration = newDuration;
                             // Gọi hàm để lưu lịch sử giao dịch
                             print(user.duration);

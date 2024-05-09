@@ -216,8 +216,13 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
           future: _loadcurrentMovies,
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return Container(
+                height: screenSize.height,
+                width: screenSize.width,
+                decoration: BoxDecoration(color: Colors.black),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
               );
             } else if (snapshot.hasError) {
               loadlink(widget.objMov.id!);
@@ -327,14 +332,36 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                 ),
                                               ],
                                             ),
-
-                                            Container(
+                                            Row(
+                                              children: [
+                                                Container(
                                               child: Text(
                                                 _AllRatingmovies + ' đánh giá',
                                                 style: TextStyle(
                                                     color: Colors.white),
                                               ),
                                             ),
+                                            Container(
+                                              height: 15,
+                                              margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colors.white
+                                                )
+                                              ),
+                                            ),
+                                            Align(
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                _rankRating + "/5.0",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            )
+                                              ],
+                                            ),
+                                            
                                             const SizedBox(
                                               height: 10,
                                             ),
@@ -523,21 +550,6 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                                       rate(5),
                                                                 )
                                                               ],
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            width: 10,
-                                                          ),
-                                                          Align(
-                                                            alignment: Alignment
-                                                                .center,
-                                                            child: Text(
-                                                              _rankRating +
-                                                                  "/5.0",
-                                                              style: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                              ),
                                                             ),
                                                           ),
                                                         ],

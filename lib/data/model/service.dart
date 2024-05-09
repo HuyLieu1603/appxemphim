@@ -1,15 +1,15 @@
 import 'package:http/http.dart';
 
 class Service {
-  String? id;
+  String id;
   String name;
-  int? price;
-  String? img;
-  int? numberDevice;
+  int price;
+  String img;
+  int numberDevice;
   String resolution;
   bool isSelected;
   bool isHovered;
-  int? duration;
+  int duration;
   Service({
     required this.id,
     required this.name,
