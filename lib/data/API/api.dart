@@ -4,6 +4,7 @@ import 'package:appxemphim/data/model/history/historyPurchase.dart';
 import 'package:appxemphim/data/model/movielinks.dart';
 import 'package:appxemphim/data/model/bank.dart';
 import 'package:appxemphim/data/model/movies_continue/movies_continue.dart';
+import 'package:appxemphim/data/model/movies_rating/movies_rating.dart';
 import 'package:intl/intl.dart';
 import 'package:appxemphim/data/model/movies_directors/movies_directors.dart';
 import '../model/history/historyMovie.dart';
@@ -41,9 +42,10 @@ class APIResponsitory {
         return AccountsModel(
           userName: json['username'],
           password: json['password'],
-          idaccount: json['id'],
           serviceid: json['serviceid'],
+          // Chuyển đổi số nguyên thành DateTime
           duration: DateTime.parse(json['duration']),
+          idaccount: json['id'],
         );
       }).toList();
     }
@@ -769,6 +771,20 @@ class APIResponsitory {
     return check;
   }
 
+  Future<List<Favorite>> fetchFav(String idAccount) async {
+    final baseurl = Uri.parse('${(API().baseUrl)}Favorite');
+    final res = await http.get(baseurl);
+    if (res.statusCode == 200) {
+      Iterable jsonResponse = jsonDecode(res.body);
+      print(jsonResponse);
+      return jsonResponse
+          .map((favorite) => Favorite.fromJson(favorite))
+          .toList();
+    } else {
+      throw Exception('Failed to load favorites');
+    }
+  }
+
   Future<MoviesDirector> fectchMoviesDirector(String id) async {
     final baseurl = Uri.parse(
         'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Movies/' +
@@ -798,5 +814,194 @@ class APIResponsitory {
       print("false");
     }
     return lstMoviesDirector[0];
+  }
+
+  Future<bool> fectMoviesRating(
+      String idname, String idmovies, String ratings) async {
+    bool check = false;
+    //kiem tra co trong danh sach phim hya khong voi idname va id movies
+    final baseurl =
+        Uri.parse('${(API().baseUrl)}Movies/' + idmovies + "/Movies_rating");
+    //print(baseurl);
+    final reponse = await http.get(baseurl);
+    List<MoviesRating> lstRating = [];
+    List<MoviesRating> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<MoviesRating>((json) => MoviesRating(
+                idname: json['idname'],
+                idmovies: json['idmovies'],
+                rating: json['rating'],
+                id: json['id'],
+                MovieId: json['MovieId'],
+              ))
+          .toList();
+    }
+
+    if (reponse.statusCode == 200) {
+      //print("ok");
+      lstRating = parseAccounts(reponse.body);
+      MoviesRating items = MoviesRating();
+      int index = lstRating.indexWhere(
+          (rating) => rating.idname == idname && rating.idmovies == idmovies);
+
+      for (var rating in lstRating) {
+        if (rating.idname == idname && rating.idmovies == idmovies) {
+          items = rating;
+          items.rating = ratings;
+          break;
+        }
+      }
+
+      if (index != -1) {
+       // print(items);
+        print(
+            'Rating exists at index $index for idname: $idname and idmovies: $idmovies');
+        var url = Uri.parse('${(API().baseUrl)}Movies/' +
+            items.id.toString() +
+            "/Movies_rating/" +
+            items.id.toString());
+        print(url);
+        var body = json.encode(items.toJson());
+
+        var response = await http.put(
+          url,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: body,
+        );
+        if (response.statusCode == 200) {
+          // Handle successful account creation
+          print('Rating Updated successfully');
+        } else {
+          // Handle errors
+          print('Error: ${response.statusCode}');
+        }
+      } else {
+        print(
+            'Rating does not exist for idname: $idname and idmovies: $idmovies');
+        var urlpost = Uri.parse('${(API().baseUrl)}Movies_rating');
+        Map<String, dynamic> rateJson = {
+          'idname': idname.toString(),
+          'idmovies': idmovies.toString(),
+          'rating': ratings,
+          'MovieId': idmovies.toString(),
+        };
+        String rateJsonString = jsonEncode(rateJson);
+        final response = await http.post(
+          urlpost,
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: rateJsonString,
+        );
+        if (response.statusCode == 201) {
+          print('Thêm thành công rating');
+        } else {
+          print('Failed: ${response.statusCode}');
+        }
+      }
+    } else {
+      print(
+          'Rating does not exist for idname: $idname and idmovies: $idmovies');
+      var urlpost = Uri.parse('${(API().baseUrl)}Movies_rating');
+      Map<String, dynamic> rateJson = {
+        'idname': idname.toString(),
+        'idmovies': idmovies.toString(),
+        'rating': ratings,
+        'MovieId': idmovies.toString(),
+      };
+      String rateJsonString = jsonEncode(rateJson);
+      final response = await http.post(
+        urlpost,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: rateJsonString,
+      );
+      if (response.statusCode == 201) {
+        print('Thêm thành công rating');
+      } else {
+        print('Failed: ${response.statusCode}');
+      }
+      //print('Lỗi: ${reponse.statusCode}');
+    }
+
+    return check;
+  }
+
+  Future<String> fectdataMoviesRating(String idname, String idmovies) async {
+    String check = "0";
+    //kiem tra co trong danh sach phim hya khong voi idname va id movies
+    final baseurl =
+        Uri.parse('${(API().baseUrl)}Movies/' + idmovies + "/Movies_rating");
+    final reponse = await http.get(baseurl);
+    List<MoviesRating> lstRating = [];
+    List<MoviesRating> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<MoviesRating>((json) => MoviesRating(
+                idname: json['idname'],
+                idmovies: json['idmovies'],
+                rating: json['rating'],
+                id: json['id'],
+                MovieId: json['MovieId'],
+              ))
+          .toList();
+    }
+
+    if (reponse.statusCode == 200) {
+      lstRating = parseAccounts(reponse.body);
+      for (var rating in lstRating) {
+        if (rating.idname == idname && rating.idmovies == idmovies) {
+          check = rating.rating.toString().trim();
+
+          break;
+        }
+      }
+    } else {
+      return check;
+    }
+    return check;
+  }
+
+  Future<String> fecttotalidMoviesRating(String idmovies) async {
+    int total = 0;
+    int count = 0;
+    double result = 0.0;
+    String check = "0";
+    //kiem tra co trong danh sach phim hya khong voi idname va id movies
+    final baseurl =
+        Uri.parse('${(API().baseUrl)}Movies/' + idmovies + "/Movies_rating");
+    final reponse = await http.get(baseurl);
+    List<MoviesRating> lstRating = [];
+    List<MoviesRating> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<MoviesRating>((json) => MoviesRating(
+                idname: json['idname'],
+                idmovies: json['idmovies'],
+                rating: json['rating'],
+                id: json['id'],
+                MovieId: json['MovieId'],
+              ))
+          .toList();
+    }
+
+    if (reponse.statusCode == 200) {
+      lstRating = parseAccounts(reponse.body);
+      for (var rating in lstRating) {
+        if (rating.idmovies == idmovies) {
+          total += int.parse(rating.rating.toString().trim());
+          count += 1;
+        }
+      }
+      result = (total / count) + (total % count);
+      check = result.toString();
+    } else {
+      return check;
+    }
+    return check;
   }
 }

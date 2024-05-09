@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_interpolation_to_compose_strings, avoid_unnecessary_containers, non_constant_identifier_names
+// ignore_for_file: prefer_interpolation_to_compose_strings, avoid_unnecessary_containers, non_constant_identifier_names, prefer_const_constructors
 
 // import 'package:flutter/cupertino.dart';
 import 'dart:convert';
@@ -83,7 +83,73 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
       print(Actorss);
     }
 
+    _rating = int.parse(await APIResponsitory()
+        .fectdataMoviesRating(nameid, widget.objMov.id!));
+    _rankRating =
+        await APIResponsitory().fecttotalidMoviesRating(widget.objMov.id!);
+
     return '';
+  }
+
+  /////Rating
+  int _rating = 0;
+  String _rankRating = "0";
+  void rate(int rating) {
+    //Other actions based on rating such as api calls.
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Thông báo', textAlign: TextAlign.center),
+          content: const Text(
+            'Bạn có muốn đánh giá phim',
+            textAlign: TextAlign.center,
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Có'),
+              onPressed: () async {
+                // funtion code rating o day
+
+                await APIResponsitory().fectMoviesRating(
+                    nameid, widget.objMov.id!, rating.toString());
+               
+                _rankRating = await APIResponsitory()
+                    .fecttotalidMoviesRating(widget.objMov.id!);
+              
+                //print(newrankRating);
+
+                Navigator.of(context).pop(true);
+
+                setState(() {
+                  
+                  _rating = rating;
+                });
+
+                noticfav();
+              },
+            ),
+            TextButton(
+              child: const Text('Không'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void noticfav() {
+    final snackBar;
+
+    snackBar = SnackBar(
+      content: Text("đánh giá thành công"),
+      duration: Duration(seconds: 2),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   String links = "";
@@ -221,6 +287,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                     ),
                                     Container(
                                       //height: screenSize.height - 200,
+
                                       width: screenSize.width,
                                       decoration: BoxDecoration(
                                           color: Colors.transparent
@@ -234,39 +301,17 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             //ten phim
-                                            Container(
-                                              child: Text(
-                                                '${widget.objMov.name?.substring(0, 1).toUpperCase()}${widget.objMov.name?.substring(1)}',
-                                                style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 30,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ),
                                             Row(
                                               children: [
-                                                Text(
-                                                  '${widget.objMov.release}',
-                                                  style: TextStyle(
-                                                      color: Colors.white54),
-                                                ),
-                                                Icon(
-                                                  Icons.calendar_month,
-                                                  color: Colors.white54,
-                                                  size: 20,
-                                                ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Text(
-                                                  '${widget.objMov.time}',
-                                                  style: TextStyle(
-                                                      color: Colors.white54),
-                                                ),
-                                                Icon(
-                                                  Icons.access_time_sharp,
-                                                  color: Colors.white54,
+                                                Container(
+                                                  child: Text(
+                                                    '${widget.objMov.name?.substring(0, 1).toUpperCase()}${widget.objMov.name?.substring(1)}',
+                                                    style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 30,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
                                                 ),
                                                 Spacer(),
                                                 IconButton(
@@ -286,6 +331,115 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                 ),
                                               ],
                                             ),
+                                            Container(
+                                              height: 50,
+                                              child: ListView(
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                children: <Widget>[
+                                                  Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      '${widget.objMov.release}',
+                                                      style: TextStyle(
+                                                        color: Colors.white54,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Icon(
+                                                    Icons.calendar_month,
+                                                    color: Colors.white54,
+                                                    size: 20,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      '${widget.objMov.time}',
+                                                      style: TextStyle(
+                                                        color: Colors.white54,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Icon(
+                                                    Icons.access_time_sharp,
+                                                    color: Colors.white54,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: <Widget>[
+                                                        GestureDetector(
+                                                          child: Icon(
+                                                            Icons.star,
+                                                            color: _rating >= 1
+                                                                ? Colors.orange
+                                                                : Colors.grey,
+                                                          ),
+                                                          onTap: () => rate(1),
+                                                        ),
+                                                        GestureDetector(
+                                                          child: Icon(
+                                                            Icons.star,
+                                                            color: _rating >= 2
+                                                                ? Colors.orange
+                                                                : Colors.grey,
+                                                          ),
+                                                          onTap: () => rate(2),
+                                                        ),
+                                                        GestureDetector(
+                                                          child: Icon(
+                                                            Icons.star,
+                                                            color: _rating >= 3
+                                                                ? Colors.orange
+                                                                : Colors.grey,
+                                                          ),
+                                                          onTap: () => rate(3),
+                                                        ),
+                                                        GestureDetector(
+                                                          child: Icon(
+                                                            Icons.star,
+                                                            color: _rating >= 4
+                                                                ? Colors.orange
+                                                                : Colors.grey,
+                                                          ),
+                                                          onTap: () => rate(4),
+                                                        ),
+                                                        GestureDetector(
+                                                          child: Icon(
+                                                            Icons.star,
+                                                            color: _rating >= 5
+                                                                ? Colors.orange
+                                                                : Colors.grey,
+                                                          ),
+                                                          onTap: () => rate(5),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      _rankRating + "/5.0",
+                                                      style: TextStyle(
+                                                        color: Colors.white54,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+
                                             Container(
                                               margin: const EdgeInsets.only(
                                                   top: 10),

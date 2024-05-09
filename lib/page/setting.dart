@@ -164,13 +164,13 @@ class _settingWidgetState extends State<settingWidget> {
                       height: 46,
                       child: ElevatedButton(
                         onPressed: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) =>
-                          //         // const favoriteMovie(objMov:),
-                          //   ),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const favoriteMovie(),
+                            ),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color.fromRGBO(67, 60, 60, 1),
