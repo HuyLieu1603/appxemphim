@@ -997,7 +997,12 @@ class APIResponsitory {
           count += 1;
         }
       }
-      result = (total / count) + (total % count);
+      print(count);
+      print(total);
+
+      result = total/count;
+
+
       check = result.toString();
     } else {
       return check;
