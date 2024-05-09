@@ -234,11 +234,11 @@ class APIResponsitory {
     try {
       final priceNumber = int.parse(servicePrice);
       final historyPurchaseData = {
-      "nameService": utf8.decode(serviceName.toString().codeUnits),
-      "price": NumberFormat('###,###.### VND').format(priceNumber),
-      "date": currentDate.toIso8601String(),
-      "des": "Dìa día",
-      "idAccount": idAccount
+        "nameService": utf8.decode(serviceName.toString().codeUnits),
+        "price": NumberFormat('###,###.### VND').format(priceNumber),
+        "date": currentDate.toIso8601String(),
+        "des": "Dìa día",
+        "idAccount": idAccount
       };
       final jsonData = jsonEncode(historyPurchaseData);
       final res = await http.post(
@@ -973,8 +973,7 @@ class APIResponsitory {
       print(count);
       print(total);
 
-      result = total/count;
-
+      result = total / count;
 
       check = result.toString();
     } else {
@@ -982,8 +981,8 @@ class APIResponsitory {
     }
     return check;
   }
+
   Future<String> fecthMoviesTotal(String idmovies) async {
-    
     int count = 0;
     String check = "0";
     //kiem tra co trong danh sach phim hya khong voi idname va id movies
@@ -1008,10 +1007,10 @@ class APIResponsitory {
       lstRating = parseAccounts(reponse.body);
       for (var rating in lstRating) {
         if (rating.idmovies == idmovies) {
-            count += 1;
+          count += 1;
         }
       }
-    
+
       check = count.toString();
     } else {
       check = count.toString();
