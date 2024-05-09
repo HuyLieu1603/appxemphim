@@ -173,19 +173,15 @@ class _ExtendServiceWidgetState extends State<ExtendServiceWidget> {
                         const SizedBox(height: 16),
                         ElevatedButton(
                           onPressed: () async {
-                            await _ExtendedService(user.idaccount,
-                                user.duration); // Đợi cho phương thức hoàn thành
-                            // Hiển thị dialog thông báo lưu thành công
-                            // Tính toán và cập nhật duration
                             DateTime newDuration = calculateNewExpiryDate(
                                 selectedOption, user.duration);
-                            SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
+                            SharedPreferences prefs =  await SharedPreferences.getInstance();
                             prefs.setString(
                                 'duration', newDuration.toIso8601String());
                             user.duration = newDuration;
                             // Gọi hàm để lưu lịch sử giao dịch
                             print(user.duration);
+                            await _ExtendedService(user.idaccount, user.duration);
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {

@@ -225,16 +225,19 @@ class APIResponsitory {
 
   Future<List<historyPurchase>> pushPurchase() async {
     final baseurl = Uri.parse('${API().baseUrl}/historyPurchase');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String idAccount = prefs.getString('idaccount') ?? '';
+    String serviceName = prefs.getString('servicename') ?? '';
+    String servicePrice = prefs.getString('serviceprice') ?? '';
 
     DateTime currentDate = DateTime.now();
     try {
       final historyPurchaseData = {
-        "nameService": "gói cơ bản",
-        "price": "180.000 VND",
-        "date": currentDate.toIso8601String(),
-        "des": "Đăng ký gói",
-        "idAccount": "1",
-        "id": "1"
+        "nameService": serviceName,
+      "price": servicePrice,
+      "date": currentDate.toIso8601String(),
+      "des": "Dìa día",
+      "idAccount": idAccount
       };
       final jsonData = jsonEncode(historyPurchaseData);
       final res = await http.post(
@@ -245,7 +248,6 @@ class APIResponsitory {
 
       if (res.statusCode == 201) {
         print("Thanh toán thành công");
-        // Chỉnh sửa sau này ở đây
       } else {
         print("Thanh toán thất bại");
       }

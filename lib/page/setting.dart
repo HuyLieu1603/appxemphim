@@ -109,7 +109,7 @@ class _settingWidgetState extends State<settingWidget> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                const historyPurchaseWidget(),
+                                  const historyPurchaseWidget(),
                             ),
                           );
                         },
@@ -167,8 +167,7 @@ class _settingWidgetState extends State<settingWidget> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  const favoriteMovie(),
+                              builder: (context) => const favoriteMovie(),
                             ),
                           );
                         },
@@ -368,9 +367,7 @@ class _settingWidgetState extends State<settingWidget> {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 16,
-                    ),
+                    const SizedBox(height: 16),
                     Container(
                       width: 360,
                       height: 46,
@@ -379,8 +376,7 @@ class _settingWidgetState extends State<settingWidget> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  const ExtendServiceWidget(),
+                              builder: (context) => const ExtendServiceWidget(),
                             ),
                           );
                         },
@@ -404,9 +400,7 @@ class _settingWidgetState extends State<settingWidget> {
                               child: Row(
                                 children: [
                                   Icon(Icons.payment_outlined), // Icon
-                                  SizedBox(
-                                      width:
-                                          10), // Khoảng cách giữa icon và text
+                                  SizedBox( width: 10), // Khoảng cách giữa icon và text
                                   Text(
                                     'Gia hạn gói dịch vụ',
                                     textAlign: TextAlign.left,

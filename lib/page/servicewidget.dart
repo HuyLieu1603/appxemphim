@@ -68,7 +68,8 @@ class _ServiceWidgetState extends State<ServiceWidget> {
             ),
             backgroundColor: Colors.white,
           ),
-          body: Container(
+          body: SingleChildScrollView(
+            child: Container(
             padding: const EdgeInsets.all(16),
             color: Colors.white,
             child: Column(
@@ -254,6 +255,7 @@ class _ServiceWidgetState extends State<ServiceWidget> {
               ],
             ),
           ),
+          )
         );
       },
     );
