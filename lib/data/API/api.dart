@@ -225,6 +225,7 @@ class APIResponsitory {
 
   Future<List<historyPurchase>> pushPurchase() async {
     final baseurl = Uri.parse('${API().baseUrl}/historyPurchase');
+
     DateTime currentDate = DateTime.now();
     try {
       final historyPurchaseData = {
@@ -445,7 +446,7 @@ class APIResponsitory {
   }
 
   Future<Service> getServiceByUser(
-      String serviceId, String name, String price) async {
+      String serviceId, String name, String price, String img) async {
     try {
       final serviceUrl = Uri.parse('${api.baseUrl}Service/$serviceId');
       final serviceResponse = await http.get(serviceUrl);
@@ -462,6 +463,7 @@ class APIResponsitory {
         prefs.setString('serviceprice', service.price.toString());
         prefs.setString('serviceresolution', service.resolution);
         prefs.setString('numberdevice', service.numberDevice.toString());
+        prefs.setString('serviceimg', service.img);
 
         print("Đã lấy dữ liệu service từ id khách hàng");
         return service;
@@ -473,55 +475,23 @@ class APIResponsitory {
     }
   }
 
-  Future<AccountsModel> ExtendedService(String idaccount) async {
-    final baseurl = Uri.parse('${(API().baseUrl)}account/$idaccount');
+  Future<void> extendService(String idaccount, DateTime duration) async {
+    final baseUrl = Uri.parse('${API().baseUrl}account/$idaccount');
 
-    // Function to parse account from response body
-    AccountsModel parseAccount(String responseBody) {
-      final parsedList = json.decode(responseBody);
-      if (parsedList is List) {
-        if (parsedList.isNotEmpty) {
-          final parsed = parsedList.first;
-          return AccountsModel(
-            userName: parsed['username'],
-            password: parsed['password'],
-            idaccount: parsed['id'],
-            serviceid: parsed['serviceid'],
-            duration: DateTime.parse(parsed['duration']),
-          );
-        } else {
-          throw Exception('No account found');
-        }
-      } else {
-        throw Exception('Invalid response format. Expected a List.');
-      }
-    }
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    DateTime durations = DateTime.parse(prefs.getString('duration')?? '');
-    final accountsModel = AccountsModel(
-      userName: prefs.getString('username').toString(),
-      password: prefs.getString('password').toString(),
-      idaccount: prefs.getString('idaccount').toString(),
-      serviceid: prefs.getString('username').toString(),
-      duration: durations
-    );
+    // Encode the duration as JSON
+    final jsonData = jsonEncode({'duration': duration.toIso8601String()});
 
-    print(durations);
-
-    // Encode the AccountsModel instance to JSON
-    final jsonData = jsonEncode(accountsModel.toJson());
-
-    // Send the POST request to the API
-    final response = await http.post(
-      baseurl,
+    // Send the PUT request to the API to update the account
+    final response = await http.put(
+      baseUrl,
       body: jsonData,
       headers: {"Content-Type": "application/json"},
     );
 
-    if (response.statusCode == 201) {
-      return parseAccount(response.body);
-    } else {
-      throw Exception('Failed to post extendedService: ${response.statusCode}');
+    print(duration);
+
+    if (response.statusCode != 200) {
+      throw Exception('Gia hạn thất bại!, StatusCode: ${response.statusCode}');
     }
   }
 
@@ -854,7 +824,7 @@ class APIResponsitory {
       }
 
       if (index != -1) {
-       // print(items);
+        // print(items);
         print(
             'Rating exists at index $index for idname: $idname and idmovies: $idmovies');
         var url = Uri.parse('${(API().baseUrl)}Movies/' +
@@ -997,7 +967,12 @@ class APIResponsitory {
           count += 1;
         }
       }
-      result = (total / count) + (total % count);
+      print(count);
+      print(total);
+
+      result = total/count;
+
+
       check = result.toString();
     } else {
       return check;
@@ -1041,4 +1016,6 @@ class APIResponsitory {
     }
     return check;
   }
+
+  ExtendedService(String idAccount) {}
 }

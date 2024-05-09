@@ -2,7 +2,7 @@ class Signup {
   String? username;
   String? password;
   String? serviceid;
-String? duration;
+DateTime? duration;
   Signup({ this.username, this.password, this.serviceid, this.duration });
   Map<String, dynamic> toJson() {
     return {

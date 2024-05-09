@@ -31,8 +31,8 @@ class PaymentMethodWidget extends StatelessWidget {
 
   Future<void> createAccount(String email, String password,
     String selectedServiceIds, int durationn) async {
-    DateTime temp = timenow.add(Duration(days: durationn * 30));
-    String  remain = temp.toString() ;
+    DateTime remain= timenow.add(Duration(days: durationn * 30));
+    
     var url = Uri.parse(
         'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/account'); // Replace with the actual URL of the mockapi
 
