@@ -1,5 +1,7 @@
 // ignore_for_file: camel_case_types
 
+import 'dart:convert';
+
 import 'package:appxemphim/data/API/api.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -91,11 +93,12 @@ Widget historyWidget(historyPurchase his, BuildContext context) {
                 height: 50,
                 alignment: Alignment.center,
                 child: Text(
-                  'Tên gói dịch vụ: \n${his.nameService}',
+                  'Tên gói dịch vụ: \n     ${utf8.decode(his.nameService.toString().codeUnits)}',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
+                    
                   ),
                 ),
               ),
