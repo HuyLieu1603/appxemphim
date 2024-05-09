@@ -1,7 +1,6 @@
 // ignore_for_file: unnecessary_string_interpolations
 
 import 'dart:convert';
-
 import 'package:appxemphim/page/paymentmethod/paymentmethodwidget.dart';
 import 'package:flutter/material.dart';
 import '../data/model/service.dart';

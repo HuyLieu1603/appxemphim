@@ -61,7 +61,7 @@ class APIResponsitory {
           .map<History>((json) => History(
               idMovie: json['idMovie'],
               idAccount: json['idAccount'],
-              date: json['date'],
+              date: DateTime.parse(json['date']),
               id: json['id']))
           .toList();
     }

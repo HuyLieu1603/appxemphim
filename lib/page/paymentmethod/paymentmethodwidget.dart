@@ -9,6 +9,7 @@ import '../../page/banklist/banklistwidget.dart';
 import '../../page/onlinepayment/onlinepaymentwidget.dart';
 import '../../config/const.dart';
 
+
 class PaymentMethodWidget extends StatelessWidget {
   final String selectedServiceIds;
   final String? email;
@@ -29,7 +30,7 @@ class PaymentMethodWidget extends StatelessWidget {
   }
 
   Future<void> createAccount(String email, String password,
-      String selectedServiceIds, int durationn) async {
+    String selectedServiceIds, int durationn) async {
     DateTime remain = timenow.add(Duration(days: durationn * 30));
     String formattedDate = DateFormat('dd/MM/yyyy').format(remain);
     var url = Uri.parse(

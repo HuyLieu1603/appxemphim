@@ -1,7 +1,7 @@
 class Service {
   String? id;
   String? name;
-  String? price;
+  int? price;
   String? img;
   int? numberDevice;
   String? resolution;
