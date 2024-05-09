@@ -132,7 +132,6 @@ class _ExtendServiceWidgetState extends State<ExtendServiceWidget> {
                 setState(() {
                   selectedOption = newValue!;
                   // Cập nhật ngày hết hạn mới dựa trên lựa chọn
-                  user.duration = calculateNewExpiryDate(selectedOption, user.duration);
                 });
               },
               items: extendOptions.map<DropdownMenuItem<String>>((String value) {
@@ -147,6 +146,7 @@ class _ExtendServiceWidgetState extends State<ExtendServiceWidget> {
                 onPressed: () async {
                   // Gọi hàm để lưu lịch sử giao dịch
                   await _pushPurchases();
+                  user.duration = calculateNewExpiryDate(selectedOption, user.duration);
                   // Hiển thị dialog thông báo lưu thành công
                   showDialog(
                     context: context,
@@ -156,7 +156,7 @@ class _ExtendServiceWidgetState extends State<ExtendServiceWidget> {
                         content: SingleChildScrollView(
                           child: ListBody(
                             children: <Widget>[
-                              Text("Đã lưu thông tin thanh toán"),
+                              Text("Đã gia hạn gói dịch vụ"),
                             ],
                           ),
                         ),
