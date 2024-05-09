@@ -288,15 +288,35 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             //ten phim
-                                            Container(
-                                              child: Text(
-                                                '${widget.objMov.name?.substring(0, 1).toUpperCase()}${widget.objMov.name?.substring(1)}',
-                                                style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 30,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  child: Text(
+                                                    '${widget.objMov.name?.substring(0, 1).toUpperCase()}${widget.objMov.name?.substring(1)}',
+                                                    style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 30,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                                Spacer(),
+                                                IconButton(
+                                                  onPressed: () {
+                                                    isFav(widget.objMov.id!);
+                                                    setState(() {
+                                                      mov.isFavorite =
+                                                          !mov.isFavorite;
+                                                    });
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.bookmark,
+                                                    color: mov.isFavorite
+                                                        ? Colors.red
+                                                        : Colors.white,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                             Row(
                                               children: [
@@ -378,15 +398,6 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                       )
                                                     ],
                                                   ),
-                                                ),
-                                                 SizedBox(
-                                                  width: 0,
-                                                ),
-                                                 Text(
-                                                  _rankRating + "/5.0",
-                                                  style: TextStyle(
-                                                      color: Colors.white54,),
-                                                      
                                                 ),
                                                 Spacer(),
                                                 IconButton(
