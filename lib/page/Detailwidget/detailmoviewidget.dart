@@ -113,14 +113,16 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
 
                 await APIResponsitory().fectMoviesRating(
                     nameid, widget.objMov.id!, rating.toString());
+               
                 _rankRating = await APIResponsitory()
                     .fecttotalidMoviesRating(widget.objMov.id!);
               
                 //print(newrankRating);
 
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(true);
 
                 setState(() {
+                  
                   _rating = rating;
                 });
 

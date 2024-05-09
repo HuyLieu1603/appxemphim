@@ -781,7 +781,7 @@ class APIResponsitory {
     //kiem tra co trong danh sach phim hya khong voi idname va id movies
     final baseurl =
         Uri.parse('${(API().baseUrl)}Movies/' + idmovies + "/Movies_rating");
-    print(baseurl);
+    //print(baseurl);
     final reponse = await http.get(baseurl);
     List<MoviesRating> lstRating = [];
     List<MoviesRating> parseAccounts(String responseBody) {
@@ -798,7 +798,7 @@ class APIResponsitory {
     }
 
     if (reponse.statusCode == 200) {
-      print("ok");
+      //print("ok");
       lstRating = parseAccounts(reponse.body);
       MoviesRating items = MoviesRating();
       int index = lstRating.indexWhere(
@@ -813,7 +813,7 @@ class APIResponsitory {
       }
 
       if (index != -1) {
-        print(items);
+       // print(items);
         print(
             'Rating exists at index $index for idname: $idname and idmovies: $idmovies');
         var url = Uri.parse('${(API().baseUrl)}Movies/' +
