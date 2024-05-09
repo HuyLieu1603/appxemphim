@@ -37,7 +37,8 @@ class _ExtendServiceWidgetState extends State<ExtendServiceWidget> {
     return await APIResponsitory().getServiceByUser(
         serviceId,
         prefs.getString('servicename').toString(),
-        prefs.getString('serviceprice').toString());
+        prefs.getString('serviceprice').toString(),
+        prefs.getString('img').toString());
   }
 
   Future<void> _getUserInfoAndService() async {
