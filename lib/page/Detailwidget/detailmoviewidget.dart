@@ -99,6 +99,8 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
         .fectdataMoviesRating(nameid, widget.objMov.id!));
     _rankRating =
         await APIResponsitory().fecttotalidMoviesRating(widget.objMov.id!);
+    _AllRatingmovies =
+        await APIResponsitory().fecthMoviesTotal(widget.objMov.id!);
 
     return '';
   }
@@ -106,7 +108,8 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
   /////Rating
   int _rating = 0;
   String _rankRating = "0";
-  void rate(int rating) {
+  String _AllRatingmovies = "0";
+  void rate(int rating) async {
     //Other actions based on rating such as api calls.
     showDialog(
       context: context,
@@ -121,22 +124,32 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
             TextButton(
               child: const Text('Có'),
               onPressed: () async {
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                );
                 // funtion code rating o day
-
                 await APIResponsitory().fectMoviesRating(
                     nameid, widget.objMov.id!, rating.toString());
-
                 _rankRating = await APIResponsitory()
                     .fecttotalidMoviesRating(widget.objMov.id!);
-
-                //print(newrankRating);
-
-                Navigator.of(context).pop(true);
+                _AllRatingmovies =
+                    await APIResponsitory().fecthMoviesTotal(widget.objMov.id!);
 
                 setState(() {
                   _rating = rating;
                 });
-
+                WidgetsBinding.instance!.addPostFrameCallback((_) {
+                  // Hàm callback này sẽ được gọi sau khi quá trình xây dựng lại cây widget hoàn thành
+                  // Đặt mã logic của bạn ở đây để xử lý sau khi setState() hoàn tất
+                  Navigator.of(context).pop(true);
+                  Navigator.of(context).pop(true);
+                });
                 noticfav();
               },
             ),
@@ -334,6 +347,18 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                 ),
                                               ],
                                             ),
+
+                                            Container(
+                                              child: Text(
+                                                _AllRatingmovies + ' đánh giá',
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+
                                             Container(
                                               height: 40,
                                               child: ListView(
