@@ -83,7 +83,8 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
       print(Actorss);
     }
 
-    _rating = int.parse(await APIResponsitory().fectdataMoviesRating(nameid, widget.objMov.id!));
+    _rating = int.parse(await APIResponsitory()
+        .fectdataMoviesRating(nameid, widget.objMov.id!));
 
     return '';
   }
@@ -286,15 +287,35 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             //ten phim
-                                            Container(
-                                              child: Text(
-                                                '${widget.objMov.name?.substring(0, 1).toUpperCase()}${widget.objMov.name?.substring(1)}',
-                                                style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 30,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  child: Text(
+                                                    '${widget.objMov.name?.substring(0, 1).toUpperCase()}${widget.objMov.name?.substring(1)}',
+                                                    style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 30,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                                Spacer(),
+                                                IconButton(
+                                                  onPressed: () {
+                                                    isFav(widget.objMov.id!);
+                                                    setState(() {
+                                                      mov.isFavorite =
+                                                          !mov.isFavorite;
+                                                    });
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.bookmark,
+                                                    color: mov.isFavorite
+                                                        ? Colors.red
+                                                        : Colors.white,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                             Row(
                                               children: [
@@ -375,22 +396,6 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                         onTap: () => rate(5),
                                                       )
                                                     ],
-                                                  ),
-                                                ),
-                                                Spacer(),
-                                                IconButton(
-                                                  onPressed: () {
-                                                    isFav(widget.objMov.id!);
-                                                    setState(() {
-                                                      mov.isFavorite =
-                                                          !mov.isFavorite;
-                                                    });
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.bookmark,
-                                                    color: mov.isFavorite
-                                                        ? Colors.red
-                                                        : Colors.white,
                                                   ),
                                                 ),
                                               ],
