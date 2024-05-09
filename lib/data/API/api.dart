@@ -42,11 +42,10 @@ class APIResponsitory {
         return AccountsModel(
           userName: json['username'],
           password: json['password'],
-          idaccount: json['id'],
           serviceid: json['serviceid'],
           // Chuyển đổi số nguyên thành DateTime
-          duration:
-              DateTime.fromMillisecondsSinceEpoch(json['duration'] * 1000),
+          duration: DateTime.parse(json['duration']),
+          idaccount: json['id'],
         );
       }).toList();
     }
@@ -891,8 +890,7 @@ class APIResponsitory {
     return check;
   }
 
-  Future<String> fectdataMoviesRating(
-      String idname, String idmovies) async {
+  Future<String> fectdataMoviesRating(String idname, String idmovies) async {
     String check = "0";
     //kiem tra co trong danh sach phim hya khong voi idname va id movies
     final baseurl =
@@ -914,7 +912,7 @@ class APIResponsitory {
 
     if (reponse.statusCode == 200) {
       lstRating = parseAccounts(reponse.body);
-        for (var rating in lstRating) {
+      for (var rating in lstRating) {
         if (rating.idname == idname && rating.idmovies == idmovies) {
           check = rating.rating.toString().trim();
 
@@ -926,10 +924,10 @@ class APIResponsitory {
     }
     return check;
   }
-   Future<String> fecttotalidMoviesRating(
-      String idmovies) async {
-    int total = 0 ;
-    int count = 0 ;
+
+  Future<String> fecttotalidMoviesRating(String idmovies) async {
+    int total = 0;
+    int count = 0;
     double result = 0.0;
     String check = "0";
     //kiem tra co trong danh sach phim hya khong voi idname va id movies
@@ -952,17 +950,15 @@ class APIResponsitory {
 
     if (reponse.statusCode == 200) {
       lstRating = parseAccounts(reponse.body);
-        for (var rating in lstRating) {
+      for (var rating in lstRating) {
         if (rating.idmovies == idmovies) {
           total += int.parse(rating.rating.toString().trim());
-          count +=1;
+          count += 1;
         }
       }
-     result = (total/count) + (total%count);
-     check = result.toString();
-
+      result = (total / count) + (total % count);
+      check = result.toString();
     } else {
-
       return check;
     }
     return check;

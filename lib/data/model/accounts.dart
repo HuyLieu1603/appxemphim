@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, unused_import
 import 'dart:convert';
+
 //account đã đăng ký
 class AccountsModel {
   String idaccount;
@@ -21,26 +22,26 @@ class AccountsModel {
         password: '',
         serviceid: 0,
         userName: '',
-        duration: DateTime.now()
-      );
+        duration: DateTime.now());
   }
 
   factory AccountsModel.fromJson(Map<String, dynamic> json) {
     return AccountsModel(
-      idaccount: json['id'],
       userName: json['userName'],
       password: json['password'],
       serviceid: json['serviceid'],
       duration: json['duration'],
+      idaccount: json['id'],
     );
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = idaccount;
+
     data['userName'] = userName;
     data['password'] = password;
     data['serviceid'] = serviceid;
     data['duration'] = duration;
+    data['id'] = idaccount;
     return data;
   }
 }
