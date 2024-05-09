@@ -108,13 +108,12 @@ class _favoriteMovieState extends State<favoriteMovie> {
       color: Colors.black,
       child: InkWell(
         onTap: () async {
-          Movies mov = await fetchMovie(fav.idMovie!);
-
-          Navigator.push(
+          Movies movs = await fetchMovie(fav.idMovie!);
+          Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                   builder: ((context) => DetailMovies(
-                        objMov: mov,
+                        objMov: movs,
                       ))));
         },
         child: Padding(

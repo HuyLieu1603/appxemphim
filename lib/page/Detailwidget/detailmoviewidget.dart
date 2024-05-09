@@ -133,9 +133,11 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
   Future<String> loadCurrent(String movId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     nameid = prefs.getString('name').toString();
+    //print(nameid);
     takedata = await APIResponsitory().fectdateMoviescontinues(
         widget.objMov.id.toString().trim(), nameid.toString().trim());
     timeplay = takedata;
+    //print(timeplay);
     detailMovies =
         await ReadDataMovies().loadDataMoviesbyId(movId) as List<Movies>;
 
@@ -150,6 +152,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
           Actorss += ', ';
         }
       });
+      //print(Actorss);
     }
 
     _rating = int.parse(await APIResponsitory()
@@ -279,8 +282,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
 
   @override
   Widget build(BuildContext context) {
-    // print(widget.objMov.id!);
-    bool result;
+    //print(widget.objMov.id!);
 
     //String description ='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget justo ac turpis volutpat fermentum. ';
 
