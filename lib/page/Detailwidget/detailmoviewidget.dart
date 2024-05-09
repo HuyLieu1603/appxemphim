@@ -83,9 +83,11 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
       print(Actorss);
     }
 
-    _rating = int.parse(await APIResponsitory().fectdataMoviesRating(nameid, widget.objMov.id!));
-    _rankRating = await APIResponsitory().fecttotalidMoviesRating(widget.objMov.id!);
-    
+    _rating = int.parse(await APIResponsitory()
+        .fectdataMoviesRating(nameid, widget.objMov.id!));
+    _rankRating =
+        await APIResponsitory().fecttotalidMoviesRating(widget.objMov.id!);
+
     return '';
   }
 
@@ -108,12 +110,20 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
               child: const Text('Có'),
               onPressed: () async {
                 // funtion code rating o day
+
+                await APIResponsitory().fectMoviesRating(
+                    nameid, widget.objMov.id!, rating.toString());
+                _rankRating = await APIResponsitory()
+                    .fecttotalidMoviesRating(widget.objMov.id!);
+              
+                //print(newrankRating);
+
+                Navigator.of(context).pop();
+
                 setState(() {
                   _rating = rating;
                 });
-                await APIResponsitory().fectMoviesRating(
-                    nameid, widget.objMov.id!, _rating.toString());
-                Navigator.of(context).pop(true);
+
                 noticfav();
               },
             ),
@@ -275,6 +285,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                     ),
                                     Container(
                                       //height: screenSize.height - 200,
+
                                       width: screenSize.width,
                                       decoration: BoxDecoration(
                                           color: Colors.transparent
@@ -318,105 +329,115 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                 ),
                                               ],
                                             ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  '${widget.objMov.release}',
-                                                  style: TextStyle(
-                                                      color: Colors.white54),
-                                                ),
-                                                Icon(
-                                                  Icons.calendar_month,
-                                                  color: Colors.white54,
-                                                  size: 20,
-                                                ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Text(
-                                                  '${widget.objMov.time}',
-                                                  style: TextStyle(
-                                                      color: Colors.white54),
-                                                ),
-                                                Icon(
-                                                  Icons.access_time_sharp,
-                                                  color: Colors.white54,
-                                                ),
-                                                SizedBox(
-                                                  width: 0,
-                                                ),
-                                                Container(
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: <Widget>[
-                                                      GestureDetector(
-                                                        child: Icon(
-                                                          Icons.star,
-                                                          color: _rating >= 1
-                                                              ? Colors.orange
-                                                              : Colors.grey,
-                                                        ),
-                                                        onTap: () => rate(1),
+                                            Container(
+                                              height: 50,
+                                              child: ListView(
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                children: <Widget>[
+                                                  Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      '${widget.objMov.release}',
+                                                      style: TextStyle(
+                                                        color: Colors.white54,
                                                       ),
-                                                      GestureDetector(
-                                                        child: Icon(
-                                                          Icons.star,
-                                                          color: _rating >= 2
-                                                              ? Colors.orange
-                                                              : Colors.grey,
-                                                        ),
-                                                        onTap: () => rate(2),
-                                                      ),
-                                                      GestureDetector(
-                                                        child: Icon(
-                                                          Icons.star,
-                                                          color: _rating >= 3
-                                                              ? Colors.orange
-                                                              : Colors.grey,
-                                                        ),
-                                                        onTap: () => rate(3),
-                                                      ),
-                                                      GestureDetector(
-                                                        child: Icon(
-                                                          Icons.star,
-                                                          color: _rating >= 4
-                                                              ? Colors.orange
-                                                              : Colors.grey,
-                                                        ),
-                                                        onTap: () => rate(4),
-                                                      ),
-                                                      GestureDetector(
-                                                        child: Icon(
-                                                          Icons.star,
-                                                          color: _rating >= 5
-                                                              ? Colors.orange
-                                                              : Colors.grey,
-                                                        ),
-                                                        onTap: () => rate(5),
-                                                      )
-                                                    ],
+                                                    ),
                                                   ),
-                                                ),
-                                                Spacer(),
-                                                IconButton(
-                                                  onPressed: () {
-                                                    isFav(widget.objMov.id!);
-                                                    setState(() {
-                                                      mov.isFavorite =
-                                                          !mov.isFavorite;
-                                                    });
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.bookmark,
-                                                    color: mov.isFavorite
-                                                        ? Colors.red
-                                                        : Colors.white,
+                                                  Icon(
+                                                    Icons.calendar_month,
+                                                    color: Colors.white54,
+                                                    size: 20,
                                                   ),
-                                                ),
-                                              ],
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      '${widget.objMov.time}',
+                                                      style: TextStyle(
+                                                        color: Colors.white54,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Icon(
+                                                    Icons.access_time_sharp,
+                                                    color: Colors.white54,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: <Widget>[
+                                                        GestureDetector(
+                                                          child: Icon(
+                                                            Icons.star,
+                                                            color: _rating >= 1
+                                                                ? Colors.orange
+                                                                : Colors.grey,
+                                                          ),
+                                                          onTap: () => rate(1),
+                                                        ),
+                                                        GestureDetector(
+                                                          child: Icon(
+                                                            Icons.star,
+                                                            color: _rating >= 2
+                                                                ? Colors.orange
+                                                                : Colors.grey,
+                                                          ),
+                                                          onTap: () => rate(2),
+                                                        ),
+                                                        GestureDetector(
+                                                          child: Icon(
+                                                            Icons.star,
+                                                            color: _rating >= 3
+                                                                ? Colors.orange
+                                                                : Colors.grey,
+                                                          ),
+                                                          onTap: () => rate(3),
+                                                        ),
+                                                        GestureDetector(
+                                                          child: Icon(
+                                                            Icons.star,
+                                                            color: _rating >= 4
+                                                                ? Colors.orange
+                                                                : Colors.grey,
+                                                          ),
+                                                          onTap: () => rate(4),
+                                                        ),
+                                                        GestureDetector(
+                                                          child: Icon(
+                                                            Icons.star,
+                                                            color: _rating >= 5
+                                                                ? Colors.orange
+                                                                : Colors.grey,
+                                                          ),
+                                                          onTap: () => rate(5),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      _rankRating + "/5.0",
+                                                      style: TextStyle(
+                                                        color: Colors.white54,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
+
                                             Container(
                                               margin: const EdgeInsets.only(
                                                   top: 10),
