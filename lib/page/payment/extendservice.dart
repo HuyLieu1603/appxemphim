@@ -84,14 +84,14 @@ class _ExtendServiceWidgetState extends State<ExtendServiceWidget> {
       future: getUserInfo(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-        return Container(
-                height: screenSize.height,
-                width: screenSize.width,
-                decoration: BoxDecoration(color: Colors.black),
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              ); // Hiển thị loading indicator khi đang chờ
+          return Container(
+            height: screenSize.height,
+            width: screenSize.width,
+            decoration: BoxDecoration(color: Colors.black),
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          ); // Hiển thị loading indicator khi đang chờ
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}'); // Hiển thị lỗi nếu có
         } else if (snapshot.hasData) {
@@ -100,14 +100,14 @@ class _ExtendServiceWidgetState extends State<ExtendServiceWidget> {
             future: _getServiceByUser(user!),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-               return Container(
-                height: screenSize.height,
-                width: screenSize.width,
-                decoration: BoxDecoration(color: Colors.black),
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              ); 
+                return Container(
+                  height: screenSize.height,
+                  width: screenSize.width,
+                  decoration: BoxDecoration(color: Colors.black),
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else if (snapshot.hasData) {
@@ -190,13 +190,15 @@ class _ExtendServiceWidgetState extends State<ExtendServiceWidget> {
                           onPressed: () async {
                             DateTime newDuration = calculateNewExpiryDate(
                                 selectedOption, user.duration);
-                            SharedPreferences prefs =  await SharedPreferences.getInstance();
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
                             prefs.setString(
                                 'duration', newDuration.toIso8601String());
                             user.duration = newDuration;
                             // Gọi hàm để lưu lịch sử giao dịch
                             print(user.duration);
-                            await _ExtendedService(user.idaccount, user.duration);
+                            await _ExtendedService(
+                                user.idaccount, user.duration);
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {

@@ -5,6 +5,7 @@ import 'package:appxemphim/data/model/accounts.dart';
 import 'package:appxemphim/data/model/bank.dart';
 import 'package:appxemphim/data/model/history/historyPurchase.dart';
 import 'package:appxemphim/data/model/service.dart';
+import 'package:appxemphim/page/naviFrame.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -138,11 +139,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Tên người dùng: ${snapshot.data!.userName}',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      Text(
-                        'Gói dịch vụ: ${snapshot.data!.serviceid}',
+                        'Mã dịch vụ: ${snapshot.data!.serviceid}',
                         style: TextStyle(fontSize: 18),
                       ),
                     ],
@@ -150,7 +147,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                 }
               },
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             FutureBuilder<Service>(
               future: _serviceInfoFuture,
               builder: (context, snapshot) {
@@ -175,7 +172,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                 }
               },
             ),
-            const SizedBox(height: 15),
+            const SizedBox(height: 50),
             ElevatedButton(
                 onPressed: () async {
                   // Gọi hàm để lưu lịch sử giao dịch
@@ -200,7 +197,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const historyPurchaseWidget()));
+                          builder: (context) => const NaviFrame()));
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor:

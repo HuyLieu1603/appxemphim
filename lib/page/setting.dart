@@ -2,7 +2,7 @@
 
 import 'package:appxemphim/page/banklist/banklistwidget.dart';
 import 'package:appxemphim/page/favoriteMovie.dart';
-import 'package:appxemphim/page/user/login.dart';
+import 'package:appxemphim/page/login.dart';
 import 'package:appxemphim/page/naviFrame.dart';
 import 'package:appxemphim/page/history/purchase/historyPurchase.dart';
 import 'package:flutter/material.dart';
@@ -49,6 +49,7 @@ class _settingWidgetState extends State<settingWidget> {
             "Cài đặt",
             style: TextStyle(
               color: Colors.white,
+              fontWeight: FontWeight.bold,
               fontSize: 20,
             ),
           ),

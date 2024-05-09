@@ -1,9 +1,9 @@
 // ignore_for_file: unused_import, unnecessary_import, avoid_unnecessary_containers, file_names
 
-import 'package:appxemphim/page/user/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:appxemphim/page/login.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});

@@ -3,6 +3,10 @@ import 'package:appxemphim/data/API/api.dart';
 import 'package:appxemphim/page/naviFrame.dart';
 import 'package:appxemphim/page/user/register.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import 'package:intl/intl.dart';
 
 void main() => runApp(const Login());
 
@@ -17,6 +21,48 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  final timenow = DateTime.now();
+
+  void showAlertDialogouttime(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Hết thời gian sử dụng'),
+          content: Text('Vui lòng kích hoạt lại tài khoản'),
+          actions: [
+            TextButton(
+              child: Text('Đóng'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showAlertDialogDisSV(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Lỗi Kết Nối Đến Máy Chủ'),
+          content: Text(
+              'Vui lòng quay lại sao ít phút , Xin lỗi vì sự bất tiện này!!!!'),
+          actions: [
+            TextButton(
+              child: Text('Đóng'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   void showAlertDialog(BuildContext context) {
     showDialog(
@@ -52,6 +98,7 @@ class _LoginState extends State<Login> {
       showAlertDialog(context);
     }
   }
+ 
 
   @override
   void dispose() {

@@ -28,6 +28,9 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
   bool isExpanded = false;
   bool isExpandedActors = false;
   bool isExpandedCategory = false;
+  bool isFavorite = false;
+  late Future<bool> Check;
+
   Movies mov = Movies();
 
   String timeplay = "";
@@ -38,16 +41,21 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
   String Actorss = "";
   late Future<String> _loadcurrentMovies;
   late Future<String> _loadCurrent;
+  
+
   Future<void> isFav(String idMovie) async {
-    if (await (APIResponsitory().checkFav(idMovie))) {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (await (APIResponsitory()
+        .checkFav(idMovie, prefs.getString('name').toString()))) {
       await delFav(idMovie);
-      mov.isFavorite = false;
+      isFavorite = false;
     } else {
       await addFav(idMovie);
-      mov.isFavorite = true;
+      isFavorite = true;
     }
   }
 
+  //////////////////////
   Future<void> addFav(String movieID) async {
     await APIResponsitory().insertFavorite(movieID);
   }
@@ -57,15 +65,79 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
     await APIResponsitory()
         .deleteFavorite(movieID, prefs.getString('name').toString());
   }
+  //////////////////////
+  void favrs (bool check)async{
+     showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Thông báo', textAlign: TextAlign.center),
+          content:  Text(
+            check?'Bạn có muốn hủy yêu thích':'Bạn có muốn thêm yêu thích',
+            textAlign: TextAlign.center,
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Có'),
+              onPressed: () async {
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                );
+                if(check){
+                  await delFav(widget.objMov.id!);
+                }
+                else{
+                  await addFav(widget.objMov.id!);
+                }
+
+                // funtion code o day
+                _fav = await APIResponsitory()
+                .checkfavPerson(nameid.toString().trim(), widget.objMov.id!);
+
+                setState(() {
+                 
+                });
+                WidgetsBinding.instance!.addPostFrameCallback((_) {
+                  // Hàm callback này sẽ được gọi sau khi quá trình xây dựng lại cây widget hoàn thành
+                  // Đặt mã logic của bạn ở đây để xử lý sau khi setState() hoàn tất
+                  Navigator.of(context).pop(true);
+                  Navigator.of(context).pop(true);
+                });
+                if(check){
+                  noticfavs("hủy");
+                }
+                else{
+                  noticfavs("thêm");
+                }
+                
+              },
+            ),
+            TextButton(
+              child: const Text('Không'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   Future<String> loadCurrent(String movId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     nameid = prefs.getString('name').toString();
-    print(nameid);
+    //print(nameid);
     takedata = await APIResponsitory().fectdateMoviescontinues(
         widget.objMov.id.toString().trim(), nameid.toString().trim());
     timeplay = takedata;
-    print(timeplay);
+    //print(timeplay);
     detailMovies =
         await ReadDataMovies().loadDataMoviesbyId(movId) as List<Movies>;
 
@@ -80,7 +152,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
           Actorss += ', ';
         }
       });
-      print(Actorss);
+      //print(Actorss);
     }
 
     _rating = int.parse(await APIResponsitory()
@@ -90,10 +162,15 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
     _AllRatingmovies =
         await APIResponsitory().fecthMoviesTotal(widget.objMov.id!);
 
+    //////fav
+    _fav = await APIResponsitory()
+        .checkfavPerson(nameid.toString().trim(), widget.objMov.id!);
+
     return '';
   }
 
   /////Rating
+  bool _fav = false;
   int _rating = 0;
   String _rankRating = "0";
   String _AllRatingmovies = "0";
@@ -152,6 +229,16 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
       },
     );
   }
+  void noticfavs(String data) {
+    final snackBar;
+
+    snackBar = SnackBar(
+      content: Text(data.toString()+" yêu thích thành công"),
+      duration: Duration(seconds: 2),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 
   void noticfav() {
     final snackBar;
@@ -195,7 +282,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.objMov.id!);
+    //print(widget.objMov.id!);
 
     //String description ='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget justo ac turpis volutpat fermentum. ';
 
@@ -335,33 +422,33 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                             Row(
                                               children: [
                                                 Container(
-                                              child: Text(
-                                                _AllRatingmovies + ' đánh giá',
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                            Container(
-                                              height: 15,
-                                              margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: Colors.white
-                                                )
-                                              ),
-                                            ),
-                                            Align(
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                _rankRating + "/5.0",
-                                                style: TextStyle(
-                                                  color: Colors.white,
+                                                  child: Text(
+                                                    _AllRatingmovies +
+                                                        ' đánh giá',
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ),
                                                 ),
-                                              ),
-                                            )
+                                                Container(
+                                                  height: 15,
+                                                  margin: EdgeInsets.fromLTRB(
+                                                      5, 0, 5, 0),
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color: Colors.white)),
+                                                ),
+                                                Align(
+                                                  alignment: Alignment.center,
+                                                  child: Text(
+                                                    _rankRating + "/5.0",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                )
                                               ],
                                             ),
-                                            
+
                                             const SizedBox(
                                               height: 10,
                                             ),
@@ -578,17 +665,19 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                         children: [
                                                           IconButton(
                                                             onPressed: () {
+                                                              favrs(_fav);
+
+                                                              /*
                                                               isFav(widget
                                                                   .objMov.id!);
                                                               setState(() {
                                                                 mov.isFavorite =
                                                                     !mov.isFavorite;
-                                                              });
+                                                              });*/
                                                             },
                                                             icon: Icon(
                                                               Icons.bookmark,
-                                                              color: mov
-                                                                      .isFavorite
+                                                              color: _fav
                                                                   ? Colors.red
                                                                   : Colors
                                                                       .white,
@@ -784,6 +873,34 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                   });
             }
           },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProduct(
+      Movies mov, BuildContext context, AsyncSnapshot<bool> test) {
+    final bool isFavorite = test.data ?? false;
+    return Card(
+      child: ElevatedButton(
+        onPressed: () {
+          isFav(mov.id!);
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color.fromARGB(255, 4, 76, 136),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0), // Đặt góc bo tròn
+          ),
+          // Đặt khoảng cách đệm
+          // Các thuộc tính khác nếu cần thiết
+        ),
+        child: Container(
+          width: 25.0, // Đặt kích thước rộng
+          height: 25.0, // Đặt kích thước cao
+          child: Icon(
+            Icons.favorite,
+            color: isFavorite ? Colors.amber[800] : Colors.white,
+          ),
         ),
       ),
     );

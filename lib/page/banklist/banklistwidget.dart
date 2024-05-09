@@ -11,20 +11,20 @@ class BankWidget extends StatefulWidget {
 class _BankWidgetState extends State<BankWidget> {
   @override
   Widget build(BuildContext context) {
-          return Scaffold(
-            appBar: AppBar(
-              iconTheme: const IconThemeData(
-                color: Colors.black,
-              ),
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              backgroundColor: Colors.white,
-            ),
-            body: const Center(child: BankBuilder()),
-          );
-        }
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: const IconThemeData(
+          color: Colors.black,
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        backgroundColor: const Color.fromARGB(255, 243, 241, 241),
+      ),
+      body: const Center(child: BankBuilder()),
+    );
   }
+}
