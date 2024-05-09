@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
+
 void main() => runApp(const Login());
 
 class Login extends StatefulWidget {
@@ -20,10 +22,9 @@ class _LoginState extends State<Login> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   final timenow = DateTime.now();
-  
-  void showAlertDialogouttime (BuildContext context)
-  {
-     showDialog(
+
+  void showAlertDialogouttime(BuildContext context) {
+    showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -41,14 +42,15 @@ class _LoginState extends State<Login> {
       },
     );
   }
-  void showAlertDialogDisSV (BuildContext context)
-  {
-     showDialog(
+
+  void showAlertDialogDisSV(BuildContext context) {
+    showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Lỗi Kết Nối Đến Máy Chủ'),
-          content: Text('Vui lòng quay lại sao ít phút , Xin lỗi vì sự bất tiện này!!!!'),
+          content: Text(
+              'Vui lòng quay lại sao ít phút , Xin lỗi vì sự bất tiện này!!!!'),
           actions: [
             TextButton(
               child: Text('Đóng'),
@@ -61,6 +63,7 @@ class _LoginState extends State<Login> {
       },
     );
   }
+
   void showAlertDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -81,44 +84,48 @@ class _LoginState extends State<Login> {
     );
   }
 
-test() async {
-  final apiUrl = 'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/account';
+  test() async {
+    final apiUrl = 'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/account';
 
-  final response = await http.get(Uri.parse(apiUrl));
-  if (response.statusCode == 200) {
-    final users = jsonDecode(response.body) as List<dynamic>;
+    final response = await http.get(Uri.parse(apiUrl));
+    if (response.statusCode == 200) {
+      final users = jsonDecode(response.body) as List<dynamic>;
 
-    final matchingUser = users.firstWhere(
-      (user) =>
-          user['username'] == _usernameController.text &&
-          user['password'] == _passwordController.text,
-      orElse: () => null,
-    );
+      final matchingUser = users.firstWhere(
+        (user) =>
+            user['username'] == _usernameController.text &&
+            user['password'] == _passwordController.text,
+        orElse: () => null,
+      );
 
-    if (matchingUser != null) {
-      DateTime currentTime = DateTime.now();
-      DateTime accountDuration = DateTime.parse(matchingUser['duration']);
+      if (matchingUser != null) {
+        DateTime currentTime = DateTime.now();
+        String originalFormat = "dd/MM/yyyy";
+        String desiredFormat = "yyyy-MM-dd";
+        String durationString = matchingUser['duration'];
 
-      if (accountDuration.isAfter(currentTime)) {
-        // Thời hạn còn hiệu lực
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const NaviFrame(),
-          ),
+        DateTime accountDuration = DateTime.parse(
+        DateFormat(originalFormat).parse(durationString).toString(),
         );
+        if (accountDuration.isAfter(currentTime)) {
+          // Thời hạn còn hiệu lực
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const NaviFrame(),
+            ),
+          );
+        } else {
+          // Thời hạn hết hạn hoặc đã qua
+          showAlertDialogouttime(context);
+        }
       } else {
-        // Thời hạn hết hạn hoặc đã qua
-        showAlertDialogouttime(context);
+        showAlertDialog(context);
       }
     } else {
-      showAlertDialog(context);
+      // Xử lý khi gọi API không thành công
     }
-  } else {
-    
-    // Xử lý khi gọi API không thành công
   }
-}
 
   @override
   void dispose() {
@@ -306,7 +313,7 @@ test() async {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>  RegisterWidget(),
+                                builder: (context) => RegisterWidget(),
                               ), // Thay SignUpScreen() bằng màn hình đăng ký người dùng của bạn
                             );
                           },
