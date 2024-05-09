@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:appxemphim/data/model/register.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../../page/banklist/banklistwidget.dart';
 import '../../page/onlinepayment/onlinepaymentwidget.dart';
 import '../../config/const.dart';
@@ -13,14 +14,14 @@ class PaymentMethodWidget extends StatelessWidget {
   final String? email;
   final String? password;
   final int? durationn;
-  const PaymentMethodWidget(
+  PaymentMethodWidget(
       {Key? key,
       required this.selectedServiceIds,
       this.email,
       this.password,
       this.durationn})
       : super(key: key);
-
+  DateTime timenow = DateTime.now();
   void _onCreateAccountPressed() {
     if (email != null && password != null) {
       createAccount(email!, password!, selectedServiceIds, durationn!);
@@ -29,6 +30,8 @@ class PaymentMethodWidget extends StatelessWidget {
 
   Future<void> createAccount(String email, String password,
       String selectedServiceIds, int durationn) async {
+    DateTime remain = timenow.add(Duration(days: durationn * 30));
+    String formattedDate = DateFormat('dd/MM/yyyy').format(remain);
     var url = Uri.parse(
         'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/account'); // Replace with the actual URL of the mockapi
 
@@ -36,7 +39,7 @@ class PaymentMethodWidget extends StatelessWidget {
       password: password,
       serviceid: selectedServiceIds,
       username: email,
-      duration: durationn,
+      duration: formattedDate,
     );
 
     var body = json.encode(signup.toJson());
@@ -101,7 +104,8 @@ class PaymentMethodWidget extends StatelessWidget {
                     ),
                     OutlinedButton(
                       onPressed: () {
-                        createAccount(email!, password!, selectedServiceIds, durationn!);
+                        createAccount(
+                            email!, password!, selectedServiceIds, durationn!);
                         Navigator.push(
                           context,
                           MaterialPageRoute(

@@ -3,6 +3,8 @@ import 'package:appxemphim/data/API/api.dart';
 import 'package:appxemphim/page/naviFrame.dart';
 import 'package:appxemphim/page/user/register.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 void main() => runApp(const Login());
 
@@ -17,7 +19,48 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-
+  final timenow = DateTime.now();
+  
+  void showAlertDialogouttime (BuildContext context)
+  {
+     showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Hết thời gian sử dụng'),
+          content: Text('Vui lòng kích hoạt lại tài khoản'),
+          actions: [
+            TextButton(
+              child: Text('Đóng'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+  void showAlertDialogDisSV (BuildContext context)
+  {
+     showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Lỗi Kết Nối Đến Máy Chủ'),
+          content: Text('Vui lòng quay lại sao ít phút , Xin lỗi vì sự bất tiện này!!!!'),
+          actions: [
+            TextButton(
+              child: Text('Đóng'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
   void showAlertDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -38,20 +81,44 @@ class _LoginState extends State<Login> {
     );
   }
 
-  test() async {
-    bool result = await APIResponsitory()
-        .fetchdata(_usernameController.text, _passwordController.text);
-    if (result) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const NaviFrame(),
-        ), // Thay SignUpScreen() bằng màn hình đăng ký người dùng của bạn
-      );
+test() async {
+  final apiUrl = 'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/account';
+
+  final response = await http.get(Uri.parse(apiUrl));
+  if (response.statusCode == 200) {
+    final users = jsonDecode(response.body) as List<dynamic>;
+
+    final matchingUser = users.firstWhere(
+      (user) =>
+          user['username'] == _usernameController.text &&
+          user['password'] == _passwordController.text,
+      orElse: () => null,
+    );
+
+    if (matchingUser != null) {
+      DateTime currentTime = DateTime.now();
+      DateTime accountDuration = DateTime.parse(matchingUser['duration']);
+
+      if (accountDuration.isAfter(currentTime)) {
+        // Thời hạn còn hiệu lực
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const NaviFrame(),
+          ),
+        );
+      } else {
+        // Thời hạn hết hạn hoặc đã qua
+        showAlertDialogouttime(context);
+      }
     } else {
       showAlertDialog(context);
     }
+  } else {
+    
+    // Xử lý khi gọi API không thành công
   }
+}
 
   @override
   void dispose() {
