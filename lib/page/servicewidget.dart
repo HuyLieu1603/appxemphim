@@ -306,7 +306,7 @@ class _ServiceWidgetState extends State<ServiceWidget> {
               ),
             ),
             Text(
-              listService.price ?? '',
+              listService.price.toString(),
               style: TextStyle(
                 fontSize: 11,
                 color: isSelected ? Colors.white : Colors.black,

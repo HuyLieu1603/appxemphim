@@ -1,19 +1,19 @@
 class Service {
-  String? id;
-  String? name;
-  String? price;
-  String? img;
-  int? numberDevice;
-  String? resolution;
+  String id;
+  String name;
+  int price;
+  String img;
+  int numberDevice;
+  String resolution;
   bool isSelected;
 
   Service({
-    this.id,
-    this.name,
-    this.price,
-    this.img,
-    this.numberDevice,
-    this.resolution,
+    required this.id,
+    required this.name,
+    required this.price,
+    required this.img,
+    required this.numberDevice,
+    required this.resolution,
   }) : isSelected = false;
 
   Service.fromJson(Map<String, dynamic> json)
