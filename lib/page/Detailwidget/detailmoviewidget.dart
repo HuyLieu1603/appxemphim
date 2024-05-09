@@ -83,14 +83,15 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
       print(Actorss);
     }
 
-    _rating = int.parse(await APIResponsitory()
-        .fectdataMoviesRating(nameid, widget.objMov.id!));
-
+    _rating = int.parse(await APIResponsitory().fectdataMoviesRating(nameid, widget.objMov.id!));
+    _rankRating = await APIResponsitory().fecttotalidMoviesRating(widget.objMov.id!);
+    
     return '';
   }
 
   /////Rating
   int _rating = 0;
+  String _rankRating = "0";
   void rate(int rating) {
     //Other actions based on rating such as api calls.
     showDialog(
@@ -342,7 +343,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                   color: Colors.white54,
                                                 ),
                                                 SizedBox(
-                                                  width: 10,
+                                                  width: 0,
                                                 ),
                                                 Container(
                                                   child: new Row(
@@ -396,6 +397,22 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                         onTap: () => rate(5),
                                                       )
                                                     ],
+                                                  ),
+                                                ),
+                                                Spacer(),
+                                                IconButton(
+                                                  onPressed: () {
+                                                    isFav(widget.objMov.id!);
+                                                    setState(() {
+                                                      mov.isFavorite =
+                                                          !mov.isFavorite;
+                                                    });
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.bookmark,
+                                                    color: mov.isFavorite
+                                                        ? Colors.red
+                                                        : Colors.white,
                                                   ),
                                                 ),
                                               ],
