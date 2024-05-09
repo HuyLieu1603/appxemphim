@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_interpolation_to_compose_strings, avoid_unnecessary_containers, non_constant_identifier_names
+// ignore_for_file: prefer_interpolation_to_compose_strings, avoid_unnecessary_containers, non_constant_identifier_names, prefer_const_constructors
 
 // import 'package:flutter/cupertino.dart';
 import 'dart:convert';
@@ -346,13 +346,13 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                   width: 0,
                                                 ),
                                                 Container(
-                                                  child: new Row(
+                                                  child: Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .center,
                                                     children: <Widget>[
-                                                      new GestureDetector(
-                                                        child: new Icon(
+                                                      GestureDetector(
+                                                        child: Icon(
                                                           Icons.star,
                                                           color: _rating >= 1
                                                               ? Colors.orange
@@ -360,8 +360,8 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                         ),
                                                         onTap: () => rate(1),
                                                       ),
-                                                      new GestureDetector(
-                                                        child: new Icon(
+                                                      GestureDetector(
+                                                        child: Icon(
                                                           Icons.star,
                                                           color: _rating >= 2
                                                               ? Colors.orange
@@ -369,8 +369,8 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                         ),
                                                         onTap: () => rate(2),
                                                       ),
-                                                      new GestureDetector(
-                                                        child: new Icon(
+                                                      GestureDetector(
+                                                        child: Icon(
                                                           Icons.star,
                                                           color: _rating >= 3
                                                               ? Colors.orange
@@ -378,8 +378,8 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                         ),
                                                         onTap: () => rate(3),
                                                       ),
-                                                      new GestureDetector(
-                                                        child: new Icon(
+                                                      GestureDetector(
+                                                        child: Icon(
                                                           Icons.star,
                                                           color: _rating >= 4
                                                               ? Colors.orange
@@ -387,8 +387,8 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                         ),
                                                         onTap: () => rate(4),
                                                       ),
-                                                      new GestureDetector(
-                                                        child: new Icon(
+                                                      GestureDetector(
+                                                        child: Icon(
                                                           Icons.star,
                                                           color: _rating >= 5
                                                               ? Colors.orange

@@ -2,7 +2,7 @@
 import 'dart:convert';
 
 class AccountModel {
-  int? id;
+  String? id;
   String? img;
   String? userName;
   String? password;
