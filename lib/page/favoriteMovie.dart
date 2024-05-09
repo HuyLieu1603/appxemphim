@@ -13,10 +13,14 @@ class favoriteMovie extends StatefulWidget {
 }
 
 class _favoriteMovieState extends State<favoriteMovie> {
+
+  late Movies test;
+
+
   Future<List<Favorite>> fetchData() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
 
-    return await APIResponsitory().fetchFav(pref.getString('name').toString());
+    return await APIResponsitory().takefavall(pref.getString('name').toString());
   }
 
   Future<Movies> fetchMovie(String id) async {
@@ -98,11 +102,21 @@ class _favoriteMovieState extends State<favoriteMovie> {
   }
 
   Widget _favWidget(Favorite fav, BuildContext context) {
+    
+    
+
+
     return Card(
       color: Colors.black,
       child: InkWell(
         onTap: () async {
+
+
           Movies movs = await fetchMovie(fav.idMovie!);
+          
+          
+
+
           Navigator.push(
               context,
               MaterialPageRoute(

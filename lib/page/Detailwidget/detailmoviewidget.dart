@@ -38,6 +38,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
   String Actorss = "";
   late Future<String> _loadcurrentMovies;
   late Future<String> _loadCurrent;
+
   Future<void> isFav(String idMovie) async {
     if (await (APIResponsitory().checkFav(idMovie))) {
       await delFav(idMovie);
@@ -48,6 +49,7 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
     }
   }
 
+  //////////////////////
   Future<void> addFav(String movieID) async {
     await APIResponsitory().insertFavorite(movieID);
   }
@@ -56,6 +58,70 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await APIResponsitory()
         .deleteFavorite(movieID, prefs.getString('name').toString());
+  }
+  //////////////////////
+  void favrs (bool check)async{
+     showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Thông báo', textAlign: TextAlign.center),
+          content:  Text(
+            check?'Bạn có muốn hủy yêu thích':'Bạn có muốn thêm yêu thích',
+            textAlign: TextAlign.center,
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Có'),
+              onPressed: () async {
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                );
+                if(check){
+                  await delFav(widget.objMov.id!);
+                }
+                else{
+                  await addFav(widget.objMov.id!);
+                }
+
+                // funtion code o day
+                _fav = await APIResponsitory()
+                .checkfavPerson(nameid.toString().trim(), widget.objMov.id!);
+
+                setState(() {
+                 
+                });
+                WidgetsBinding.instance!.addPostFrameCallback((_) {
+                  // Hàm callback này sẽ được gọi sau khi quá trình xây dựng lại cây widget hoàn thành
+                  // Đặt mã logic của bạn ở đây để xử lý sau khi setState() hoàn tất
+                  Navigator.of(context).pop(true);
+                  Navigator.of(context).pop(true);
+                });
+                if(check){
+                  noticfavs("hủy");
+                }
+                else{
+                  noticfavs("thêm");
+                }
+                
+              },
+            ),
+            TextButton(
+              child: const Text('Không'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Future<String> loadCurrent(String movId) async {
@@ -90,10 +156,15 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
     _AllRatingmovies =
         await APIResponsitory().fecthMoviesTotal(widget.objMov.id!);
 
+    //////fav
+    _fav = await APIResponsitory()
+        .checkfavPerson(nameid.toString().trim(), widget.objMov.id!);
+
     return '';
   }
 
   /////Rating
+  bool _fav = false;
   int _rating = 0;
   String _rankRating = "0";
   String _AllRatingmovies = "0";
@@ -151,6 +222,16 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
         );
       },
     );
+  }
+  void noticfavs(String data) {
+    final snackBar;
+
+    snackBar = SnackBar(
+      content: Text(data.toString()+" yêu thích thành công"),
+      duration: Duration(seconds: 2),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   void noticfav() {
@@ -335,33 +416,33 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                             Row(
                                               children: [
                                                 Container(
-                                              child: Text(
-                                                _AllRatingmovies + ' đánh giá',
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                            Container(
-                                              height: 15,
-                                              margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: Colors.white
-                                                )
-                                              ),
-                                            ),
-                                            Align(
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                _rankRating + "/5.0",
-                                                style: TextStyle(
-                                                  color: Colors.white,
+                                                  child: Text(
+                                                    _AllRatingmovies +
+                                                        ' đánh giá',
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ),
                                                 ),
-                                              ),
-                                            )
+                                                Container(
+                                                  height: 15,
+                                                  margin: EdgeInsets.fromLTRB(
+                                                      5, 0, 5, 0),
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color: Colors.white)),
+                                                ),
+                                                Align(
+                                                  alignment: Alignment.center,
+                                                  child: Text(
+                                                    _rankRating + "/5.0",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                )
                                               ],
                                             ),
-                                            
+
                                             const SizedBox(
                                               height: 10,
                                             ),
@@ -578,17 +659,19 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                         children: [
                                                           IconButton(
                                                             onPressed: () {
+                                                              favrs(_fav);
+
+                                                              /*
                                                               isFav(widget
                                                                   .objMov.id!);
                                                               setState(() {
                                                                 mov.isFavorite =
                                                                     !mov.isFavorite;
-                                                              });
+                                                              });*/
                                                             },
                                                             icon: Icon(
                                                               Icons.bookmark,
-                                                              color: mov
-                                                                      .isFavorite
+                                                              color: _fav
                                                                   ? Colors.red
                                                                   : Colors
                                                                       .white,
