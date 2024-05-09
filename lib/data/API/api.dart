@@ -970,8 +970,7 @@ class APIResponsitory {
       print(count);
       print(total);
 
-      result = total/count;
-
+      result = total / count;
 
       check = result.toString();
     } else {
@@ -979,8 +978,8 @@ class APIResponsitory {
     }
     return check;
   }
+
   Future<String> fecthMoviesTotal(String idmovies) async {
-    
     int count = 0;
     String check = "0";
     //kiem tra co trong danh sach phim hya khong voi idname va id movies
@@ -1005,15 +1004,83 @@ class APIResponsitory {
       lstRating = parseAccounts(reponse.body);
       for (var rating in lstRating) {
         if (rating.idmovies == idmovies) {
-            count += 1;
+          count += 1;
         }
       }
-    
+
       check = count.toString();
     } else {
       check = count.toString();
       return check;
     }
     return check;
+  }
+
+  Future<bool> checkfavPerson(String idname, String idmovie) async {
+    bool check = false;
+    final baseurl = Uri.parse('${(API().baseUrl)}Favorite');
+    final reponse = await http.get(baseurl);
+    List<Favorite> lstfav = [];
+    List<Favorite> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<Favorite>((json) => Favorite(
+                idMovie: json['idMovie'],
+                idAccount: json['idAccount'],
+                nameMovie: json['nameMovie'],
+                img: json['img'],
+                id: json['id'],
+              ))
+          .toList();
+    }
+     if (reponse.statusCode == 200) {
+      lstfav = parseAccounts(reponse.body);
+      for (var fav in lstfav) {
+        if (fav.idMovie == idmovie.toString().trim() && fav.idAccount == idname.toString().trim()) {
+          check = true;
+        }
+      }
+      return check;
+     
+    } else {
+     
+      return check;
+    }
+
+   
+  }
+   Future<List<Favorite>> takefavall(String idname) async {
+  
+    final baseurl = Uri.parse('${(API().baseUrl)}Favorite');
+    final reponse = await http.get(baseurl);
+    List<Favorite> lstfav = [];
+    List<Favorite> takeall = [];
+    List<Favorite> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<Favorite>((json) => Favorite(
+                idMovie: json['idMovie'],
+                idAccount: json['idAccount'],
+                nameMovie: json['nameMovie'],
+                img: json['img'],
+                id: json['id'],
+              ))
+          .toList();
+    }
+     if (reponse.statusCode == 200) {
+      lstfav = parseAccounts(reponse.body);
+      for (var fav in lstfav) {
+        if (fav.idAccount == idname) {
+          takeall.add(fav);
+        }
+      }
+      return takeall;
+     
+    } else {
+     
+      return takeall;
+    }
+
+   
   }
 }
