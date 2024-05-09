@@ -6,7 +6,7 @@ class AccountsModel {
   String idaccount;
   String userName;
   String password;
-  int serviceid;
+  String serviceid;
   DateTime duration;
 
   AccountsModel({
@@ -20,7 +20,7 @@ class AccountsModel {
     return AccountsModel(
         idaccount: '',
         password: '',
-        serviceid: 0,
+        serviceid: '',
         userName: '',
         duration: DateTime.now());
   }
