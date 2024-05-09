@@ -87,6 +87,8 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
         .fectdataMoviesRating(nameid, widget.objMov.id!));
     _rankRating =
         await APIResponsitory().fecttotalidMoviesRating(widget.objMov.id!);
+    _AllRatingmovies =
+        await APIResponsitory().fecthMoviesTotal(widget.objMov.id!);
 
     return '';
   }
@@ -94,7 +96,8 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
   /////Rating
   int _rating = 0;
   String _rankRating = "0";
-  void rate(int rating) {
+  String _AllRatingmovies = "0";
+  void rate(int rating) async {
     //Other actions based on rating such as api calls.
     showDialog(
       context: context,
@@ -109,22 +112,32 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
             TextButton(
               child: const Text('Có'),
               onPressed: () async {
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                );
                 // funtion code rating o day
-
                 await APIResponsitory().fectMoviesRating(
                     nameid, widget.objMov.id!, rating.toString());
-
                 _rankRating = await APIResponsitory()
                     .fecttotalidMoviesRating(widget.objMov.id!);
-
-                //print(newrankRating);
-
-                Navigator.of(context).pop(true);
+                _AllRatingmovies =
+                    await APIResponsitory().fecthMoviesTotal(widget.objMov.id!);
 
                 setState(() {
                   _rating = rating;
                 });
-
+                WidgetsBinding.instance!.addPostFrameCallback((_) {
+                  // Hàm callback này sẽ được gọi sau khi quá trình xây dựng lại cây widget hoàn thành
+                  // Đặt mã logic của bạn ở đây để xử lý sau khi setState() hoàn tất
+                  Navigator.of(context).pop(true);
+                  Navigator.of(context).pop(true);
+                });
                 noticfav();
               },
             ),
@@ -314,6 +327,18 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                 ),
                                               ],
                                             ),
+
+                                            Container(
+                                              child: Text(
+                                                _AllRatingmovies + ' đánh giá',
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+
                                             Container(
                                               height: 40,
                                               child: ListView(
@@ -321,15 +346,23 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                     Axis.horizontal,
                                                 children: <Widget>[
                                                   Container(
-                                                      
-                                                      padding: EdgeInsets.all(5),
+                                                      padding:
+                                                          EdgeInsets.all(5),
                                                       decoration: BoxDecoration(
-                                                        color: Color.fromARGB(255, 47, 47, 47),
-                                                        borderRadius: BorderRadius.all(Radius.circular(10))
-                                                      ),
+                                                          color: Color.fromARGB(
+                                                              255, 47, 47, 47),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          10))),
                                                       child: Row(
-                                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
                                                         children: [
                                                           Align(
                                                             alignment: Alignment
@@ -342,157 +375,215 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                               ),
                                                             ),
                                                           ),
-                                                          SizedBox(width: 5,),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
                                                           Icon(
                                                             Icons
                                                                 .calendar_month,
-                                                            color:
-                                                                Colors.white,
+                                                            color: Colors.white,
                                                             size: 20,
                                                           ),
                                                         ],
-                                                  )),
+                                                      )),
                                                   SizedBox(
                                                     width: 10,
                                                   ),
                                                   Container(
-                                                      padding: EdgeInsets.all(5),
+                                                      padding:
+                                                          EdgeInsets.all(5),
                                                       decoration: BoxDecoration(
-                                                        color: Color.fromARGB(255, 47, 47, 47),
-                                                        borderRadius: BorderRadius.all(Radius.circular(10))
-                                                      ),
+                                                          color: Color.fromARGB(
+                                                              255, 47, 47, 47),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          10))),
                                                       child: Row(
-                                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
                                                         children: [
-                                                      Align(
-                                                        alignment: Alignment.center,
-                                                        child: Text(
-                                                          '${widget.objMov.time}',
-                                                          style: TextStyle(
+                                                          Align(
+                                                            alignment: Alignment
+                                                                .center,
+                                                            child: Text(
+                                                              '${widget.objMov.time}',
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          Icon(
+                                                            Icons
+                                                                .access_time_sharp,
                                                             color: Colors.white,
                                                           ),
-                                                        ),
-                                                      ),
-                                                      SizedBox(width: 5,),
-                                                      Icon(
-                                                        Icons.access_time_sharp,
-                                                        color: Colors.white,
-                                                        ),
                                                         ],
-                                                  )),
+                                                      )),
                                                   SizedBox(
                                                     width: 10,
                                                   ),
                                                   Container(
-                                                      padding: EdgeInsets.all(5),
+                                                      padding:
+                                                          EdgeInsets.all(5),
                                                       decoration: BoxDecoration(
-                                                        color: Color.fromARGB(255, 47, 47, 47),
-                                                        borderRadius: BorderRadius.all(Radius.circular(10))
-                                                      ),
+                                                          color: Color.fromARGB(
+                                                              255, 47, 47, 47),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          10))),
                                                       child: Row(
-                                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
                                                         children: [
-                                                  Container(
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: <Widget>[
-                                                        GestureDetector(
-                                                          child: Icon(
-                                                            Icons.star,
-                                                            color: _rating >= 1
-                                                                ? Colors.orange
-                                                                : Colors.grey,
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: <Widget>[
+                                                                GestureDetector(
+                                                                  child: Icon(
+                                                                    Icons.star,
+                                                                    color: _rating >=
+                                                                            1
+                                                                        ? Colors
+                                                                            .orange
+                                                                        : Colors
+                                                                            .grey,
+                                                                  ),
+                                                                  onTap: () =>
+                                                                      rate(1),
+                                                                ),
+                                                                GestureDetector(
+                                                                  child: Icon(
+                                                                    Icons.star,
+                                                                    color: _rating >=
+                                                                            2
+                                                                        ? Colors
+                                                                            .orange
+                                                                        : Colors
+                                                                            .grey,
+                                                                  ),
+                                                                  onTap: () =>
+                                                                      rate(2),
+                                                                ),
+                                                                GestureDetector(
+                                                                  child: Icon(
+                                                                    Icons.star,
+                                                                    color: _rating >=
+                                                                            3
+                                                                        ? Colors
+                                                                            .orange
+                                                                        : Colors
+                                                                            .grey,
+                                                                  ),
+                                                                  onTap: () =>
+                                                                      rate(3),
+                                                                ),
+                                                                GestureDetector(
+                                                                  child: Icon(
+                                                                    Icons.star,
+                                                                    color: _rating >=
+                                                                            4
+                                                                        ? Colors
+                                                                            .orange
+                                                                        : Colors
+                                                                            .grey,
+                                                                  ),
+                                                                  onTap: () =>
+                                                                      rate(4),
+                                                                ),
+                                                                GestureDetector(
+                                                                  child: Icon(
+                                                                    Icons.star,
+                                                                    color: _rating >=
+                                                                            5
+                                                                        ? Colors
+                                                                            .orange
+                                                                        : Colors
+                                                                            .grey,
+                                                                  ),
+                                                                  onTap: () =>
+                                                                      rate(5),
+                                                                )
+                                                              ],
+                                                            ),
                                                           ),
-                                                          onTap: () => rate(1),
-                                                        ),
-                                                        GestureDetector(
-                                                          child: Icon(
-                                                            Icons.star,
-                                                            color: _rating >= 2
-                                                                ? Colors.orange
-                                                                : Colors.grey,
+                                                          SizedBox(
+                                                            width: 10,
                                                           ),
-                                                          onTap: () => rate(2),
-                                                        ),
-                                                        GestureDetector(
-                                                          child: Icon(
-                                                            Icons.star,
-                                                            color: _rating >= 3
-                                                                ? Colors.orange
-                                                                : Colors.grey,
+                                                          Align(
+                                                            alignment: Alignment
+                                                                .center,
+                                                            child: Text(
+                                                              _rankRating +
+                                                                  "/5.0",
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
                                                           ),
-                                                          onTap: () => rate(3),
-                                                        ),
-                                                        GestureDetector(
-                                                          child: Icon(
-                                                            Icons.star,
-                                                            color: _rating >= 4
-                                                                ? Colors.orange
-                                                                : Colors.grey,
-                                                          ),
-                                                          onTap: () => rate(4),
-                                                        ),
-                                                        GestureDetector(
-                                                          child: Icon(
-                                                            Icons.star,
-                                                            color: _rating >= 5
-                                                                ? Colors.orange
-                                                                : Colors.grey,
-                                                          ),
-                                                          onTap: () => rate(5),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
+                                                        ],
+                                                      )),
                                                   SizedBox(
                                                     width: 10,
                                                   ),
-                                                  Align(
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                      _rankRating + "/5.0",
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  ],
-                                                  )),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
                                                   Container(
-                                                      padding: EdgeInsets.all(0),
+                                                      padding:
+                                                          EdgeInsets.all(0),
                                                       decoration: BoxDecoration(
-                                                        color: Color.fromARGB(255, 47, 47, 47),
-                                                        borderRadius: BorderRadius.all(Radius.circular(10))
-                                                      ),
+                                                          color: Color.fromARGB(
+                                                              255, 47, 47, 47),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          10))),
                                                       child: Row(
-                                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
                                                         children: [
-                                                    IconButton(
-                                                    onPressed: () {
-                                                      isFav(widget.objMov.id!);
-                                                      setState(() {
-                                                        mov.isFavorite =
-                                                            !mov.isFavorite;
-                                                      });
-                                                    },
-                                                    icon: Icon(
-                                                      Icons.bookmark,
-                                                      color: mov.isFavorite
-                                                          ? Colors.red
-                                                          : Colors.white,
-                                                    ),
-                                                  ),
-                                                  ],
-                                                  )),
-                                                 
+                                                          IconButton(
+                                                            onPressed: () {
+                                                              isFav(widget
+                                                                  .objMov.id!);
+                                                              setState(() {
+                                                                mov.isFavorite =
+                                                                    !mov.isFavorite;
+                                                              });
+                                                            },
+                                                            icon: Icon(
+                                                              Icons.bookmark,
+                                                              color: mov
+                                                                      .isFavorite
+                                                                  ? Colors.red
+                                                                  : Colors
+                                                                      .white,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      )),
                                                 ],
                                               ),
                                             ),
