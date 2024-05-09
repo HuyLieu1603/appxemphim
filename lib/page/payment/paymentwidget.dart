@@ -139,11 +139,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Tên người dùng: ${snapshot.data!.userName}',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      Text(
-                        'Gói dịch vụ: ${snapshot.data!.serviceid}',
+                        'Mã dịch vụ: ${snapshot.data!.serviceid}',
                         style: TextStyle(fontSize: 18),
                       ),
                     ],
@@ -151,7 +147,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                 }
               },
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             FutureBuilder<Service>(
               future: _serviceInfoFuture,
               builder: (context, snapshot) {
@@ -176,7 +172,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                 }
               },
             ),
-            const SizedBox(height: 15),
+            const SizedBox(height: 50),
             ElevatedButton(
                 onPressed: () async {
                   // Gọi hàm để lưu lịch sử giao dịch
