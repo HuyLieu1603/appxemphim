@@ -28,6 +28,9 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
   bool isExpanded = false;
   bool isExpandedActors = false;
   bool isExpandedCategory = false;
+  bool isFavorite = false;
+  late Future<bool> Check;
+
   Movies mov = Movies();
 
   String timeplay = "";
@@ -53,10 +56,10 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
     if (await (APIResponsitory()
         .checkFav(idMovie, prefs.getString('name').toString()))) {
       await delFav(idMovie);
-      mov.isFavorite = false;
+      isFavorite = false;
     } else {
       await addFav(idMovie);
-      mov.isFavorite = true;
+      isFavorite = true;
     }
   }
 
@@ -187,16 +190,10 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
     return await APIResponsitory().addMovToHistory(movieID);
   }
 
-  Future<void> initializeCheckFunction() async {
-    checkFunction = check;
-    bool result = await checkFunction(widget.objMov.id!);
-  }
-
   @override
   void initState() {
     super.initState();
-    initializeCheckFunction();
-
+    Check = check(widget.objMov.id!);
     _loadcurrentMovies = loadCurrent(widget.objMov.id!);
     _loadCurrent = loadlink(widget.objMov.id!);
     if (widget.objMov.type is Iterable) {
@@ -589,14 +586,13 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                               isFav(widget
                                                                   .objMov.id!);
                                                               setState(() {
-                                                                mov.isFavorite =
-                                                                    !mov.isFavorite;
+                                                                isFavorite =
+                                                                    !isFavorite;
                                                               });
                                                             },
                                                             icon: Icon(
                                                               Icons.bookmark,
-                                                              color: mov
-                                                                      .isFavorite
+                                                              color: isFavorite
                                                                   ? Colors.red
                                                                   : Colors
                                                                       .white,
