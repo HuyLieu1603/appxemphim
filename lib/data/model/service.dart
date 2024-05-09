@@ -1,21 +1,23 @@
+import 'package:http/http.dart';
+
 class Service {
   String? id;
-  String? name;
+  String name;
   int? price;
   String? img;
   int? numberDevice;
-  String? resolution;
+  String resolution;
   bool isSelected;
   bool isHovered;
   int? duration;
   Service({
-    this.id,
-    this.name,
-    this.price,
-    this.img,
-    this.numberDevice,
-    this.resolution,
-    this.duration,
+    required this.id,
+    required this.name,
+    required this.price,
+    required this.img,
+    required this.numberDevice,
+    required this.resolution,
+    required this.duration,
   }) : isSelected = false, isHovered = false;
 
   Service.fromJson(Map<String, dynamic> json)
@@ -28,7 +30,7 @@ class Service {
         duration = json['duration'],
         isSelected = false, isHovered = false;
 
-  bool get getIsHovered => isHovered;
+  bool? get getIsHovered => isHovered;
 
   set setIsHovered(bool hovered) {
     isHovered = hovered;

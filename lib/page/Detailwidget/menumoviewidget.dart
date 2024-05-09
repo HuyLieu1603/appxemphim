@@ -1,11 +1,13 @@
 // ignore_for_file: sized_box_for_whitespace, non_constant_identifier_names, unused_import
 
 import 'package:appxemphim/data/API/api.dart';
+import 'package:appxemphim/data/model/Favorite/favoriteMovie.dart';
 import 'package:appxemphim/page/Detailwidget/detailmoviewidget.dart';
 import 'package:appxemphim/page/movieCategory/movieCategory.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/model/movies.dart';
 import '../../data/provider/moviesprovider.dart';
 import '../../config/const.dart';
@@ -17,13 +19,14 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 
 class Menumoviewidget extends StatefulWidget {
   const Menumoviewidget({super.key});
-
   @override
   State<Menumoviewidget> createState() => _MenumoviewidgetState();
 }
 
 class _MenumoviewidgetState extends State<Menumoviewidget> {
   List<String> CategoryList = [];
+  //share reperence
+
   Future<String> loadCategoryList() async {
     CategoryList = await APIResponsitory().fetchdataCategoryAll();
     return '';
@@ -32,6 +35,9 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
   String? selectedValue;
   List<Movies> lsMovies = [];
   Future<String> loadmovies() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(prefs.getString('name').toString());
+
     lsMovies = await ReadDataMovies().loadDataMovies();
     return '';
   }
@@ -159,22 +165,29 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: ((context) => DetailMovies(
-                      objMov: item,
-                    ))));
+          context,
+          MaterialPageRoute(
+            builder: ((context) => DetailMovies(
+                  objMov: item,
+                )),
+          ),
+        );
       },
-      child: Container(
-          width: 180,
-          margin: const EdgeInsets.fromLTRB(0, 5, 5, 0),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(5),
-            child: Image.network(
-              item.img!,
-              fit: BoxFit.fill,
+      child: Stack(
+        children: [
+          Container(
+            width: 180,
+            margin: const EdgeInsets.fromLTRB(0, 5, 5, 0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(5),
+              child: Image.network(
+                item.img!,
+                fit: BoxFit.fill,
+              ),
             ),
-          )),
+          ),
+        ],
+      ),
     );
   }
 
@@ -203,23 +216,27 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
 
   Widget OnlyHuflix(BuildContext context) {
     //print(lsMoviesonlyHuflitxfecth);
-    return Container(
-      // nguyen khung phim chi co tren netflex
-      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            //chi muc
-            'Chỉ có trên Huflix',
-            style: TextStyle(
-                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-          Container(
-              //hinh anh
-              height: 280,
-              child: FutureBuilder(
+    return Stack(
+      children: [
+        Container(
+          // nguyen khung phim chi co tren netflex
+          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                //chi muc
+                'Chỉ có trên Huflix',
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
+              ),
+              Container(
+                //hinh anh
+                height: 280,
+                child: FutureBuilder(
                   future:
                       movie_onlyhuflix("Movies", 'Only available on Huflix'),
                   builder:
@@ -233,9 +250,13 @@ class _MenumoviewidgetState extends State<Menumoviewidget> {
                         },
                       ),
                     );
-                  })),
-        ],
-      ),
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 

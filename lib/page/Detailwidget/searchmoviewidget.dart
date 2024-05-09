@@ -134,6 +134,7 @@ class _SearchmoviewidgetState extends State<Searchmoviewidget> {
                         return ListTile(
                           title: Text('${searchResults[index].name}'),
                           onTap: () {
+                           
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
