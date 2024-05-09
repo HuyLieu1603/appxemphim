@@ -1,7 +1,6 @@
 // ignore_for_file: unnecessary_string_interpolations
 
 import 'dart:convert';
-
 import 'package:appxemphim/page/payment/paymentmethodwidget.dart';
 import 'package:flutter/material.dart';
 import '../data/model/service.dart';
@@ -13,6 +12,7 @@ import 'package:http/http.dart' as http;
 class ServiceWidget extends StatefulWidget {
   final String? email;
   final String? password;
+  
 
   ServiceWidget({Key? key, this.email, this.password}) : super(key: key);
 
@@ -22,8 +22,9 @@ class ServiceWidget extends StatefulWidget {
 
 class _ServiceWidgetState extends State<ServiceWidget> {
   List<Service> lstService = [];
-
-  late String selectedServiceId;
+  late int? durationn;
+  late bool selectedbuttonframe = false;
+  late String selectedServiceId = '1' ;
   Future<String> loadServiceList() async {
     final url = 'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/Service';
     final response = await http.get(Uri.parse(url));
@@ -32,10 +33,12 @@ class _ServiceWidgetState extends State<ServiceWidget> {
       final List<Service> services =
           responseData.map((data) => Service.fromJson(data)).toList();
       lstService = services;
-      print('lấy được rùi');
+      print('lay duoc rui');
       return ' ';
     } else {
+       print('ko lay dc ');
       throw Exception('Failed to load services');
+     
     }
   }
 
@@ -47,6 +50,15 @@ class _ServiceWidgetState extends State<ServiceWidget> {
   void _toggleServiceSelection(String serviceId) {
     setState(() {
       selectedServiceId = serviceId;
+      print('selectedServiceId: $selectedServiceId');
+
+      lstService.forEach((service) {
+        if (service.id == selectedServiceId) {
+          service.isSelected = selectedbuttonframe;
+        } else {
+          service.isSelected = false;
+        }
+      });
     });
   }
 
@@ -74,7 +86,7 @@ class _ServiceWidgetState extends State<ServiceWidget> {
             child: Column(
               children: [
                 const SizedBox(
-                  height: 32,
+                  height:20 ,
                 ),
                 const Text(
                   "Chọn gói dịch vụ",
@@ -88,14 +100,29 @@ class _ServiceWidgetState extends State<ServiceWidget> {
                   height: 150,
                   child: GridView.builder(
                     itemCount: lstService.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            childAspectRatio: 0.8,
-                            crossAxisSpacing: 5,
-                            mainAxisSpacing: 5),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      childAspectRatio:
+                          1.0, // Fix tỷ lệ chiều rộng và chiều cao của phần tử
+                      crossAxisSpacing: 5,
+                      mainAxisSpacing: 5,
+                    ),
                     itemBuilder: (context, index) {
-                      return slide(lstService[index]);
+                      lstService.forEach((service) {
+                        if (service.id == selectedServiceId) {
+                          service.isSelected = selectedbuttonframe;
+                        } else {
+                          service.isSelected = false;
+                        }
+                      });
+                      print(lstService.length);
+                      return Container(
+                        // Thiết lập các thuộc tính để cố định phần tử
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white, width: 1.0),
+                        ),
+                        child: slide(lstService[index]),
+                      );
                     },
                   ),
                 ),
@@ -229,6 +256,7 @@ class _ServiceWidgetState extends State<ServiceWidget> {
                           selectedServiceIds: selectedServiceId,
                           email: widget.email,
                           password: widget.password,
+                          durationn: durationn,
                         ),
                       ),
                     );
@@ -260,60 +288,83 @@ class _ServiceWidgetState extends State<ServiceWidget> {
   }
 
   Widget slide(Service listService) {
-    final isSelected = listService.isSelected;
-    String? selectedServiceIdNullable = listService.id;
-    String selectedServiceId = selectedServiceIdNullable ?? '';
-    return GestureDetector(
-      onTap: () {
+    String selectedServiceId = listService.id ?? '';
+
+    return MouseRegion(
+      onEnter: (_) {
         setState(() {
-          listService.isSelected = !isSelected;
-          _toggleServiceSelection(selectedServiceId);
+          listService.isHovered = true;
         });
       },
-      child: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: isSelected ? Colors.blue : Colors.white,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.black,
-                  width: 2,
+      onExit: (_) {
+        setState(() {
+          listService.isHovered = false;
+        });
+      },
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            if (!listService.isSelected) {
+              // Only toggle selection if the service is not already selected
+              listService.isSelected = true;
+              selectedbuttonframe = true;
+              _toggleServiceSelection(selectedServiceId);
+              durationn = listService.duration;
+              print('a' + ' ' + '${listService.isSelected}');
+            } else {
+              // Deselect the service if it is already selected
+              listService.isSelected = false;
+              _toggleServiceSelection('');
+              // Pass an empty string to indicate no service is selected
+            }
+            print(listService.isSelected);
+          });
+        },
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 200), // Thời gian chuyển đổi màu
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: listService.isHovered ? Colors.red : Colors.black,
+              width: 2,
+            ),
+            borderRadius: BorderRadius.circular(10),
+            color: listService.isSelected ? Color.fromARGB(255, 51, 51, 51) : Colors.white,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                listService.name ?? '',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 15,
+                  fontFamily: 'Roboto',
+                  color: listService.isSelected ? Colors.white : Colors.black,
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.none,
                 ),
-                borderRadius: BorderRadius.circular(10),
               ),
-              child: Image.network(
-                listService.img ?? '',
-                height: 87,
-                width: 100,
-                errorBuilder: (context, error, stackTrace) =>
-                    const Icon(Icons.image),
+              SizedBox(height: 8), // Add spacing between the texts
+              Text(
+                '${listService.price} VND' ?? '',
+                style: TextStyle(
+                  fontSize: 11,
+                  color: listService.isSelected ? Colors.white : Colors.black,
+                  decoration: TextDecoration.none,
+                ),
               ),
-            ),
-            Text(
-              listService.name ?? '',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 15,
-                fontFamily: 'Roboto',
-                color:  Colors.black,
-                fontWeight: FontWeight.bold,
-                decoration: TextDecoration.none,
+              SizedBox(height: 8), // Add more spacing if needed
+              Text(
+                '${listService.duration} Tháng'  ?? '',
+                style: TextStyle(
+                  fontSize: 11,
+                  color: listService.isSelected ? Colors.white : Colors.black,
+                  decoration: TextDecoration.none,
+                ),
               ),
-            ),
-            Text(
-              listService.price.toString(),
-              style: TextStyle(
-                fontSize: 11,
-                color: isSelected ? Colors.white : Colors.black,
-                decoration: TextDecoration.none,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

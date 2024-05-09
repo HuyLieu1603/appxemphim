@@ -1015,7 +1015,6 @@ class APIResponsitory {
     }
     return check;
   }
-
   Future<bool> checkfavPerson(String idname, String idmovie) async {
     bool check = false;
     final baseurl = Uri.parse('${(API().baseUrl)}Favorite');
@@ -1084,3 +1083,4 @@ class APIResponsitory {
    
   }
 }
+
