@@ -78,7 +78,8 @@ class PaymentMethodWidget extends StatelessWidget {
           ),
           backgroundColor: Colors.white,
         ),
-        body: Column(
+        body: SingleChildScrollView(
+          child: Column(
           children: <Widget>[
             const Padding(
               padding: EdgeInsets.all(16.0),
@@ -206,6 +207,7 @@ class PaymentMethodWidget extends StatelessWidget {
             ),
           ],
         ),
+        )
       ),
     );
   }

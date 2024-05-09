@@ -93,7 +93,7 @@ Widget historyWidget(historyPurchase his, BuildContext context) {
                 height: 50,
                 alignment: Alignment.center,
                 child: Text(
-                  'Tên gói dịch vụ: \n     ${utf8.decode(his.nameService.toString().codeUnits)}',
+                  'Tên gói dịch vụ: \n${utf8.decode(his.nameService.toString().codeUnits)}',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,

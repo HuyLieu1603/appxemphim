@@ -225,16 +225,20 @@ class APIResponsitory {
 
   Future<List<historyPurchase>> pushPurchase() async {
     final baseurl = Uri.parse('${API().baseUrl}/historyPurchase');
-
+    List<historyPurchase> lstPurchase = [];
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String idAccount = prefs.getString('idaccount') ?? '';
+    String serviceName = prefs.getString('servicename') ?? '';
+    String servicePrice = prefs.getString('serviceprice') ?? '';
     DateTime currentDate = DateTime.now();
     try {
+      final priceNumber = int.parse(servicePrice);
       final historyPurchaseData = {
-        "nameService": "gói cơ bản",
-        "price": "180.000 VND",
-        "date": currentDate.toIso8601String(),
-        "des": "Đăng ký gói",
-        "idAccount": "1",
-        "id": "1"
+      "nameService": utf8.decode(serviceName.toString().codeUnits),
+      "price": NumberFormat('###,###.### VND').format(priceNumber),
+      "date": currentDate.toIso8601String(),
+      "des": "Dìa día",
+      "idAccount": idAccount
       };
       final jsonData = jsonEncode(historyPurchaseData);
       final res = await http.post(
@@ -245,14 +249,13 @@ class APIResponsitory {
 
       if (res.statusCode == 201) {
         print("Thanh toán thành công");
-        // Chỉnh sửa sau này ở đây
       } else {
         print("Thanh toán thất bại");
       }
     } catch (e) {
       print("Error: $e");
     }
-    throw Exception('Failed to push purchase');
+    return lstPurchase;
   }
 
   Future<List<Movies>> fetchdataAll() async {
