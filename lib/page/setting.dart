@@ -6,8 +6,11 @@ import 'package:appxemphim/page/naviFrame.dart';
 import 'package:appxemphim/page/history/purchase/historyPurchase.dart';
 import 'package:flutter/material.dart';
 import '../data/model/account.dart';
+import '../data/model/accounts.dart';
 import '../data/provider/accountprovider.dart';
 import '../config/const.dart';
+import '../page/payment/extendservice.dart';
+import '../data/API/api.dart';
 
 class settingWidget extends StatefulWidget {
   const settingWidget({super.key});
@@ -106,7 +109,7 @@ class _settingWidgetState extends State<settingWidget> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  const historyPurchaseWidget(),
+                                const ExtendServiceWidget(),
                             ),
                           );
                         },

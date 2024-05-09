@@ -58,10 +58,50 @@ class APIResponsitory {
           result = true;
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('name', userName);
+          prefs.setString('idaccount', item.idaccount);
+          prefs.setString('duration', item.duration.toIso8601String());
+          prefs.setString('serviceid', item.serviceid.toString());
         }
       }
     }
     return result;
+  }
+
+  Future<AccountsModel> getUserInfo(String userName, String serviceId,
+      DateTime duration, String idaccount) async {
+    final baseurl = Uri.parse('${(API().baseUrl)}account?id=$idaccount');
+    final response = await http.get(baseurl);
+
+    AccountsModel parseAccount(String responseBody) {
+      final parsedList = json.decode(responseBody);
+
+      // Ensure that parsedList is actually a List<Map<String, dynamic>>
+      if (parsedList is List) {
+        // Check if the list is not empty
+        if (parsedList.isNotEmpty) {
+          // Access the first item in the list
+          final parsed = parsedList.first;
+          return AccountsModel(
+            userName: parsed['username'],
+            password: parsed['password'],
+            idaccount: parsed['id'],
+            serviceid: parsed['serviceid'],
+            duration: DateTime.parse(parsed['duration']),
+          );
+        } else {
+          throw Exception('No account found for id: $idaccount');
+        }
+      } else {
+        throw Exception('Invalid response format. Expected a List.');
+      }
+    }
+
+    if (response.statusCode == 200) {
+      return parseAccount(response.body);
+    } else {
+      print(idaccount);
+      throw Exception('Failed to get User Info: ${response.statusCode}');
+    }
   }
 
   Future<List<History>> fetchHistory(String accountID) async {
@@ -185,7 +225,6 @@ class APIResponsitory {
 
   Future<List<historyPurchase>> pushPurchase() async {
     final baseurl = Uri.parse('${API().baseUrl}/historyPurchase');
-    List<historyPurchase> lstPurchase = [];
     DateTime currentDate = DateTime.now();
     try {
       final historyPurchaseData = {
@@ -212,8 +251,7 @@ class APIResponsitory {
     } catch (e) {
       print("Error: $e");
     }
-
-    return lstPurchase;
+    throw Exception('Failed to push purchase');
   }
 
   Future<List<Movies>> fetchdataAll() async {
@@ -400,88 +438,91 @@ class APIResponsitory {
     }
 
     if (res.statusCode == 200) {
-      print('ok');
+      print('đã lấy dữ liệu ngân hàng!');
       banks = parseAccounts(res.body);
     }
     return banks;
   }
 
-  Future<Service?> getServiceByUser(
-      String accountId, String name, String price) async {
+  Future<Service> getServiceByUser(
+      String serviceId, String name, String price) async {
     try {
-      // Lấy thông tin tài khoản từ accountId
-      final accountUrl = Uri.parse('${api.baseUrl}account/$accountId');
-      final accountResponse = await http.get(accountUrl);
+      final serviceUrl = Uri.parse('${api.baseUrl}Service/$serviceId');
+      final serviceResponse = await http.get(serviceUrl);
 
-      if (accountResponse.statusCode == 200) {
-        // Chuyển đổi dữ liệu từ JSON sang đối tượng AccountsModel
-        final accountJson = json.decode(accountResponse.body);
-        final account = AccountsModel.fromJson(accountJson);
+      if (serviceResponse.statusCode == 200) {
+        final serviceJson = json.decode(serviceResponse.body);
 
-        // Lấy service id từ thông tin tài khoản
-        final serviceId = account.serviceid;
-        if (serviceId == null) return null;
-        final serviceUrl = Uri.parse('${api.baseUrl}Service/$serviceId');
-        final serviceResponse = await http.get(serviceUrl);
+        // Create a Service object directly from the decoded JSON
+        var service = Service.fromJson(serviceJson);
 
-        Service service = Service();
-        Service ServiceItem(String responseBody) {
-          final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-          return parsed
-              .map<Service>((json) => Service(
-                  id: json['id'],
-                  name: json['name'],
-                  price: json['price'],
-                  img: json['img'],
-                  numberDevice: json['numberDevice'],
-                  resolution: json['resolution']))
-              .toList();
-        }
+        // Store service information in SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('servicename', service.name);
+        prefs.setString('serviceprice', service.price.toString());
+        prefs.setString('serviceresolution', service.resolution);
+        prefs.setString('numberdevice', service.numberDevice.toString());
 
-        if (serviceResponse.statusCode == 200) {
-          final serviceJson = json.decode(serviceResponse.body);
-          var service = Service.fromJson(serviceJson);
-          // Chuyển đổi dữ liệu từ JSON sang đối tượng Service
-          service = ServiceItem(serviceResponse.body);
-          print("giao dịch thành công");
-          return service;
-        } else {
-          throw Exception('Failed to load service');
-        }
+        print("Đã lấy dữ liệu service từ id khách hàng");
+        return service;
       } else {
-        throw Exception('Failed to load account');
+        throw Exception('Failed to load service');
       }
     } catch (e) {
       throw Exception('Error: $e');
     }
   }
 
-  Future<bool> ExtendService(String userName, String password) async {
-    final baseurl = Uri.parse('${(API().baseUrl)}account');
-    bool result = false;
-    final reponse = await http.get(baseurl);
-    List<AccountsModel> parseAccounts(String responseBody) {
-      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-      return parsed
-          .map<AccountsModel>((json) => AccountsModel(
-                userName: json['username'],
-                password: json['password'],
-                idaccount: json['id'],
-                serviceid: json['serviceid'],
-                duration: json['duration'],
-              ))
-          .toList();
-    }
+  Future<AccountsModel> ExtendedService(String idaccount) async {
+    final baseurl = Uri.parse('${(API().baseUrl)}account/$idaccount');
 
-    if (reponse.statusCode == 200) {
-      List<AccountsModel> accounts = parseAccounts(reponse.body);
-      for (var item in accounts) {
-        if (item.userName == userName && item.password == password) {
-          result = true;
+    // Function to parse account from response body
+    AccountsModel parseAccount(String responseBody) {
+      final parsedList = json.decode(responseBody);
+      if (parsedList is List) {
+        if (parsedList.isNotEmpty) {
+          final parsed = parsedList.first;
+          return AccountsModel(
+            userName: parsed['username'],
+            password: parsed['password'],
+            idaccount: parsed['id'],
+            serviceid: parsed['serviceid'],
+            duration: DateTime.parse(parsed['duration']),
+          );
+        } else {
+          throw Exception('No account found');
         }
+      } else {
+        throw Exception('Invalid response format. Expected a List.');
       }
     }
-    return result;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    DateTime durations = DateTime.parse(prefs.getString('duration')?? '');
+    final accountsModel = AccountsModel(
+      userName: prefs.getString('username').toString(),
+      password: prefs.getString('password').toString(),
+      idaccount: prefs.getString('idaccount').toString(),
+      serviceid: prefs.getString('username').toString(),
+      duration: durations
+    );
+
+    print(durations);
+
+    // Encode the AccountsModel instance to JSON
+    final jsonData = jsonEncode(accountsModel.toJson());
+
+    // Send the POST request to the API
+    final response = await http.post(
+      baseurl,
+      body: jsonData,
+      headers: {"Content-Type": "application/json"},
+    );
+
+    if (response.statusCode == 201) {
+      return parseAccount(response.body);
+    } else {
+      throw Exception('Failed to post extendedService: ${response.statusCode}');
+    }
   }
 
   Future<String> Moviescontinues(
