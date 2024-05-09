@@ -41,7 +41,6 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
   String Actorss = "";
   late Future<String> _loadcurrentMovies;
   late Future<String> _loadCurrent;
-  
 
   Future<void> isFav(String idMovie) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -65,15 +64,16 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
     await APIResponsitory()
         .deleteFavorite(movieID, prefs.getString('name').toString());
   }
+
   //////////////////////
-  void favrs (bool check)async{
-     showDialog(
+  void favrs(bool check) async {
+    showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Thông báo', textAlign: TextAlign.center),
-          content:  Text(
-            check?'Bạn có muốn hủy yêu thích':'Bạn có muốn thêm yêu thích',
+          content: Text(
+            check ? 'Bạn có muốn hủy yêu thích' : 'Bạn có muốn thêm yêu thích',
             textAlign: TextAlign.center,
           ),
           actions: <Widget>[
@@ -89,33 +89,28 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                     );
                   },
                 );
-                if(check){
+                if (check) {
                   await delFav(widget.objMov.id!);
-                }
-                else{
+                } else {
                   await addFav(widget.objMov.id!);
                 }
 
                 // funtion code o day
-                _fav = await APIResponsitory()
-                .checkfavPerson(nameid.toString().trim(), widget.objMov.id!);
+                _fav = await APIResponsitory().checkfavPerson(
+                    nameid.toString().trim(), widget.objMov.id!);
 
-                setState(() {
-                 
-                });
+                setState(() {});
                 WidgetsBinding.instance!.addPostFrameCallback((_) {
                   // Hàm callback này sẽ được gọi sau khi quá trình xây dựng lại cây widget hoàn thành
                   // Đặt mã logic của bạn ở đây để xử lý sau khi setState() hoàn tất
                   Navigator.of(context).pop(true);
                   Navigator.of(context).pop(true);
                 });
-                if(check){
+                if (check) {
                   noticfavs("hủy");
-                }
-                else{
+                } else {
                   noticfavs("thêm");
                 }
-                
               },
             ),
             TextButton(
@@ -229,11 +224,12 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
       },
     );
   }
+
   void noticfavs(String data) {
     final snackBar;
 
     snackBar = SnackBar(
-      content: Text(data.toString()+" yêu thích thành công"),
+      content: Text(data.toString() + " yêu thích thành công"),
       duration: Duration(seconds: 2),
     );
 

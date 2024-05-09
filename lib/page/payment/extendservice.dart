@@ -143,14 +143,15 @@ class _ExtendServiceWidgetState extends State<ExtendServiceWidget> {
                         const SizedBox(height: 20),
                         Container(
                           decoration: BoxDecoration(
+                            border: Border.all(),
                             borderRadius: BorderRadius.circular(
                                 16), // Bo góc của hình ảnh
                           ),
                           clipBehavior: Clip.antiAlias,
                           child: Container(
                             // padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
-                            child: Image.network(
-                              serv!.img,
+                            child: Image.asset(
+                              url_img + serv!.img,
                               errorBuilder: (context, error, stackTrace) =>
                                   const Icon(Icons.image),
                               fit: BoxFit.fitWidth,
