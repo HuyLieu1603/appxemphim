@@ -1,15 +1,15 @@
-// ignore_for_file: use_build_context_synchronously, unused_import
-
-import 'package:appxemphim/data/model/history/historyPurchase.dart';
-import 'package:appxemphim/page/history/purchase/historyPurchase.dart';
-import 'package:appxemphim/page/naviFrame.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'dart:convert';
-import '../../data/model/bank.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../../config/const.dart';
+
 import 'package:appxemphim/data/API/api.dart';
+import 'package:appxemphim/data/model/accounts.dart';
+import 'package:appxemphim/data/model/bank.dart';
+import 'package:appxemphim/data/model/history/historyPurchase.dart';
+import 'package:appxemphim/data/model/service.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../history/purchase/historyPurchase.dart';
 
 class PaymentWidget extends StatefulWidget {
   final Bank objBank;
@@ -20,18 +20,45 @@ class PaymentWidget extends StatefulWidget {
 }
 
 class _PaymentWidgetState extends State<PaymentWidget> {
-  Future<List<historyPurchase>> _pushPurchases() async {
-    return await APIResponsitory().pushPurchase();
-  }
+  late Future<AccountsModel> _userInfoFuture;
+  late Future<Service> _serviceInfoFuture;
 
   @override
   void initState() {
-    super.initState;
+    super.initState();
+    _userInfoFuture = getUserInfo();
+    _serviceInfoFuture =
+        _userInfoFuture.then((user) => _getServiceByUser(user));
   }
 
-  final _sothe = TextEditingController();
-  final _tenchuthe = TextEditingController();
-  final _ngayphathanh = TextEditingController();
+  Future<AccountsModel> getUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    DateTime duration = DateTime.parse(prefs.getString('duration') ?? '0');
+    return await APIResponsitory().getUserInfo(
+        prefs.getString('name').toString(),
+        prefs.getString('serviceid').toString(),
+        duration,
+        prefs.getString('idaccount').toString());
+  }
+
+  Future<Service> _getServiceByUser(AccountsModel user) async {
+    final String serviceId = user.serviceid;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await APIResponsitory().getServiceByUser(
+        serviceId,
+        prefs.getString('servicename').toString(),
+        prefs.getString('serviceprice').toString(),
+        prefs.getString('serviceimg').toString());
+  }
+
+  Future<void> _getUserInfoAndService() async {
+    AccountsModel user = await getUserInfo();
+    _getServiceByUser(user);
+  }
+
+  Future<List<historyPurchase>> _pushPurchases() async {
+    return await APIResponsitory().pushPurchase();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,10 +108,6 @@ class _PaymentWidgetState extends State<PaymentWidget> {
               ),
             ),
             const SizedBox(height: 20),
-            const Text("Gói cơ bản", style: secondtitleStyle),
-            const Text("VNĐ 180.000đ"),
-            const Text("Total: VNĐ 180.000đ"),
-            const SizedBox(height: 16),
             Row(
               children: [
                 Image.network(
@@ -102,76 +125,55 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                 ),
               ],
             ),
-            TextFormField(
-              decoration: InputDecoration(
-                contentPadding: const EdgeInsets.symmetric(
-                    vertical: 15.0, horizontal: 10.0),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(11.0),
-                  borderSide: const BorderSide(
-                    color: Colors.black,
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(11.0),
-                  borderSide: const BorderSide(
-                    width: 1.0,
-                    color: Colors.grey,
-                  ),
-                ),
-                labelText: "Số thẻ",
-                labelStyle: const TextStyle(
-                  color: Colors.grey,
-                ),
-              ),
+            // Widgets to display user info and service info
+            FutureBuilder<AccountsModel>(
+              future: _userInfoFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator(); // Placeholder for loading state
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Tên người dùng: ${snapshot.data!.userName}',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      Text(
+                        'Gói dịch vụ: ${snapshot.data!.serviceid}',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ],
+                  );
+                }
+              },
             ),
-            const SizedBox(height: 15),
-            TextFormField(
-              decoration: InputDecoration(
-                contentPadding: const EdgeInsets.symmetric(
-                    vertical: 15.0, horizontal: 10.0),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(11.0),
-                  borderSide: const BorderSide(
-                    color: Colors.black,
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(11.0),
-                  borderSide: const BorderSide(
-                    width: 1.0,
-                    color: Colors.grey,
-                  ),
-                ),
-                labelText: "Tên chủ thẻ",
-                labelStyle: const TextStyle(
-                  color: Colors.grey,
-                ),
-              ),
-            ),
-            const SizedBox(height: 15),
-            TextFormField(
-              decoration: InputDecoration(
-                contentPadding: const EdgeInsets.symmetric(
-                    vertical: 15.0, horizontal: 10.0),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(11.0),
-                  borderSide: const BorderSide(
-                    color: Colors.black,
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(11.0),
-                  borderSide: const BorderSide(
-                    width: 1.0,
-                    color: Colors.grey,
-                  ),
-                ),
-                labelText: "Ngày hết hạn",
-                labelStyle: const TextStyle(
-                  color: Colors.grey,
-                ),
-              ),
+            SizedBox(height: 20),
+            FutureBuilder<Service>(
+              future: _serviceInfoFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator(); // Placeholder for loading state
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Tên gói dịch vụ: ${utf8.decode(snapshot.data!.name.toString().codeUnits)}',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      Text(
+                        "Đơn giá: ${NumberFormat('###,###.### VNĐ').format(snapshot.data!.price)}",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ],
+                  );
+                }
+              },
             ),
             const SizedBox(height: 15),
             ElevatedButton(
@@ -187,7 +189,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                         content: SingleChildScrollView(
                           child: ListBody(
                             children: <Widget>[
-                              Text("Đã lưu thông tin thanh toán"),
+                              Text("thanh toán thành công!"),
                             ],
                           ),
                         ),

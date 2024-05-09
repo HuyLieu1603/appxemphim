@@ -79,11 +79,19 @@ class _ExtendServiceWidgetState extends State<ExtendServiceWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     return FutureBuilder<AccountsModel?>(
       future: getUserInfo(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator(); // Hiển thị loading indicator khi đang chờ
+        return Container(
+                height: screenSize.height,
+                width: screenSize.width,
+                decoration: BoxDecoration(color: Colors.black),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ); // Hiển thị loading indicator khi đang chờ
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}'); // Hiển thị lỗi nếu có
         } else if (snapshot.hasData) {
@@ -92,7 +100,14 @@ class _ExtendServiceWidgetState extends State<ExtendServiceWidget> {
             future: _getServiceByUser(user!),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
+               return Container(
+                height: screenSize.height,
+                width: screenSize.width,
+                decoration: BoxDecoration(color: Colors.black),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ); 
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else if (snapshot.hasData) {

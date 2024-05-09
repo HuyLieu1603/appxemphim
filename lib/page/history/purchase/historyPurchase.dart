@@ -98,6 +98,7 @@ Widget historyWidget(historyPurchase his, BuildContext context) {
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
+                    
                   ),
                 ),
               ),

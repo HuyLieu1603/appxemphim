@@ -225,16 +225,17 @@ class APIResponsitory {
 
   Future<List<historyPurchase>> pushPurchase() async {
     final baseurl = Uri.parse('${API().baseUrl}/historyPurchase');
+    List<historyPurchase> lstPurchase = [];
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String idAccount = prefs.getString('idaccount') ?? '';
     String serviceName = prefs.getString('servicename') ?? '';
     String servicePrice = prefs.getString('serviceprice') ?? '';
-
     DateTime currentDate = DateTime.now();
     try {
+      final priceNumber = int.parse(servicePrice);
       final historyPurchaseData = {
-        "nameService": serviceName,
-      "price": servicePrice,
+      "nameService": utf8.decode(serviceName.toString().codeUnits),
+      "price": NumberFormat('###,###.### VND').format(priceNumber),
       "date": currentDate.toIso8601String(),
       "des": "Dìa día",
       "idAccount": idAccount
@@ -254,7 +255,7 @@ class APIResponsitory {
     } catch (e) {
       print("Error: $e");
     }
-    throw Exception('Failed to push purchase');
+    return lstPurchase;
   }
 
   Future<List<Movies>> fetchdataAll() async {
@@ -969,9 +970,51 @@ class APIResponsitory {
           count += 1;
         }
       }
-      result = (total / count) + (total % count);
+      print(count);
+      print(total);
+
+      result = total/count;
+
+
       check = result.toString();
     } else {
+      return check;
+    }
+    return check;
+  }
+  Future<String> fecthMoviesTotal(String idmovies) async {
+    
+    int count = 0;
+    String check = "0";
+    //kiem tra co trong danh sach phim hya khong voi idname va id movies
+    final baseurl =
+        Uri.parse('${(API().baseUrl)}Movies/' + idmovies + "/Movies_rating");
+    final reponse = await http.get(baseurl);
+    List<MoviesRating> lstRating = [];
+    List<MoviesRating> parseAccounts(String responseBody) {
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+      return parsed
+          .map<MoviesRating>((json) => MoviesRating(
+                idname: json['idname'],
+                idmovies: json['idmovies'],
+                rating: json['rating'],
+                id: json['id'],
+                MovieId: json['MovieId'],
+              ))
+          .toList();
+    }
+
+    if (reponse.statusCode == 200) {
+      lstRating = parseAccounts(reponse.body);
+      for (var rating in lstRating) {
+        if (rating.idmovies == idmovies) {
+            count += 1;
+        }
+      }
+    
+      check = count.toString();
+    } else {
+      check = count.toString();
       return check;
     }
     return check;
