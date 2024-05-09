@@ -126,13 +126,19 @@ class _SearchmoviewidgetState extends State<Searchmoviewidget> {
                   child: Container(
                     margin: EdgeInsets.only(top: 50),
                     height: searchResults.length > 5 ? 150 : null,
-                    decoration: BoxDecoration(color: Colors.white),
+                    decoration: BoxDecoration(color: Color.fromRGBO(109, 106, 106, 1)),
                     child: ListView.builder(
                       shrinkWrap: true,
                       itemCount: searchResults.length,
                       itemBuilder: (context, index) {
                         return ListTile(
-                          title: Text('${searchResults[index].name}'),
+                          leading: Image.network(
+                          searchResults[index].img!,
+                          width: 40,
+                          height: 40,
+                          fit: BoxFit.cover,
+                        ),
+                          title: Text('${searchResults[index].name}',style: TextStyle(color: Colors.white),),
                           onTap: () {
                            
                             Navigator.push(

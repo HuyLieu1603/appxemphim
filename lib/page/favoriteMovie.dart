@@ -110,14 +110,8 @@ class _favoriteMovieState extends State<favoriteMovie> {
       color: Colors.black,
       child: InkWell(
         onTap: () async {
-
-
           Movies movs = await fetchMovie(fav.idMovie!);
-          
-          
-
-
-          Navigator.push(
+          Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                   builder: ((context) => DetailMovies(
