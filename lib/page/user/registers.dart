@@ -97,7 +97,7 @@ class _RegistersState extends State<Registers> {
                           contentPadding:
                               EdgeInsets.symmetric(horizontal: 30.0),
                         ),
-                        
+                        obscureText: true,
                         validator: (value) => _validatePassword(value),
                       ),
                     ),
