@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:appxemphim/config/const.dart';
 import 'package:appxemphim/data/API/api.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,7 +33,7 @@ class _historyPurchaseWidgetState extends State<historyPurchaseWidget> {
         backgroundColor: Colors.black,
         title: Text(
           'Lịch sử thanh toán',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -93,14 +94,31 @@ Widget historyWidget(historyPurchase his, BuildContext context) {
                 height: 50,
                 alignment: Alignment.center,
                 child: Text(
-                  'Tên gói dịch vụ: \n${utf8.decode(his.nameService.toString().codeUnits)}',
+                  'Tên Gói Dịch Vụ :',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    
                   ),
+                  textAlign: TextAlign.center,
                 ),
+              ),
+              Container(
+                height: 40,
+                alignment: Alignment.center,
+                child: Text(
+                  '${utf8.decode(his.nameService.toString().codeUnits)}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Image.asset(
+                url_img + 'HUFLIX.png',
+                width: 200,
               ),
               Container(
                 height: 50,

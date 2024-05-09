@@ -60,19 +60,6 @@ class _settingWidgetState extends State<settingWidget> {
             color: Colors.black,
             child: Column(
               children: [
-                SizedBox(
-                  height: 150,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: Accounts.length,
-                    itemBuilder: (context, index) {
-                      return accountListView(Accounts[index]);
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
                 Container(
                   child: TextButton(
                     onPressed: () {},
@@ -318,57 +305,6 @@ class _settingWidgetState extends State<settingWidget> {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    Container(
-                      width: 360,
-                      height: 46,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromRGBO(67, 60, 60, 1),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 10,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          minimumSize: (const Size(360, 57)),
-                        ),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment
-                              .spaceBetween, // Căn các phần tử theo từng cạnh của hàng
-                          children: [
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Row(
-                                children: [
-                                  Icon(Icons.help_outlined), // Icon
-                                  SizedBox(
-                                      width:
-                                          10), // Khoảng cách giữa icon và text
-                                  Text(
-                                    'Trợ giúp',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                    ),
-                                  ), // Text
-                                ],
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: Icon(Icons
-                                  .arrow_forward_ios), // Icon ở phía bên phải
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
                     const SizedBox(height: 16),
                     Container(
                       width: 360,
@@ -402,7 +338,9 @@ class _settingWidgetState extends State<settingWidget> {
                               child: Row(
                                 children: [
                                   Icon(Icons.payment_outlined), // Icon
-                                  SizedBox( width: 10), // Khoảng cách giữa icon và text
+                                  SizedBox(
+                                      width:
+                                          10), // Khoảng cách giữa icon và text
                                   Text(
                                     'Gia hạn gói dịch vụ',
                                     textAlign: TextAlign.left,
@@ -456,7 +394,9 @@ class _settingWidgetState extends State<settingWidget> {
                               child: Row(
                                 children: [
                                   Icon(Icons.payment_outlined), // Icon
-                                  SizedBox( width: 10), // Khoảng cách giữa icon và text
+                                  SizedBox(
+                                      width:
+                                          10), // Khoảng cách giữa icon và text
                                   Text(
                                     'Thanh toán',
                                     textAlign: TextAlign.left,
