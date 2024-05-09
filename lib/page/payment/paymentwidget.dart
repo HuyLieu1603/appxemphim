@@ -61,6 +61,10 @@ class _PaymentWidgetState extends State<PaymentWidget> {
     return await APIResponsitory().pushPurchase();
   }
 
+  final _sothe = TextEditingController();
+  final _tenchuthe = TextEditingController();
+  final _ngayphathanh = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -171,6 +175,77 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                   );
                 }
               },
+            ),
+            TextFormField(
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(
+                    vertical: 15.0, horizontal: 10.0),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(11.0),
+                  borderSide: const BorderSide(
+                    color: Colors.black,
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(11.0),
+                  borderSide: const BorderSide(
+                    width: 1.0,
+                    color: Colors.grey,
+                  ),
+                ),
+                labelText: "Số thẻ",
+                labelStyle: const TextStyle(
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+            const SizedBox(height: 15),
+            TextFormField(
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(
+                    vertical: 15.0, horizontal: 10.0),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(11.0),
+                  borderSide: const BorderSide(
+                    color: Colors.black,
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(11.0),
+                  borderSide: const BorderSide(
+                    width: 1.0,
+                    color: Colors.grey,
+                  ),
+                ),
+                labelText: "Tên chủ thẻ",
+                labelStyle: const TextStyle(
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+            const SizedBox(height: 15),
+            TextFormField(
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(
+                    vertical: 15.0, horizontal: 10.0),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(11.0),
+                  borderSide: const BorderSide(
+                    color: Colors.black,
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(11.0),
+                  borderSide: const BorderSide(
+                    width: 1.0,
+                    color: Colors.grey,
+                  ),
+                ),
+                labelText: "Ngày hết hạn",
+                labelStyle: const TextStyle(
+                  color: Colors.grey,
+                ),
+              ),
             ),
             const SizedBox(height: 50),
             ElevatedButton(

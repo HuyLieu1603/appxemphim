@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import
 
 import 'dart:convert';
+import 'package:appxemphim/data/model/accounts.dart';
 import 'package:appxemphim/data/model/register.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -28,37 +29,36 @@ class PaymentMethodWidget extends StatelessWidget {
     }
   }
 
-  Future<void> createAccount(String email, String password,
+  Future<List<AccountsModel>> createAccount(String email, String password,
       String selectedServiceIds, int durationn) async {
     DateTime remain = timenow.add(Duration(days: durationn * 30));
-
+    List<AccountsModel> lst = [];
     var url = Uri.parse(
         'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/account'); // Replace with the actual URL of the mockapi
-
-    var signup = Signup(
-      password: password,
-      serviceid: selectedServiceIds,
-      username: email,
-      duration: remain,
-    );
-
-    var body = json.encode(signup.toJson());
-
-    var response = await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: body,
-    );
-
-    if (response.statusCode == 200) {
-      // Handle successful account creation
-      print('Account created successfully');
-    } else {
-      // Handle errors
-      print('Error: ${response.statusCode}');
+    try {
+      final createAccount = {
+        "username": email,
+        "password": password,
+        "serviceid": selectedServiceIds,
+        "duration": remain.toIso8601String()
+      };
+      final jsonData = jsonEncode(createAccount);
+      final res = await http.post(
+        url,
+        body: jsonData,
+        headers: {"Content-Type": "application/json"},
+      );
+      if (res.statusCode == 201) {
+        // Handle successful account creation
+        print('Account created successfully');
+      } else {
+        // Handle errors
+        print('Error: ${res.statusCode}');
+      }
+    } catch (e) {
+      print("Error: $e");
     }
+    return lst;
   }
 
   @override
