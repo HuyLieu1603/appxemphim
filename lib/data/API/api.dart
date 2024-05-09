@@ -496,15 +496,15 @@ class APIResponsitory {
         throw Exception('Invalid response format. Expected a List.');
       }
     }
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    DateTime durations = DateTime.parse(prefs.getString('duration')?? '');
+    DateTime durations = DateTime.parse(prefs.getString('duration') ?? '');
     final accountsModel = AccountsModel(
-      userName: prefs.getString('username').toString(),
-      password: prefs.getString('password').toString(),
-      idaccount: prefs.getString('idaccount').toString(),
-      serviceid: prefs.getString('username').toString(),
-      duration: durations
-    );
+        userName: prefs.getString('username').toString(),
+        password: prefs.getString('password').toString(),
+        idaccount: prefs.getString('idaccount').toString(),
+        serviceid: prefs.getString('username').toString(),
+        duration: durations);
 
     print(durations);
 
@@ -756,9 +756,10 @@ class APIResponsitory {
     }
   }
 
-  Future<bool> checkFav(String idMovie) async {
+  Future<bool> checkFav(String idMovie, String idAccount) async {
     bool check = false;
-    final baseurl = Uri.parse('${(API().baseUrl)}Favorite?idMovie=$idMovie');
+    final baseurl = Uri.parse(
+        '${(API().baseUrl)}Favorite?idMovie=$idMovie&idAccount=$idAccount');
     final res = await http.get(baseurl);
     if (res.statusCode == 200) {
       List<dynamic> jsonFav = jsonDecode(res.body);
@@ -772,7 +773,8 @@ class APIResponsitory {
   }
 
   Future<List<Favorite>> fetchFav(String idAccount) async {
-    final baseurl = Uri.parse('${(API().baseUrl)}Favorite');
+    final baseurl =
+        Uri.parse('${(API().baseUrl)}Favorite?idAccount=$idAccount');
     final res = await http.get(baseurl);
     if (res.statusCode == 200) {
       Iterable jsonResponse = jsonDecode(res.body);
@@ -854,7 +856,7 @@ class APIResponsitory {
       }
 
       if (index != -1) {
-       // print(items);
+        // print(items);
         print(
             'Rating exists at index $index for idname: $idname and idmovies: $idmovies');
         var url = Uri.parse('${(API().baseUrl)}Movies/' +

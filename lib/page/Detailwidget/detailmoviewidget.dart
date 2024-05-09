@@ -38,8 +38,18 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
   String Actorss = "";
   late Future<String> _loadcurrentMovies;
   late Future<String> _loadCurrent;
+
+  Future<bool> check(String idMovie) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    return await APIResponsitory()
+        .checkFav(idMovie, prefs.getString('name').toString());
+  }
+
   Future<void> isFav(String idMovie) async {
-    if (await (APIResponsitory().checkFav(idMovie))) {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (await (APIResponsitory()
+        .checkFav(idMovie, prefs.getString('name').toString()))) {
       await delFav(idMovie);
       mov.isFavorite = false;
     } else {
@@ -113,16 +123,15 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
 
                 await APIResponsitory().fectMoviesRating(
                     nameid, widget.objMov.id!, rating.toString());
-               
+
                 _rankRating = await APIResponsitory()
                     .fecttotalidMoviesRating(widget.objMov.id!);
-              
+
                 //print(newrankRating);
 
                 Navigator.of(context).pop(true);
 
                 setState(() {
-                  
                   _rating = rating;
                 });
 
@@ -318,14 +327,17 @@ class _DetailMoviesWidgetState extends State<DetailMovies> {
                                                   onPressed: () {
                                                     isFav(widget.objMov.id!);
                                                     setState(() {
-                                                      mov.isFavorite =
-                                                          !mov.isFavorite;
+                                                      widget.objMov.isFavorite =
+                                                          !widget.objMov
+                                                              .isFavorite;
                                                     });
                                                   },
                                                   icon: Icon(
                                                     Icons.bookmark,
-                                                    color: mov.isFavorite
-                                                        ? Colors.red
+                                                    color: widget
+                                                            .objMov.isFavorite
+                                                        ? const Color.fromARGB(
+                                                            255, 182, 40, 30)
                                                         : Colors.white,
                                                   ),
                                                 ),
