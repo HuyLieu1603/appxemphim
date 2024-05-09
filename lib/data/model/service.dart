@@ -6,7 +6,8 @@ class Service {
   int? numberDevice;
   String? resolution;
   bool isSelected;
-
+  bool isHovered;
+  int? duration;
   Service({
     this.id,
     this.name,
@@ -14,7 +15,8 @@ class Service {
     this.img,
     this.numberDevice,
     this.resolution,
-  }) : isSelected = false;
+    this.duration,
+  }) : isSelected = false, isHovered = false;
 
   Service.fromJson(Map<String, dynamic> json)
       : id = json['id'],
@@ -23,7 +25,14 @@ class Service {
         img = json['img'],
         numberDevice = json['numberDevice'],
         resolution = json['resolution'],
-        isSelected = false;
+        duration = json['duration'],
+        isSelected = false, isHovered = false;
+
+  bool get getIsHovered => isHovered;
+
+  set setIsHovered(bool hovered) {
+    isHovered = hovered;
+  }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -33,6 +42,7 @@ class Service {
     data['numberDevice'] = numberDevice;
     data['resolution'] = resolution;
     data['id'] = id;
+    data ['duration'] = duration;
     return data;
   }
 }

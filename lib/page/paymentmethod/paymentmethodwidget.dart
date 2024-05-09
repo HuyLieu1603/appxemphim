@@ -12,21 +12,23 @@ class PaymentMethodWidget extends StatelessWidget {
   final String selectedServiceIds;
   final String? email;
   final String? password;
-  const PaymentMethodWidget({
-    Key? key,
-    required this.selectedServiceIds,
-    this.email,
-    this.password,
-  }) : super(key: key);
+  final int? durationn;
+  const PaymentMethodWidget(
+      {Key? key,
+      required this.selectedServiceIds,
+      this.email,
+      this.password,
+      this.durationn})
+      : super(key: key);
 
   void _onCreateAccountPressed() {
     if (email != null && password != null) {
-      createAccount(email!, password!, selectedServiceIds);
+      createAccount(email!, password!, selectedServiceIds, durationn!);
     }
   }
 
-  Future<void> createAccount(
-      String email, String password, String selectedServiceIds) async {
+  Future<void> createAccount(String email, String password,
+      String selectedServiceIds, int durationn) async {
     var url = Uri.parse(
         'https://662fcdce43b6a7dce310ccfe.mockapi.io/api/v1/account'); // Replace with the actual URL of the mockapi
 
@@ -34,6 +36,7 @@ class PaymentMethodWidget extends StatelessWidget {
       password: password,
       serviceid: selectedServiceIds,
       username: email,
+      duration: durationn,
     );
 
     var body = json.encode(signup.toJson());
@@ -98,7 +101,7 @@ class PaymentMethodWidget extends StatelessWidget {
                     ),
                     OutlinedButton(
                       onPressed: () {
-                        createAccount(email!, password!, selectedServiceIds);
+                        createAccount(email!, password!, selectedServiceIds, durationn!);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
