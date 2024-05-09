@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../data/model/bank.dart';
 import 'banklistbody.dart';
-import '../../config/const.dart';
 
 class BankWidget extends StatefulWidget {
   const BankWidget({super.key});
