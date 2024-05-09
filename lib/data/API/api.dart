@@ -234,11 +234,11 @@ class APIResponsitory {
     try {
       final priceNumber = int.parse(servicePrice);
       final historyPurchaseData = {
-      "nameService": utf8.decode(serviceName.toString().codeUnits),
-      "price": NumberFormat('###,###.### VND').format(priceNumber),
-      "date": currentDate.toIso8601String(),
-      "des": "Dìa día",
-      "idAccount": idAccount
+        "nameService": utf8.decode(serviceName.toString().codeUnits),
+        "price": NumberFormat('###,###.### VND').format(priceNumber),
+        "date": currentDate.toIso8601String(),
+        "des": "Dìa día",
+        "idAccount": idAccount
       };
       final jsonData = jsonEncode(historyPurchaseData);
       final res = await http.post(
