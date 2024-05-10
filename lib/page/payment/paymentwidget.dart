@@ -131,27 +131,27 @@ class _PaymentWidgetState extends State<PaymentWidget> {
               ],
             ),
             // Widgets to display user info and service info
-            FutureBuilder<AccountsModel>(
-              future: _userInfoFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator(); // Placeholder for loading state
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Mã dịch vụ: ${snapshot.data!.serviceid}',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ],
-                  );
-                }
-              },
-            ),
-            SizedBox(height: 10),
+            // FutureBuilder<AccountsModel>(
+            //   future: _userInfoFuture,
+            //   builder: (context, snapshot) {
+            //     if (snapshot.connectionState == ConnectionState.waiting) {
+            //       return CircularProgressIndicator(); // Placeholder for loading state
+            //     } else if (snapshot.hasError) {
+            //       return Text('Error: ${snapshot.error}');
+            //     } else {
+            //       return Column(
+            //         crossAxisAlignment: CrossAxisAlignment.start,
+            //         children: [
+            //           Text(
+            //             'Mã dịch vụ: ${snapshot.data!.serviceid}',
+            //             style: TextStyle(fontSize: 18),
+            //           ),
+            //         ],
+            //       );
+            //     }
+            //   },
+            // ),
+            // SizedBox(height: 10),
             FutureBuilder<Service>(
               future: _serviceInfoFuture,
               builder: (context, snapshot) {
@@ -176,6 +176,8 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                 }
               },
             ),
+            SizedBox(height: 10),
+
             TextFormField(
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.symmetric(

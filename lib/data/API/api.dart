@@ -192,7 +192,8 @@ class APIResponsitory {
 
   Future<List<historyPurchase>> fetchPurchase(String accountID) async {
     final baseurl =
-        Uri.parse('${API().baseUrl}/historyPurchase'); // Sửa đường dẫn URL
+        Uri.parse('${API().baseUrl}/historyPurchase?idAccount=$accountID');
+    print(baseurl); // Sửa đường dẫn URL
     List<historyPurchase> lstPurchase = [];
     List<historyPurchase> lstHistory(String respondbody) {
       final parsed = json.decode(respondbody).cast<Map<String, dynamic>>();
@@ -227,7 +228,7 @@ class APIResponsitory {
     final baseurl = Uri.parse('${API().baseUrl}/historyPurchase');
     List<historyPurchase> lstPurchase = [];
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String idAccount = prefs.getString('idaccount') ?? '';
+    String idAccount = prefs.getString('name') ?? '';
     String serviceName = prefs.getString('servicename') ?? '';
     String servicePrice = prefs.getString('serviceprice') ?? '';
     DateTime currentDate = DateTime.now();
@@ -451,7 +452,10 @@ class APIResponsitory {
   Future<Service> getServiceByUser(
       String serviceId, String name, String price, String img) async {
     try {
-      final serviceUrl = Uri.parse('${api.baseUrl}Service/$serviceId');
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.getString('serviceid');
+      final serviceUrl =
+          Uri.parse('${api.baseUrl}Service/${prefs.getString('serviceid')}');
       final serviceResponse = await http.get(serviceUrl);
 
       if (serviceResponse.statusCode == 200) {
@@ -461,7 +465,6 @@ class APIResponsitory {
         var service = Service.fromJson(serviceJson);
 
         // Store service information in SharedPreferences
-        SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('servicename', service.name);
         prefs.setString('serviceprice', service.price.toString());
         prefs.setString('serviceresolution', service.resolution);
@@ -1020,6 +1023,7 @@ class APIResponsitory {
     }
     return check;
   }
+
   Future<bool> checkfavPerson(String idname, String idmovie) async {
     bool check = false;
     final baseurl = Uri.parse('${(API().baseUrl)}Favorite');
@@ -1083,4 +1087,3 @@ class APIResponsitory {
     }
   }
 }
-

@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:appxemphim/page/payment/paymentmethodwidget.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../data/model/service.dart';
 import '../config/const.dart';
 import '../data/provider/serviceprovider.dart';
@@ -300,13 +301,16 @@ class _ServiceWidgetState extends State<ServiceWidget> {
         });
       },
       child: GestureDetector(
-        onTap: () {
+        onTap: () async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
           setState(() {
             if (!listService.isSelected) {
               // Only toggle selection if the service is not already selected
               listService.isSelected = true;
               selectedbuttonframe = true;
               _toggleServiceSelection(selectedServiceId);
+              prefs.setString('serviceid', listService.id);
+              prefs.setString('serviceprice', listService.price.toString());
               durationn = listService.duration;
               print('a' + ' ' + '${listService.isSelected}');
             } else {
